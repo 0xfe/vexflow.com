@@ -35,4 +35,4 @@ echo Uploading bundles...
 gsutil -h "Cache-control:public,max-age=86400" -m cp -a public-read -z js,map $DIST/*.js $DIST/*.map ${URL}
 
 gsutil -h "Cache-control:public,max-age=300" -m cp -a public-read -z html,css,js $DIST/index.html $DIST/style.css ${URL}
-gsutil -h "Cache-control:public,max-age=300" -m cp -a public-read -z html,css,js $DIST/vextab/index.html ${URL}/vextab/index.html
+gsutil -h "Cache-control:public,max-age=300" -m cp -a public-read -z html,css,js $DIST/vextab/*.html ${URL}/vextab
