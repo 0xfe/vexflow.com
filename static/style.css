@@ -1,0 +1,67 @@
+body {
+  font-family: 'Barlow', Arial, sans-serif;
+  font-size: 16px;
+  color: #554;
+  background: white;
+  line-height: 1.5;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  padding-bottom: 1rem;
+}
+
+.header {
+  padding: 10px;
+  text-align: center;
+}
+
+.content {
+  width: 90%;
+  max-width: 700px;
+  margin: auto;
+}
+
+#vf {
+  display: inline-block;
+  width: 100%;
+}
+
+a {
+  color: green;
+  text-decoration: none;
+  border-bottom: solid 2px green;
+}
+
+b { color: green }
+
+h1 {
+  font-family: 'Tangerine', 'OFL Sorts Mill Goudy TT', Arial, sans-serif;
+  font-size: 84px;
+  text-shadow: 4px 4px 4px #aaa;
+  margin: 0;
+}
+
+div.vex {
+  color: #ccc;
+  position: fixed;
+  font-family: 'Barlow', courier;
+  top: 0px;
+  right: 0px;
+  background: #eee;
+  padding: 5px 5px 8px 10px;
+  border-bottom: solid 3px #ccc;
+  border-left: solid 3px #ccc;
+}
+
+div.vex a { color: green; text-decoration: none; border: none; }
+div.vex a:hover { border-bottom: 5px solid #ccc; }
+code { font-family: Courier; font-size: 14px; color: green; }
