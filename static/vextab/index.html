@@ -44,49 +44,28 @@
         designed for readability, VexTab is designed for <i>writeability</i>.
       </p>
       <p>
-        Take a look at the example below. The green code box below is editable -
-        try adding another stave by typing <code>tabstave</code> on a new line.
+        <script async src="//jsfiddle.net/uwakd27r/3/embed/result,js/"></script>
       </p>
-    </div>
-
-    <div style="width:700; margin-left: auto; margin-right: auto;">
-      <div class="vex-tabdiv" width=680 scale=1.0 editor="true" editor_width=680 editor_height=330>
-        options space=20
-
-        tabstave
-        notation=true
-        key=A time=4/4
-
-        notes :q =|: (5/2.5/3.7/4) :8 7-5h6/3 ^3^ 5h6-7/5 ^3^ :q 7V/4 |
-        notes :8 t12p7/4 s5s3/4 :8 3s:16:5-7/5 :q p5/4
-        text :w, |#segno, ,|, :hd, , #tr
-
-
-        options space=25
-
-        tabstave
-        notation=true
-
-        notes :q (5/4.5/5) (7/4.7/5)s(5/4.5/5) ^3^
-        notes :8 7-5/4 $.a./b.$ (5/4.5/5)h(7/5) =:|
-        notes :8 (12/5.12/4)ds(5/5.5/4)u 3b4/5
-        notes :h (5V/6.5/4.6/3.7/2) $.italic.let ring$ =|=
-
-        text :h, ,.font=Times-12-italic, D.S. al coda, |#coda
-        text :h, ,.-1, .font=Arial-14-bold,A13
-        text ++, .23, #f</div>
     </div>
 
     <h2>Learn VexTab</h2>
     <div class="description">
       VexTab designed to be easy to learn and intuitive to use. Follow the
-      tutorial on the <a href="tutorial.html">VexTab Tutorial</a> page to quickly
+      tutorial on the <a href="/vextab/tutorial.html">VexTab Tutorial</a> page to quickly
       get started using VexTab.
     </div>
+    <br />
     <div>
-      <script async src="//jsfiddle.net/uos425xw/2/embed/result,js/"></script>
+      Take a look at the example below. The green code box below is editable - try adding another stave by typing
+      <code>tabstave</code> on a new line.
     </div>
 
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <div class="vex-tabdiv" width=600 scale=0.9 editor="true" editor_width=530 editor_height=80>
+        tabstave notation=true key=A time=4/4
+        notes :q =|: (5/2.5/3.7/4) :8 7-5/3 5h6-7/5 ^3^ :q 7V/4
+      </div>
+    </div>
     <h2>The Code</h2>
     <div class="description">
       <p>
@@ -111,6 +90,11 @@
     <a href="https://twitter.com/11111110b">@11111110b</a>,
     <a href="https://0xfe.blogspot.com">the 0xFE blog</a>, or
     <a href="https://github.com/0xfe">0xFE@github</a>.
+    <script>
+      $('.vex-tabdiv').each((i, v) => {
+        v.innerHTML = v.innerHTML.split('\n').map((x) => x.trim()).join('\n')
+      });
+    </script>
   </div>
 </body>
 

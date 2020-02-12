@@ -572,6 +572,12 @@
           <a href="https://0xfe.blogspot.com">The Blog</a>
           <p />
         </center>
+
+        <script>
+          $('.vex-tabdiv').each((i, v) => {
+            v.innerHTML = v.innerHTML.split('\n').map((x) => x.trim()).join('\n')
+          });
+        </script>
       </div>
 </body>
 
