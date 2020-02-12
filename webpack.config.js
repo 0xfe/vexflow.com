@@ -26,6 +26,13 @@ module.exports = (env) => {
         // because CleanWebpackPlugin wipes everything out.
         copyUnmodified: true,
       }),
+      new CopyPlugin([{
+        from: 'static/vextab/*',
+        to: 'vextab',
+        flatten: true,
+      }], {
+        copyUnmodified: true,
+      }),
       new webpack.DefinePlugin({
         NODE_ENV: JSON.stringify(env.NODE_ENV),
         __VERSION: JSON.stringify(gitRevisionPlugin.version()),
