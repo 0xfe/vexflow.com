@@ -6,7 +6,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
 
 module.exports = (env) => {
-  const tag = env.TAG_NAME || process.env.TAG_NAME;
+  const tag = (env && env.TAG_NAME) || (process && process.env && process.env.TAG_NAME);
   const hasTag = typeof tag !== 'undefined' && tag !== '';
   const gitRevisionPlugin = new GitRevisionPlugin();
 
@@ -34,13 +34,13 @@ module.exports = (env) => {
         copyUnmodified: true,
       }),
       new webpack.DefinePlugin({
-        NODE_ENV: JSON.stringify(env.NODE_ENV),
+        NODE_ENV: JSON.stringify((env && env.NODE_ENV) || "dev"),
         __VERSION: JSON.stringify(gitRevisionPlugin.version()),
         __COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash()),
         __BRANCH: JSON.stringify(gitRevisionPlugin.branch()),
       }),
     ],
-    devtool: env.NODE_ENV === 'production' ? 'hidden-source-map' : false,
+    devtool: (env && env.NODE_ENV === 'production') ? 'hidden-source-map' : false,
     entry: {
       index: './src/index.js',
     },
