@@ -11,8 +11,7 @@
   <link href="../style.css" media="screen" rel="Stylesheet" type="text/css" />
 
   <!-- Support Sources -->
-  <link href="https://unpkg.com/vextab/releases/vextab.css" media="screen" rel="Stylesheet" type="text/css" />
-  <script src="https://unpkg.com/vextab/releases/vextab-div.js"></script>
+  <script src="https://unpkg.com/vextab/releases/div.prod.js"></script>
 
   <script>
     VexTabDiv.Artist.DEBUG = false;
@@ -45,7 +44,7 @@
         designed for readability, VexTab is designed for <i>writeability</i>.
       </p>
       <p>
-        <script async src="//jsfiddle.net/uwakd27r/3/embed/result,js/"></script>
+        <script async src="//jsfiddle.net/ogL5w6ja/2/embed/result,js/"></script>
       </p>
     </div>
 
@@ -62,7 +61,7 @@
     </div>
 
     <div style="display: flex; align-items: center; justify-content: center;">
-      <div class="vex-tabdiv" width=600 scale=0.9 editor="true" editor_width=530 editor_height=80>
+      <div class="vextab-auto" width=600 scale=0.9 editor="true" editor-width=530 editor-height=80>
         tabstave notation=true key=A time=4/4
         notes :q =|: (5/2.5/3.7/4) :8 7-5/3 5h6-7/5 ^3^ :q 7V/4
       </div>
@@ -92,7 +91,7 @@
     <a href="https://0xfe.blogspot.com">the 0xFE blog</a>, or
     <a href="https://github.com/0xfe">0xFE@github</a>.
     <script>
-      $('.vex-tabdiv').each((i, v) => {
+      Array.from(document.getElementsByClassName('vextab-auto')).forEach((v) => {
         v.innerHTML = v.innerHTML.split('\n').map((x) => x.trim()).join('\n')
       });
     </script>
