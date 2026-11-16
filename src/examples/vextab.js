@@ -6,6 +6,7 @@ text :w, |#segno, ,|, :hd, , #tr`;
 
 const host = document.getElementById('score');
 const VF = vextab.Vex.Flow;
+vextab.Artist.NOLOGO = true;
 const renderer = new VF.Renderer(host, VF.Renderer.Backends.SVG);
 // Start lower so the segno and other annotations have room above the stave.
 const artist = new vextab.Artist(10, 40, 780, { scale: 1 });
