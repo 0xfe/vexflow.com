@@ -12,7 +12,7 @@ function concat(a, b) { return a.concat(b); }
 function minuet1() {
   const registry = new VF.Registry();
   VF.Registry.enableDefaultRegistry(registry);
-  const width = $('#vf').width();
+  const width = document.getElementById('vf').getBoundingClientRect().width;
 
   const vf = new VF.Factory({
     renderer: {
