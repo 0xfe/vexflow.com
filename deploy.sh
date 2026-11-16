@@ -32,7 +32,7 @@ then
 fi
 
 echo Uploading bundles...
-gcloud storage cp --cache-control="public,max-age=86400" --predefined-acl=public-read --gzip-local=js,map "$DIST"/*.js "$DIST"/*.map "${URL}"
+gcloud storage cp --cache-control="public,max-age=86400" --predefined-acl=publicRead --gzip-local=js,map "$DIST"/*.js "$DIST"/*.map "${URL}" || exit $?
 
-gcloud storage cp --cache-control="public,max-age=300" --predefined-acl=public-read --gzip-local=html,css,js "$DIST/index.html" "$DIST/style.css" "${URL}"
-gcloud storage cp --cache-control="public,max-age=300" --predefined-acl=public-read --gzip-local=html,css,js "$DIST"/vextab/*.html "${URL}/vextab/"
+gcloud storage cp --cache-control="public,max-age=300" --predefined-acl=publicRead --gzip-local=html,css,js "$DIST/index.html" "$DIST/style.css" "${URL}" || exit $?
+gcloud storage cp --cache-control="public,max-age=300" --predefined-acl=publicRead --gzip-local=html,css,js "$DIST"/vextab/*.html "${URL}/vextab/" || exit $?
