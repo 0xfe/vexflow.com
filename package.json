@@ -29,5 +29,10 @@
   "homepage": "https://github.com/0xfe/vexflow.com#readme",
   "devDependencies": {
     "esbuild": "^0.28.2"
+  },
+  "dependencies": {
+    "codejar": "5.0.0",
+    "prismjs": "1.30.0",
+    "vexflow": "https://codeload.github.com/vexflow/vexflow/tar.gz/68a4fbb96401f1bf31e53ea6976b5d40f21ba45e"
   }
 }

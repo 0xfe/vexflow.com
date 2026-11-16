@@ -77,3 +77,37 @@ div.vex {
 div.vex a { color: green; text-decoration: none; border: none; }
 div.vex a:hover { border-bottom: 5px solid #ccc; }
 code { font-family: Courier; font-size: 14px; color: green; }
+
+/* Compact playgrounds mirror the old embedded examples, with native accessible tabs. */
+.example-frame { display: block; width: 100%; height: 450px; border: 0; margin: 1rem 0; }
+.embedded-example { font-family: Arial, sans-serif; color: #333; }
+.playground { max-width: 700px; margin: auto; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; }
+.playground-toolbar { display: flex; align-items: center; justify-content: space-between; background: #f5f6f7; border-bottom: 1px solid #ddd; }
+.playground-toolbar [role="tablist"], .playground-actions { display: flex; }
+.playground button { font: inherit; font-size: 13px; cursor: pointer; }
+.playground [role="tab"] { border: 0; border-bottom: 3px solid transparent; background: transparent; padding: 13px 16px 10px; color: #666; }
+.playground [role="tab"][aria-selected="true"] { border-bottom-color: #168f48; color: #222; background: white; }
+.playground-actions { gap: 6px; padding-right: 10px; }
+.playground-actions button { border: 1px solid #ccd0d4; border-radius: 3px; padding: 5px 10px; background: white; }
+.playground-actions #run { color: #16783b; }
+.playground button:hover { background: #e9ecef; }
+.playground button:focus-visible { outline: 2px solid #168f48; outline-offset: -3px; }
+.playground [hidden] { display: none !important; }
+.playground [role="tabpanel"] { height: 360px; position: relative; }
+#preview, #preview iframe { width: 100%; height: 100%; border: 0; display: block; }
+#error { position: absolute; inset: 0; margin: 0; padding: 24px; overflow: auto; background: #fff5f4; color: #a32320; font: 13px/1.6 monospace; white-space: pre-wrap; }
+#editor { box-sizing: border-box; height: 360px; overflow: auto; padding: 12px; font: 11px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; tab-size: 2; background: #fafafa; color: #24292e; }
+#editor:focus { outline: 2px solid #168f48; outline-offset: -2px; }
+.playground-footer { display: flex; justify-content: space-between; gap: 10px; padding: 7px 12px; border-top: 1px solid #eee; font-size: 11px; color: #6a737d; }
+/* Prism token colors, scoped to the editable source. */
+#editor .token.comment { color: #6a737d; }
+#editor .token.keyword, #editor .token.boolean { color: #a626a4; }
+#editor .token.string, #editor .token.template-string { color: #237a36; }
+#editor .token.number { color: #986801; }
+#editor .token.function, #editor .token.class-name { color: #005cc5; }
+#editor .token.operator, #editor .token.punctuation { color: #555; }
+@media (max-width: 380px) {
+  .playground [role="tab"] { padding-left: 10px; padding-right: 10px; }
+  .playground-actions { padding-right: 6px; }
+  .playground-footer { font-size: 10px; }
+}

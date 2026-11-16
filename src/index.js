@@ -3,9 +3,8 @@
  * Copyright Mohit Muthanna 2010 <mohit@muthanna.com>
  */
 
-/* global Vex */
-
-const VF = Vex.Flow;
+// This build includes the Bravura and Academico fonts used by the demo.
+import VF from 'vexflow/bravura';
 
 function concat(a, b) { return a.concat(b); }
 
@@ -70,7 +69,7 @@ function minuet1() {
   system.addConnector('singleRight');
   system.addConnector('singleLeft');
 
-  id('m1a').addModifier(0, vf.Fingering({ number: '5' }));
+  id('m1a').addModifier(vf.Fingering({ number: '5' }));
 
   /*  Measure 2 */
   system = makeSystem(150);
@@ -78,9 +77,9 @@ function minuet1() {
   system.addStave({ voices: [voice(notes('B3/h.', { clef: 'bass' }))] });
   system.addConnector('singleRight');
 
-  id('m2a').addModifier(0, vf.Articulation({ type: 'a.', position: 'above' }));
-  id('m2b').addModifier(0, vf.Articulation({ type: 'a.', position: 'below' }));
-  id('m2c').addModifier(0, vf.Articulation({ type: 'a.', position: 'below' }));
+  id('m2a').addModifier(vf.Articulation({ type: 'a.', position: 'above' }));
+  id('m2b').addModifier(vf.Articulation({ type: 'a.', position: 'below' }));
+  id('m2c').addModifier(vf.Articulation({ type: 'a.', position: 'below' }));
 
   vf.Curve({
     from: id('m1a'),
@@ -98,7 +97,7 @@ function minuet1() {
       ].reduce(concat)),
     ],
   });
-  id('m3a').addModifier(0, vf.Fingering({ number: '3', position: 'above' }));
+  id('m3a').addModifier(vf.Fingering({ number: '3', position: 'above' }));
 
   system.addStave({ voices: [voice(notes('C4/h.', { clef: 'bass' }))] });
   system.addConnector('singleRight');
@@ -110,9 +109,9 @@ function minuet1() {
   system.addStave({ voices: [voice(notes('B3/h.', { clef: 'bass' }))] });
   system.addConnector('singleRight');
 
-  id('m4a').addModifier(0, vf.Articulation({ type: 'a.', position: 'above' }));
-  id('m4b').addModifier(0, vf.Articulation({ type: 'a.', position: 'below' }));
-  id('m4c').addModifier(0, vf.Articulation({ type: 'a.', position: 'below' }));
+  id('m4a').addModifier(vf.Articulation({ type: 'a.', position: 'above' }));
+  id('m4b').addModifier(vf.Articulation({ type: 'a.', position: 'below' }));
+  id('m4c').addModifier(vf.Articulation({ type: 'a.', position: 'below' }));
 
   vf.Curve({
     from: id('m3a'),
@@ -130,7 +129,7 @@ function minuet1() {
       ].reduce(concat)),
     ],
   });
-  id('m5a').addModifier(0, vf.Fingering({ number: '4', position: 'above' }));
+  id('m5a').addModifier(vf.Fingering({ number: '4', position: 'above' }));
 
   system.addStave({ voices: [voice(notes('A3/h.', { clef: 'bass' }))] });
   system.addConnector('singleRight');
@@ -155,8 +154,8 @@ function minuet1() {
     options: {
       cps: [{ x: 0, y: 20 }, { x: 0, y: 20 }],
       invert: true,
-      position_end: 'nearTop',
-      y_shift: 20,
+      positionEnd: 'nearTop',
+      yShift: 20,
     },
   });
 
@@ -180,9 +179,9 @@ function minuet1() {
   system.addConnector('singleRight');
   system.addConnector('singleLeft');
 
-  id('m7a').addModifier(0, vf.Fingering({ number: '2', position: 'below' }));
-  id('m7b').addModifier(0, vf.Fingering({ number: '1' }));
-  id('m7c').addModifier(0, vf.Fingering({ number: '3', position: 'above' }));
+  id('m7a').addModifier(vf.Fingering({ number: '2', position: 'below' }));
+  id('m7b').addModifier(vf.Fingering({ number: '1' }));
+  id('m7c').addModifier(vf.Fingering({ number: '3', position: 'above' }));
 
   /*  Measure 8 */
   system = makeSystem(180);
@@ -201,8 +200,8 @@ function minuet1() {
   });
   system.addConnector('singleRight');
 
-  id('m8b').addModifier(0, vf.Fingering({ number: '1', position: 'above' }));
-  id('m8c').addModifier(0, vf.GraceNoteGroup({ notes: [grace] }));
+  id('m8b').addModifier(vf.Fingering({ number: '1', position: 'above' }));
+  id('m8c').addModifier(vf.GraceNoteGroup({ notes: [grace] }));
 
   vf.Curve({
     from: id('m7a'),
@@ -211,7 +210,7 @@ function minuet1() {
       cps: [{ x: 0, y: 20 }, { x: 0, y: 20 }],
       invert: true,
       position: 'nearTop',
-      position_end: 'nearTop',
+      positionEnd: 'nearTop',
     },
   });
 
@@ -231,7 +230,7 @@ function minuet1() {
   system.addStave({ voices: [voice(notes('B3/h, A3/q', { clef: 'bass' }))] });
   system.addConnector('singleRight');
 
-  id('m9a').addModifier(0, vf.Fingering({ number: '5' }));
+  id('m9a').addModifier(vf.Fingering({ number: '5' }));
 
   /*  Measure 10 */
   system = makeSystem(170);
@@ -239,10 +238,10 @@ function minuet1() {
   system.addStave({ voices: [voice(notes('G3/q[id="m10d"], B3, G3', { clef: 'bass' }))] });
   system.addConnector('singleRight');
 
-  id('m10a').addModifier(0, vf.Articulation({ type: 'a.', position: 'above' }));
-  id('m10b').addModifier(0, vf.Articulation({ type: 'a.', position: 'below' }));
-  id('m10c').addModifier(0, vf.Articulation({ type: 'a.', position: 'below' }));
-  id('m10d').addModifier(0, vf.Fingering({ number: '4' }));
+  id('m10a').addModifier(vf.Articulation({ type: 'a.', position: 'above' }));
+  id('m10b').addModifier(vf.Articulation({ type: 'a.', position: 'below' }));
+  id('m10c').addModifier(vf.Articulation({ type: 'a.', position: 'below' }));
+  id('m10d').addModifier(vf.Fingering({ number: '4' }));
 
   vf.Curve({
     from: id('m9a'),
@@ -260,7 +259,7 @@ function minuet1() {
       ].reduce(concat)),
     ],
   });
-  id('m11a').addModifier(0, vf.Fingering({ number: '3', position: 'above' }));
+  id('m11a').addModifier(vf.Fingering({ number: '3', position: 'above' }));
 
   system.addStave({ voices: [voice(notes('C4/h.', { clef: 'bass' }))] });
   system.addConnector('singleRight');
@@ -279,12 +278,12 @@ function minuet1() {
   });
   system.addConnector('singleRight');
 
-  id('m12a').addModifier(0, vf.Articulation({ type: 'a.', position: 'above' }));
-  id('m12b').addModifier(0, vf.Articulation({ type: 'a.', position: 'below' }));
-  id('m12c').addModifier(0, vf.Articulation({ type: 'a.', position: 'below' }));
+  id('m12a').addModifier(vf.Articulation({ type: 'a.', position: 'above' }));
+  id('m12b').addModifier(vf.Articulation({ type: 'a.', position: 'below' }));
+  id('m12c').addModifier(vf.Articulation({ type: 'a.', position: 'below' }));
 
-  id('m12d').addModifier(0, vf.Fingering({ number: '2', position: 'above' }));
-  id('m12e').addModifier(0, vf.Fingering({ number: '4', position: 'above' }));
+  id('m12d').addModifier(vf.Fingering({ number: '2', position: 'above' }));
+  id('m12e').addModifier(vf.Fingering({ number: '4', position: 'above' }));
 
   vf.Curve({
     from: id('m11a'),
@@ -313,9 +312,9 @@ function minuet1() {
   system.addConnector('singleRight');
   system.addConnector('singleLeft');
 
-  id('m13a').addModifier(0, vf.Fingering({ number: '4', position: 'above' }));
-  id('m13b').addModifier(0, vf.Fingering({ number: '1' }));
-  id('m13c').addModifier(0, vf.Fingering({ number: '3', position: 'above' }));
+  id('m13a').addModifier(vf.Fingering({ number: '4', position: 'above' }));
+  id('m13b').addModifier(vf.Fingering({ number: '1' }));
+  id('m13c').addModifier(vf.Fingering({ number: '3', position: 'above' }));
 
   /*  Measure 14 */
   system = makeSystem(180);
@@ -331,8 +330,8 @@ function minuet1() {
   system.addStave({ voices: [voice(notes('g3/h[id="m14a"], b3/q[id="m14b"]', { clef: 'bass' }))] });
   system.addConnector('singleRight');
 
-  id('m14a').addModifier(0, vf.Fingering({ number: '2' }));
-  id('m14b').addModifier(0, vf.Fingering({ number: '1' }));
+  id('m14a').addModifier(vf.Fingering({ number: '2' }));
+  id('m14b').addModifier(vf.Fingering({ number: '1' }));
 
   /*  Measure 15 */
   system = makeSystem(180);
@@ -348,8 +347,8 @@ function minuet1() {
   system.addStave({ voices: [voice(notes('c4/q[id="m15b"], d4, d3', { clef: 'bass' }))] });
   system.addConnector('singleRight');
 
-  id('m15a').addModifier(0, vf.Fingering({ number: '2' }));
-  id('m15b').addModifier(0, vf.Fingering({ number: '2' }));
+  id('m15a').addModifier(vf.Fingering({ number: '2' }));
+  id('m15b').addModifier(vf.Fingering({ number: '2' }));
 
   /*  Measure 16 */
   system = makeSystem(130);
@@ -359,14 +358,14 @@ function minuet1() {
         notes('g4/h.[id="m16a"]'),
       ].reduce(concat)),
     ],
-  }).setEndBarType(VF.Barline.type.REPEAT_END);
+  }).setEndBarType(VF.BarlineType.REPEAT_END);
 
   system.addStave({ voices: [voice(notes('g3/h[id="m16b"], g2/q', { clef: 'bass' }))] })
-    .setEndBarType(VF.Barline.type.REPEAT_END);
+    .setEndBarType(VF.BarlineType.REPEAT_END);
   system.addConnector('boldDoubleRight');
 
-  id('m16a').addModifier(0, vf.Fingering({ number: '1' }));
-  id('m16b').addModifier(0, vf.Fingering({ number: '1' }));
+  id('m16a').addModifier(vf.Fingering({ number: '1' }));
+  id('m16b').addModifier(vf.Fingering({ number: '1' }));
 
   vf.Curve({
     from: id('m13a'),
@@ -374,7 +373,7 @@ function minuet1() {
     options: {
       cps: [{ x: 0, y: 50 }, { x: 0, y: 20 }],
       invert: true,
-      position_end: 'nearTop',
+      positionEnd: 'nearTop',
     },
   });
 
@@ -390,15 +389,15 @@ function minuet1() {
         text: 'mf', duration: 'h', dots: 1, line: 10,
       })]),
     ],
-  }).setBegBarType(VF.Barline.type.REPEAT_BEGIN);
+  }).setBegBarType(VF.BarlineType.REPEAT_BEGIN);
 
   system.addStave({ voices: [voice(notes('g3/h.', { clef: 'bass' }))] })
-    .setBegBarType(VF.Barline.type.REPEAT_BEGIN);
+    .setBegBarType(VF.BarlineType.REPEAT_BEGIN);
 
   system.addConnector('boldDoubleLeft');
   system.addConnector('singleRight');
 
-  id('m17a').addModifier(0, vf.Fingering({ number: '5', position: 'above' }));
+  id('m17a').addModifier(vf.Fingering({ number: '5', position: 'above' }));
 
   /* Measure 18 */
   system = makeSystem(180);
@@ -414,7 +413,7 @@ function minuet1() {
   system.addStave({ voices: [voice(notes('f3/h.', { clef: 'bass' }))] });
   system.addConnector('singleRight');
 
-  id('m18a').addModifier(0, vf.Fingering({ number: '4', position: 'above' }));
+  id('m18a').addModifier(vf.Fingering({ number: '4', position: 'above' }));
 
   vf.Curve({
     from: id('m17a'),
@@ -430,4 +429,10 @@ function minuet1() {
   VF.Registry.disableDefaultRegistry();
 }
 
-minuet1();
+// VexFlow 5 measures glyphs using web fonts, so render only after they load.
+document.fonts.ready.then(() => {
+  minuet1();
+}).catch((error) => {
+  console.error('Unable to render the VexFlow demo:', error);
+  document.getElementById('vf').textContent = 'The music notation demo could not be loaded.';
+});

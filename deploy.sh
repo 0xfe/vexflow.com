@@ -34,5 +34,8 @@ fi
 echo Uploading bundles...
 gcloud storage cp --cache-control="public,max-age=86400" --predefined-acl=publicRead --gzip-local=js,map "$DIST"/*.js "$DIST"/*.map "${URL}" || exit $?
 
-gcloud storage cp --cache-control="public,max-age=300" --predefined-acl=publicRead --gzip-local=html,css,js "$DIST/index.html" "$DIST/style.css" "${URL}" || exit $?
+# Publish shared assets and embedded pages before the homepage that references them.
+gcloud storage cp --cache-control="public,max-age=300" --predefined-acl=publicRead --gzip-local=css,json "$DIST/style.css" "$DIST/vexflow-version.json" "${URL}" || exit $?
+gcloud storage cp --cache-control="public,max-age=300" --predefined-acl=publicRead --gzip-local=html "$DIST"/examples/*.html "${URL}/examples/" || exit $?
 gcloud storage cp --cache-control="public,max-age=300" --predefined-acl=publicRead --gzip-local=html,css,js "$DIST"/vextab/*.html "${URL}/vextab/" || exit $?
+gcloud storage cp --cache-control="public,max-age=300" --predefined-acl=publicRead --gzip-local=html "$DIST/index.html" "${URL}" || exit $?

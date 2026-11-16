@@ -28,6 +28,18 @@ production site at http://localhost:8092.
 Esbuild is the only build dependency. Edit the demo in `src/index.js`, the homepage
 in `index.html`, and CSS/VexTab pages in `static/`.
 
+VexFlow comes from a pinned source archive of
+[vexflow/vexflow](https://github.com/vexflow/vexflow), not its npm release.
+`npm ci` downloads that GitHub archive; esbuild compiles its TypeScript directly,
+including the Bravura and Academico fonts. `dist/vexflow-version.json` records
+the upstream revision. See [the source build notes](docs/vexflow.md) to update it.
+
+Examples use local Result/JavaScript tabs with editable, highlighted code, Run,
+and Reset. Edit their snippets in `src/examples/`, the shared UI in
+`static/example.html`, and the editor/preview logic in `src/playground/`.
+CodeJar and Prism are bundled locally. VexTab uses its separate compatibility
+bundle from unpkg; the VexFlow preview uses the same GitHub source as the homepage.
+
 `npm run build-dev` builds without minification, `npm run watch` rebuilds without a
 server, and `npm run clean` removes `dist/`.
 
