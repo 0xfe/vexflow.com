@@ -37,5 +37,5 @@ server, and `npm run clean` removes `dist/`.
 ./deploy.sh
 ```
 
-Requires a clean, committed checkout and authenticated `gsutil` access to
+Requires a clean, committed checkout and authenticated `gcloud storage` access to
 `gs://vexflow.com`. The script pushes commits, builds, and uploads the site.
