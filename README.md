@@ -25,13 +25,14 @@ The build writes the site to `dist/`: minified JavaScript with a content hash an
 source map, plus HTML and static assets. `npm run serve` builds and previews the
 production site at http://localhost:8092.
 
-Esbuild is the only build dependency. Edit the demo in `src/index.js`, the homepage
-in `index.html`, and CSS/VexTab pages in `static/`.
+Esbuild is the only build dependency. The homepage carousel is in `src/index.js`.
+Edit its repertoire and credits in `src/scores.js`, the homepage markup in
+`index.html`, and CSS/VexTab pages in `static/`.
 
 VexFlow comes from a pinned source archive of
 [vexflow/vexflow](https://github.com/vexflow/vexflow), not its npm release.
 `npm ci` downloads that GitHub archive; esbuild compiles its TypeScript directly,
-including the Bravura and Academico fonts. `dist/vexflow-version.json` records
+including the fonts used for each score. `dist/vexflow-version.json` records
 the upstream revision. See [the source build notes](docs/vexflow.md) to update it.
 
 Examples use local Result/JavaScript tabs with editable, highlighted code, Run,

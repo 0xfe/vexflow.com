@@ -10,6 +10,11 @@ toolchain. The lockfile records the archive's integrity hash.
 TypeScript and embedded fonts, and fills in VexFlow's version and commit metadata.
 The build date is left empty to keep the output deterministic.
 
+The homepage carousel uses the upstream font bundle so the jazz lead sheet can
+use Petaluma. Its eight repertoire arrangements come from `tests/demos` in that
+same archive. A small adapter in `src/demo-factory.js` supplies their SVG factory.
+The original homepage Minuet lives in `src/minuet.js`.
+
 To update to the current upstream `main` revision:
 
 ```sh

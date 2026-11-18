@@ -30,9 +30,64 @@ body {
   margin: auto;
 }
 
-#vf {
-  display: inline-block;
-  width: 100%;
+/* The score stays on white paper; every arrangement shares the same stage. */
+.score-carousel {
+  margin: 1.5rem 0 2rem;
+  overflow: hidden;
+  border: 1px solid #d4ded6;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 5px 20px rgb(47 74 55 / 8%);
+}
+.score-stage { position: relative; overflow: hidden; aspect-ratio: 1.65; }
+.score-sheet {
+  position: absolute;
+  inset: 0;
+  padding: clamp(8px, 2.5vw, 22px);
+  background: white;
+}
+.score-sheet svg { display: block; }
+.score-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: #f4f7f3;
+  border-top: 1px solid #e0e7df;
+}
+.score-title {
+  margin: 0;
+  color: #233c2b;
+  font: 500 clamp(1.15rem, 3vw, 1.45rem)/1.2 Georgia, serif;
+}
+.score-credit { margin: .25rem 0 0; color: #506354; font-size: .9rem; }
+.score-controls { display: flex; align-items: center; gap: .25rem; }
+.score-controls[hidden] { display: none; }
+.score-count { color: #526556; font-size: .87rem; font-variant-numeric: tabular-nums; white-space: nowrap; margin-right: .5rem; }
+.score-controls button {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid #c8d6cb;
+  border-radius: 50%;
+  background: white;
+  color: #275637;
+  cursor: pointer;
+}
+.score-controls button:hover { background: #e4ede5; }
+.score-controls button:focus-visible { outline: 2px solid #16783b; outline-offset: 1px; }
+.score-arrow { width: 7px; height: 7px; border: solid currentColor; border-width: 2px 2px 0 0; transform: translateX(-2px) rotate(45deg); }
+.score-arrow.previous { transform: translateX(2px) rotate(-135deg); }
+.playback-icon { width: 4px; height: 12px; border-inline: 3px solid currentColor; box-sizing: content-box; }
+.is-paused .playback-icon { width: 0; height: 0; margin-left: 2px; border: solid transparent; border-width: 6px 0 6px 10px; border-left-color: currentColor; }
+@media (max-width: 600px) {
+  .score-footer { display: grid; grid-template-columns: 1fr; gap: .75rem; padding: .9rem 1rem; }
+  .score-controls { justify-content: end; }
+  .score-count { margin-right: auto; }
 }
 
 .sponsor {

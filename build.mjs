@@ -29,7 +29,11 @@ const options = {
   outdir: dist,
   entryNames: dev ? '[name]' : '[name].[hash]',
   bundle: true,
-  alias: { 'vexflow/bravura': join(vexflowRoot, 'entry/vexflow-bravura.ts') },
+  alias: {
+    'vexflow/bravura': join(vexflowRoot, 'entry/vexflow-bravura.ts'),
+    'vexflow-gallery': join(vexflowRoot, 'entry/vexflow.ts'),
+    'vexflow-demos': join(vexflowRoot, 'tests/demos'),
+  },
   target: 'es2020',
   minify: !dev,
   sourcemap: 'external',
@@ -38,6 +42,12 @@ const options = {
   plugins: [{
     name: 'static-site',
     setup(build) {
+      // The repertoire uses just makeFactory from the upstream QUnit harness.
+      build.onResolve({ filter: /^\.\.\/vexflow_test_helpers$/ }, ({ resolveDir }) => {
+        if (resolveDir === join(vexflowRoot, 'tests/demos')) {
+          return { path: join(root, 'src/demo-factory.js') };
+        }
+      });
       // Load the exact example source into the editor without executing it in the host.
       build.onResolve({ filter: /\?source$/ }, ({ path, resolveDir }) => ({
         path: join(resolveDir, path.slice(0, -7)), namespace: 'example-source',

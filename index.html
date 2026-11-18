@@ -61,7 +61,27 @@
                 websites. Have a look at the <a href="https://www.vexflow.com/tests/">tests</a>
                 page for a comprehensive list of features.
 
-                <div id="vf" style="width: 100%"></div>
+                <section class="score-carousel" aria-label="Featured scores" aria-roledescription="carousel">
+                    <div class="score-stage" id="score-stage"></div>
+                    <div class="score-footer">
+                        <div class="score-caption" aria-live="off" aria-atomic="true">
+                            <h3 class="score-title">Minuet in G major</h3>
+                            <p class="score-credit">Christian Petzold · Keyboard</p>
+                        </div>
+                        <div class="score-controls" hidden>
+                            <span class="score-count" aria-hidden="true"></span>
+                            <button type="button" id="score-previous" aria-label="Previous score" title="Previous score" aria-controls="score-stage">
+                                <span class="score-arrow previous" aria-hidden="true"></span>
+                            </button>
+                            <button type="button" id="score-playback" aria-label="Pause slideshow" title="Pause slideshow">
+                                <span class="playback-icon" aria-hidden="true"></span>
+                            </button>
+                            <button type="button" id="score-next" aria-label="Next score" title="Next score" aria-controls="score-stage">
+                                <span class="score-arrow" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
 
             </div>
 
