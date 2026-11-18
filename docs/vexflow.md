@@ -43,11 +43,9 @@ fonts, and executes the snippet. Errors appear in the Result tab. The preview's
 content policy blocks network connections from example code. Resizing re-runs
 the last executed code and preserves edits that have not yet been run.
 
-The EasyScore snippet uses 80% of the frame width; VexTab uses 95%. Both center
-their SVG and reserve 10% of its height above and below the complete notation
-bounds, including annotations. The preview and embedding frame resize to fit
-the result, avoiding fixed-height whitespace. The snippets set both SVG attributes and inline dimensions,
-because VexFlow's renderer sets inline pixel sizes.
+The examples position the notation with VexFlow's `System` and VexTab's
+`Artist` options. The preview stylesheet scales their SVGs down to fit narrow
+screens and keeps their aspect ratios. The embedding frame fits the result.
 
 The EasyScore preview uses the same pinned upstream VexFlow as the large score.
 VexTab uses its pinned 4.0.5 compatibility bundle from unpkg, which includes its

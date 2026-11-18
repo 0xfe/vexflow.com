@@ -33,6 +33,6 @@
   "dependencies": {
     "codejar": "5.0.0",
     "prismjs": "1.30.0",
-    "vexflow": "https://codeload.github.com/vexflow/vexflow/tar.gz/5082e902baddfc00a3ac94124a91ffca78531b78"
+    "vexflow": "https://codeload.github.com/vexflow/vexflow/tar.gz/18f11424bdf291599683d063b18ded0dc840f0e0"
   }
 }

@@ -68,7 +68,7 @@ function run(code = editor.toString()) {
   const runtime = `(${runPreview.toString()})(${config});`.replace(/<\/script/gi, '<\\/script');
   // The preview may load its library and embedded fonts, but cannot contact other services.
   const policy = `default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' ${location.origin} https://unpkg.com; style-src 'unsafe-inline'; font-src data:; img-src data:; connect-src 'none';`;
-  frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${policy}"><style>html,body{margin:0;background:white}svg{display:block}</style></head><body><div id="score"></div><script>${runtime}</script></body></html>`;
+  frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${policy}"><style>html,body{margin:0;background:white}body{padding-inline:1.5%}#score{max-width:100%;margin:auto}#score>svg{display:block;max-width:100%;height:auto!important;margin:auto}</style></head><body><div id="score"></div><script>${runtime}</script></body></html>`;
   $('preview').replaceChildren(frame);
   timer = setTimeout(() => showError('The example took too long. Check the code, then try Run or Reset.'), 15000);
 }

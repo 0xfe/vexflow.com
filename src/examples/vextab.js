@@ -8,24 +8,7 @@ const host = document.getElementById('score');
 const VF = vextab.Vex.Flow;
 vextab.Artist.NOLOGO = true;
 const renderer = new VF.Renderer(host, VF.Renderer.Backends.SVG);
-// Start lower so the segno and other annotations have room above the stave.
-const artist = new vextab.Artist(10, 40, 780, { scale: 1 });
+// Leave room for the segno above the staff and the tablature below.
+const artist = new vextab.Artist(10, 115, 780, { bottom_spacing: 110 });
 new vextab.VexTab(artist).parse(notation);
 artist.render(renderer);
-
-// Fit to 95% of the frame width and center, including the top annotations.
-const svg = host.querySelector('svg');
-const box = svg.getBBox();
-const width = box.width + 8;
-// Include every annotation, with 10% padding above and below the notation.
-const height = box.height / 0.8;
-const topPadding = (height - box.height) / 2;
-const scale = innerWidth * 0.95 / width;
-svg.setAttribute('viewBox', `${box.x - 4} ${box.y - topPadding} ${width} ${height}`);
-svg.setAttribute('width', width * scale);
-svg.setAttribute('height', height * scale);
-// Override the renderer's inline pixel dimensions as well as the SVG attributes.
-svg.style.width = `${width * scale}px`;
-svg.style.height = `${height * scale}px`;
-// Let the preview fit the score instead of leaving a fixed-height empty box.
-host.style.cssText = 'display: grid; place-items: center;';
