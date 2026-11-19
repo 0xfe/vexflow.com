@@ -4,7 +4,7 @@
     <title>VexFlow - HTML5 Music Engraving</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description"
-        content="Vexflow is a JavaScript library for rendering standard music notation and guitar tablature.">
+        content="Vexflow is a JavaScript library for rendering standard music notation and guitar tablature on the web.">
     <meta charset="UTF-8" />
 
     <link href='https://fonts.googleapis.com/css?family=Barlow|Tangerine' rel='stylesheet' type='text/css'>
@@ -26,40 +26,19 @@
         <div class="header">
             <h1>VexFlow</h1>
             <div class="main">
-                <b>JavaScript Music Notation and Guitar Tablature</b>
+                <b>Music Notation and Guitar Tablature Library</b>
             </div>
         </div>
 
         <div class="content">
-            <h2>What is VexFlow?</h2>
+            <section>
+                <h2>What is VexFlow?</h2>
 
-            <div>
-                VexFlow is an open-source online music notation rendering API. It is written
-                completely in JavaScript, and runs right in the browser. VexFlow supports
-                HTML5 Canvas and SVG.
-            </div>
-
-            <br />
-
-            <iframe class="example-frame" src="examples/easyscore.html" title="Editable VexFlow example" loading="lazy"></iframe>
-
-            <br />
-
-            <h2>Where Do I Start?</h2>
-            <div class="docs">
-                The best place to start adding music notation to your apps and websites
-                is with <a href="https://vexflow.com/guide">the Vexflow User Guide</a>.
-                Explore lots of code snippets in the
-                <a href="https://vexflow.com/explorer">VexFlow Explorer</a>.
-            </div>
-
-            <br />
-
-            <h2>Features</h2>
-            <div class="docs">
-                Vexflow can be used to create all kinds of sophisticated music applications and
-                websites. Have a look at the <a href="https://www.vexflow.com/tests/">tests</a>
-                page for a comprehensive list of features.
+                <div>
+                    VexFlow is an open-source music notation rendering API. It is written
+                    completely in TypeScript, and runs in the browser, on the commandline,
+                    in mobile apps, and can even generate PDF scores.
+                </div>
 
                 <section class="score-carousel" aria-label="Featured scores" aria-roledescription="carousel">
                     <div class="score-stage" id="score-stage"></div>
@@ -82,8 +61,19 @@
                         </div>
                     </div>
                 </section>
+            </section>
 
-            </div>
+            <section>
+                <h2>Where Do I Start?</h2>
+                <div class="docs">
+                    The best place to start adding music notation to your apps and websites
+                    is with <a href="https://vexflow.com/guide">the Vexflow User Guide</a>.
+                    Explore lots of code snippets in the
+                    <a href="https://vexflow.com/explorer">VexFlow Explorer</a>.
+                </div>
+
+                <iframe class="example-frame" src="examples/easyscore.html" title="Editable VexFlow example" loading="lazy"></iframe>
+            </section>
 
             <h2>What is VexTab?</h2>
             <div class="description">

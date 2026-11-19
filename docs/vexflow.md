@@ -29,11 +29,10 @@ revision until the dependency is updated again.
 # Local examples
 
 `static/example.html` supplies both local playground pages. The build includes
-`src/examples/easyscore.js` and `src/examples/vextab.js` as text in the editor
-bundle. The code shown in the JavaScript tab is exactly the code executed by Run.
+`src/examples/easyscore.js` and `src/examples/example.vextab` as text in the editor
+bundle. Run executes the EasyScore JavaScript or parses the VexTab notation shown in the source tab.
 
-CodeJar provides editing and undo/redo. Prism supplies JavaScript highlighting;
-only its core, C-like grammar, and JavaScript grammar are bundled. Both packages
+CodeJar provides editing and undo/redo. Prism highlights JavaScript and VexTab notation. Both packages
 are pinned in the lockfile. Tab moves keyboard focus out of the editor;
 Cmd/Ctrl+Enter runs the edited example. Reset restores the original snippet.
 

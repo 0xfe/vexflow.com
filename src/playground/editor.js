@@ -1,18 +1,24 @@
-// Shared tabbed editor: CodeJar handles editing, Prism highlights JavaScript.
+// Shared tabbed editor: CodeJar handles editing, Prism highlights the example language.
 import { CodeJar } from 'codejar';
 import Prism from 'prismjs/components/prism-core.js';
 import 'prismjs/components/prism-clike.js';
 import 'prismjs/components/prism-javascript.js';
 import easyScoreSource from '../examples/easyscore.js?source';
-import vexTabSource from '../examples/vextab.js?source';
+import vexTabSource from '../examples/example.vextab?source';
 import { runPreview } from './runner.js';
 
 Prism.manual = true;
 const $ = (id) => document.getElementById(id);
 const isVexTab = document.body.dataset.example === 'vextab';
 const initialCode = isVexTab ? vexTabSource : easyScoreSource;
+const language = isVexTab ? 'vextab' : 'javascript';
+Prism.languages.vextab = {
+  keyword: /^\s*(?:tabstave|stave|notes|text|options)\b/m,
+  property: /[\w-]+(?==)/,
+  number: /\b\d+\b/,
+};
 const editor = CodeJar($('editor'), (element) => {
-  element.innerHTML = Prism.highlight(element.textContent, Prism.languages.javascript, 'javascript');
+  element.innerHTML = Prism.highlight(element.textContent, Prism.languages[language], language);
 }, { tab: '  ', catchTab: false });
 editor.updateCode(initialCode);
 let frame;
@@ -64,7 +70,7 @@ function run(code = editor.toString()) {
   const library = isVexTab
     ? 'https://unpkg.com/vextab@4.0.5/dist/main.prod.js'
     : new URL(document.body.dataset.runtime, location.href).href;
-  const config = JSON.stringify({ code, token, library }).replaceAll('<', '\\u003c');
+  const config = JSON.stringify({ code, token, library, isVexTab }).replaceAll('<', '\\u003c');
   const runtime = `(${runPreview.toString()})(${config});`.replace(/<\/script/gi, '<\\/script');
   // The preview may load its library and embedded fonts, but cannot contact other services.
   const policy = `default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' ${location.origin} https://unpkg.com; style-src 'unsafe-inline'; font-src data:; img-src data:; connect-src 'none';`;

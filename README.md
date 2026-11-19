@@ -35,8 +35,8 @@ VexFlow comes from a pinned source archive of
 including the fonts used for each score. `dist/vexflow-version.json` records
 the upstream revision. See [the source build notes](docs/vexflow.md) to update it.
 
-Examples use local Result/JavaScript tabs with editable, highlighted code, Run,
-and Reset. Edit their snippets in `src/examples/`, the shared UI in
+Each example has a Result tab and an editable JavaScript or VexTab tab with
+syntax highlighting, Run, and Reset. Edit their snippets in `src/examples/`, the shared UI in
 `static/example.html`, and the editor/preview logic in `src/playground/`.
 CodeJar and Prism are bundled locally. VexTab uses its separate compatibility
 bundle from unpkg; the VexFlow preview uses the same GitHub source as the homepage.

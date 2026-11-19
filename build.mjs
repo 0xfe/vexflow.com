@@ -102,6 +102,7 @@ const options = {
         ]) {
           const html = exampleTemplate.replaceAll('{{TITLE}}', title)
             .replaceAll('{{EXAMPLE}}', name)
+            .replaceAll('{{LANGUAGE}}', name === 'vextab' ? 'VexTab' : 'JavaScript')
             .replaceAll('{{RUNTIME}}', asset('vexflow-runtime'))
             .replaceAll('{{EDITOR}}', asset('editor'));
           await mkdir(dirname(join(dist, path)), { recursive: true });
