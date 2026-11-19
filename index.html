@@ -38,8 +38,8 @@
             </div>
         </header>
 
-        <div class="content">
-            <section>
+        <section class="home-intro">
+            <div class="content">
                 <h2>What is VexFlow?</h2>
 
                 <div>
@@ -47,10 +47,10 @@
                     completely in TypeScript, and runs in the browser, on the commandline,
                     in mobile apps, and can even generate <a href="/pdfs">PDF scores</a>.
                 </div>
-
-                <section class="score-carousel" aria-label="Featured scores" aria-roledescription="carousel">
-                    <div class="score-stage" id="score-stage"></div>
-                    <div class="score-footer">
+            </div>
+            <section class="score-carousel" aria-label="Featured scores" aria-roledescription="carousel">
+                <div class="score-header">
+                    <div class="content score-header-inner">
                         <div class="score-caption" aria-live="off" aria-atomic="true">
                             <h3 class="score-title">Ballade No. 3 in A-flat major</h3>
                             <p class="score-credit">Frédéric Chopin · Solo piano, Op. 47</p>
@@ -68,9 +68,12 @@
                             </button>
                         </div>
                     </div>
-                </section>
+                </div>
+                <div class="score-stage" id="score-stage"></div>
             </section>
+        </section>
 
+        <div class="content">
             <section>
                 <h2>Where Do I Start?</h2>
                 <div class="docs">

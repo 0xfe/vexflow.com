@@ -99,6 +99,6 @@ document.fonts.ready.then(() => {
   new IntersectionObserver(([entry]) => {
     onScreen = entry.isIntersecting;
     updatePlayback();
-  }).observe(carousel);
+  }).observe(carousel.querySelector('.score-header'));
   updatePlayback();
 });

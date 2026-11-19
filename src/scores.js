@@ -11,7 +11,7 @@ function ballade({ elementId }) {
   const { width, height, draw } = globalThis.ChopinBallade;
   draw(VexFlow, new VexFlow.Factory({ renderer: { elementId, width, height } }));
   // Frame the first two complete systems, as in the upstream gallery cover.
-  return [0, width * 0.132, width, width * 0.44];
+  return { top: width * 0.132, bottom: width * 0.572 };
 }
 
 function renderEdition(edition, host) {
@@ -33,6 +33,15 @@ function renderEdition(edition, host) {
   decorate?.(composition);
   composition.sheet.format();
   score.draw();
+  if (edition.previewSystems) {
+    const rows = composition.sheet.getRows();
+    if (rows.length > edition.previewSystems) {
+      // Cut in the gap between systems so paired staves and tablature stay together.
+      const split = edition.fromEnd ? rows.length - edition.previewSystems : edition.previewSystems;
+      const boundary = rows[split].y - spec.sheet.rowGap / 2;
+      return edition.fromEnd ? { top: boundary } : { bottom: boundary };
+    }
+  }
 }
 
 export const scores = [
@@ -40,15 +49,15 @@ export const scores = [
   { title: 'Minuet in G major', credit: 'Christian Petzold · Keyboard', render: minuet },
   editions.saints,
   { title: 'Greensleeves', credit: 'Traditional English air · Guitar tablature', render: greensleeves },
-  editions.prelude,
+  { ...editions.prelude, previewSystems: 2 },
   { title: 'Fugue No. 6 in D minor', credit: 'Johann Sebastian Bach · BWV 851', render: fugue },
   editions.kesh,
   { title: 'Ode to Joy', credit: 'Ludwig van Beethoven · Cello duet', render: joy },
-  editions.electric,
+  { ...editions.electric, previewSystems: 1, fromEnd: true },
   editions.drums,
   editions.quartertones,
-  editions.falseta,
-  editions.sumer,
+  { ...editions.falseta, previewSystems: 1 },
+  { ...editions.sumer, previewSystems: 2 },
 ];
 
 const assert = {
@@ -64,20 +73,16 @@ export function renderScore(score, host) {
   VexFlow.setFonts(...(score.fonts ?? ['Bravura', 'Academico']));
   const excerpt = score.render ? score.render({ elementId: host.id, assert }) : renderEdition(score, host);
   const svg = host.querySelector('svg');
-  if (excerpt) {
-    svg.setAttribute('viewBox', excerpt.join(' '));
-    svg.removeAttribute('width');
-    svg.removeAttribute('height');
-    svg.classList.add('score-excerpt');
-    svg.style.height = 'auto';
-  } else {
-    // Fit the ink, including annotations outside the original test canvas.
-    const { x, y, width, height } = svg.getBBox();
-    const padding = width * 0.006;
-    svg.setAttribute('viewBox', [x - padding, y - padding, width + 2 * padding, height + 2 * padding].join(' '));
-    svg.style.height = '100%';
-  }
-  // SVGContext.resize also sets a fixed pixel width on the host.
+  // Trim the printed side margins and allow room for annotations at the edges.
+  const { x, y, width, height } = svg.getBBox();
+  const padding = width * 0.006;
+  const top = excerpt?.top ?? y - padding;
+  const bottom = excerpt?.bottom ?? y + height + padding;
+  svg.setAttribute('viewBox', [x - padding, top, width + 2 * padding, bottom - top].join(' '));
+  // Let the sheet width and viewBox determine the displayed size.
   host.style.removeProperty('width');
-  svg.style.width = '100%';
+  svg.style.removeProperty('width');
+  svg.style.removeProperty('height');
+  svg.removeAttribute('width');
+  svg.removeAttribute('height');
 }

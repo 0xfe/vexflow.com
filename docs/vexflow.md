@@ -26,6 +26,25 @@ npm run build
 Review the changes and commit both package files. Builds continue to use that
 revision until the dependency is updated again.
 
+## Updating the carousel demos
+
+Use the gallery in `node_modules/vexflow/tests/flow.html` from the pinned
+release as the reference for slide order and excerpt length. Follow each
+figure's preview image to see which passage to show and count its systems.
+A system is one horizontal row of music and includes all staves played
+together, such as both piano staves or a guitar staff and its tablature.
+
+In `src/scores.js`, set `previewSystems` on a gallery edition that needs a
+shorter excerpt. It counts from the beginning unless `fromEnd: true` is set.
+In 5.5, the Prelude in C major and *Sumer is icumen in* show their first two
+systems, *Patio al alba* shows its first, and *High Wire* shows its last.
+The Chopin fixture frames its opening two systems in `ballade()`, and the
+Kesh Jig uses the opening ensemble system from its print edition.
+
+Run `npm start` and step through every slide at desktop and phone widths.
+Compare the first and last visible staves with the gallery image, including
+lyrics, dynamics, and other markings near the edges.
+
 # Local examples
 
 The EasyScore playground in `static/examples/easyscore.html` shows the source
