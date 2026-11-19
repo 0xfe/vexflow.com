@@ -11,8 +11,8 @@ TypeScript and embedded fonts, and fills in VexFlow's version and commit metadat
 The build date is left empty to keep the output deterministic.
 
 The homepage carousel uses the upstream font bundle so the jazz lead sheet can
-use Petaluma. Its eight repertoire arrangements come from `tests/demos` in that
-same archive. A small adapter in `src/demo-factory.js` supplies their SVG factory.
+use Petaluma. The arrangements come from the visual fixtures in `tests/demos` and the
+gallery editions in `tests/scores` in that same archive.
 The original homepage Minuet lives in `src/minuet.js`.
 
 To update to the current upstream `main` revision:

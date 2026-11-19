@@ -34,6 +34,7 @@ const options = {
   alias: {
     'vexflow/bravura': join(vexflowRoot, 'entry/vexflow-bravura.ts'),
     'vexflow-gallery': join(vexflowRoot, 'entry/vexflow.ts'),
+    'vexflow-scores': join(vexflowRoot, 'tests/scores'),
     'vexflow-demos': join(vexflowRoot, 'tests/demos'),
   },
   target: 'es2020',

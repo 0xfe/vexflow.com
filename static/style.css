@@ -62,6 +62,7 @@ body {
   background: white;
 }
 .score-sheet svg { display: block; }
+.score-excerpt { position: relative; top: 50%; transform: translateY(-50%); }
 .score-footer {
   display: flex;
   align-items: center;

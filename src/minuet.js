@@ -1,5 +1,5 @@
 /**
- * VexFlow - Auto-beaming Tests
+ * Petzold’s Minuet in G, adapted from VexFlow’s gallery fixture.
  * Copyright Mohit Muthanna 2010 <mohit@muthanna.com>
  */
 
@@ -52,15 +52,16 @@ export function minuet({ elementId }) {
     .addKeySignature('G')
     .addTimeSignature('3/4')
     .setTempo({
-      name: 'Allegretto', duration: 'h', dots: 1, bpm: 66,
+      name: 'Allegretto', duration: 'q', bpm: 132,
     }, -30);
 
-  system.addStave({ voices: [voice(notes('(G3 B3 D4)/h, A3/q', { clef: 'bass' }))] })
+  system.addStave({ voices: [voice(notes('(G3 B3 D4)/h[id="ped1"], A3/q[id="lift1"]', { clef: 'bass' }))] })
     .addClef('bass').addKeySignature('G').addTimeSignature('3/4');
   system.addConnector('brace');
   system.addConnector('singleRight');
   system.addConnector('singleLeft');
 
+  vf.PedalMarking({ notes: [id('ped1'), id('lift1')] });
   id('m1a').addModifier(vf.Fingering({ number: '5' }));
 
   /*  Measure 2 */
@@ -85,10 +86,11 @@ export function minuet({ elementId }) {
     voices: [
       voice([
         notes('E5/q[id="m3a"]'),
-        beam(notes('C5/8, D5, E5, F5', { stem: 'down' })),
+        beam(notes('C5/8[id="m3cut"], D5, E5, F5', { stem: 'down' })),
       ].reduce(concat)),
     ],
   });
+  id('m3cut').addModifier(vf.Ornament('mordent'));
   id('m3a').addModifier(vf.Fingering({ number: '3', position: 'above' }));
 
   system.addStave({ voices: [voice(notes('C4/h.', { clef: 'bass' }))] });
@@ -108,7 +110,7 @@ export function minuet({ elementId }) {
   vf.Curve({
     from: id('m3a'),
     to: id('m4a'),
-    options: { cps: [{ x: 0, y: 20 }, { x: 0, y: 20 }] },
+    options: { cps: [{ x: 0, y: 39 }, { x: 0, y: 39 }] },
   });
 
   /*  Measure 5 */
@@ -158,6 +160,7 @@ export function minuet({ elementId }) {
   system = makeSystem(220);
   system.addStave({
     voices: [
+      voice([vf.TextDynamics({ text: 'mf', duration: 'h', dots: 1, line: 10 })]),
       voice([
         notes('F4/q[id="m7a"]'),
         beam(notes('G4/8[id="m7b"], A4, B4, G4', { stem: 'up' })),
@@ -171,6 +174,7 @@ export function minuet({ elementId }) {
   system.addConnector('singleRight');
   system.addConnector('singleLeft');
 
+  id('m7a').addModifier(vf.Articulation({ type: 'a-', position: 'above' }));
   id('m7a').addModifier(vf.Fingering({ number: '2', position: 'below' }));
   id('m7b').addModifier(vf.Fingering({ number: '1' }));
   id('m7c').addModifier(vf.Fingering({ number: '3', position: 'above' }));
@@ -178,7 +182,7 @@ export function minuet({ elementId }) {
   /*  Measure 8 */
   system = makeSystem(180);
   const grace = vf.GraceNote({
-    keys: ['d/3'], clef: 'bass', duration: '8', slash: true,
+    keys: ['b/4'], duration: '8', slash: true,
   });
 
   system.addStave({ voices: [voice(notes('A4/h.[id="m8c"]'))] });
@@ -193,7 +197,7 @@ export function minuet({ elementId }) {
   system.addConnector('singleRight');
 
   id('m8b').addModifier(vf.Fingering({ number: '1', position: 'above' }));
-  id('m8c').addModifier(vf.GraceNoteGroup({ notes: [grace] }));
+  id('m8c').addModifier(vf.GraceNoteGroup({ notes: [grace], slur: true }));
 
   vf.Curve({
     from: id('m7a'),
@@ -206,12 +210,11 @@ export function minuet({ elementId }) {
     },
   });
 
-  vf.StaveTie({ from: grace, to: id('m8c') });
-
   /*  Measure 9 */
   system = makeSystem(180);
   system.addStave({
     voices: [
+      voice([vf.TextDynamics({ text: 'pp', duration: 'h', dots: 1, line: 9 })]),
       score.set({ clef: 'treble' }).voice([
         notes('D5/q[id="m9a"]'),
         beam(notes('G4/8, A4, B4, C5', { stem: 'up' })),
@@ -247,10 +250,11 @@ export function minuet({ elementId }) {
     voices: [
       voice([
         notes('E5/q[id="m11a"]'),
-        beam(notes('C5/8, D5, E5, F5', { stem: 'down' })),
+        beam(notes('C5/8[id="m11cut"], D5, E5, F5', { stem: 'down' })),
       ].reduce(concat)),
     ],
   });
+  id('m11cut').addModifier(vf.Ornament('mordent'));
   id('m11a').addModifier(vf.Fingering({ number: '3', position: 'above' }));
 
   system.addStave({ voices: [voice(notes('C4/h.', { clef: 'bass' }))] });
@@ -280,7 +284,7 @@ export function minuet({ elementId }) {
   vf.Curve({
     from: id('m11a'),
     to: id('m12a'),
-    options: { cps: [{ x: 0, y: 20 }, { x: 0, y: 20 }] },
+    options: { cps: [{ x: 0, y: 39 }, { x: 0, y: 39 }] },
   });
 
   /*  Measure 13 (New system) */
@@ -314,7 +318,7 @@ export function minuet({ elementId }) {
     voices: [
       score.set({ clef: 'treble' }).voice([
         notes('B4/q'),
-        beam(notes('C5/8, b4, a4, g4', { stem: 'up' })),
+        beam(notes('C5/8, b4, a4, g4[id="m14end"]', { stem: 'up' })),
       ].reduce(concat)),
     ],
   });
@@ -352,7 +356,7 @@ export function minuet({ elementId }) {
     ],
   }).setEndBarType(VF.BarlineType.REPEAT_END);
 
-  system.addStave({ voices: [voice(notes('g3/h[id="m16b"], g2/q', { clef: 'bass' }))] })
+  system.addStave({ voices: [voice(notes('g3/h[id="m16b"], g2/q[id="lift16"]', { clef: 'bass' }))] })
     .setEndBarType(VF.BarlineType.REPEAT_END);
   system.addConnector('boldDoubleRight');
 
@@ -415,7 +419,9 @@ export function minuet({ elementId }) {
     },
   });
 
-  /* Done */
+  vf.StaveHairpin({ from: id('m5a'), to: id('m6a'), type: VF.StaveHairpin.type.CRESC });
+  vf.StaveHairpin({ from: id('m13a'), to: id('m14end'), type: VF.StaveHairpin.type.DECRESC });
+  vf.PedalMarking({ notes: [id('m16b'), id('lift16')] });
 
   vf.draw();
   VF.Registry.disableDefaultRegistry();
