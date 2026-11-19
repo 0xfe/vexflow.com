@@ -1,3 +1,4 @@
+// You can live edit this code and modify the score.
 // VexFlow and #score are provided by the preview. Fonts are already loaded.
 const vf = new VexFlow.Factory({
   renderer: { elementId: 'score', width: 700, height: 250 },

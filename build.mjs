@@ -11,6 +11,7 @@ const serve = process.argv.includes('--serve');
 const watch = process.argv.includes('--watch') || serve;
 const packageInfo = JSON.parse(await readFile(join(root, 'package.json'), 'utf8'));
 const vexflowRevision = packageInfo.dependencies.vexflow.split('/').at(-1);
+const vextabPackage = JSON.parse(await readFile(join(root, 'node_modules/vextab/package.json'), 'utf8'));
 const vexflowRoot = join(root, 'node_modules/vexflow');
 const vexflowPackage = JSON.parse(await readFile(join(vexflowRoot, 'package.json'), 'utf8'));
 
@@ -104,7 +105,9 @@ const options = {
         for (const file of ['index.html', 'tutorial.html', 'example.html']) {
           const page = join(dist, 'vextab', file);
           const html = await readFile(page, 'utf8');
-          await writeFile(page, html.replace('{{VEXTAB_EDITOR}}', asset('vextab-editor')));
+          await writeFile(page, html
+            .replace('{{VEXTAB_VERSION}}', vextabPackage.version)
+            .replace('{{VEXTAB_EDITOR}}', asset('vextab-editor')));
         }
         await writeFile(join(dist, 'vexflow-version.json'), JSON.stringify({
           repository: 'https://github.com/vexflow/vexflow', revision: vexflowRevision,
