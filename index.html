@@ -7,7 +7,7 @@
         content="Vexflow is a JavaScript library for rendering standard music notation and guitar tablature on the web.">
     <meta charset="UTF-8" />
 
-    <link href='https://fonts.googleapis.com/css?family=Barlow|Tangerine' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Barlow|Tangerine&amp;display=swap' rel='stylesheet' type='text/css'>
     <link href="style.css" media="screen" rel="Stylesheet" type="text/css" />
     <script>
         if (
@@ -23,12 +23,20 @@
 
 <body>
     <div class="container">
-        <div class="header">
+        <nav class="home-nav" aria-label="VexFlow resources">
+            <span class="version">v{{VERSION}}</span>
+            <a href="https://vexflow.com/guide/">User Guide</a>
+            <a href="https://vexflow.com/explorer/">Explorer</a>
+            <a href="https://vexflow.com/tests/">Tests</a>
+            <a href="https://github.com/vexflow/vexflow">GitHub</a>
+            <a href="https://mo.town/">mo.town</a>
+        </nav>
+        <header class="header home-title">
             <h1>VexFlow</h1>
             <div class="main">
                 <b>Music Notation and Guitar Tablature Library</b>
             </div>
-        </div>
+        </header>
 
         <div class="content">
             <section>

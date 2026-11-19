@@ -29,9 +29,9 @@ revision until the dependency is updated again.
 # Local examples
 
 The EasyScore playground in `static/examples/easyscore.html` shows the source
-from `src/examples/easyscore.js`. Run executes it in a fresh sandboxed iframe
-using the same pinned VexFlow as the carousel. Cmd/Ctrl+Enter runs edits, and
-Reset restores the original snippet. Resizing preserves unrun edits.
+from `src/examples/easyscore.js` below its live score. Each edit runs after
+100 ms in a fresh sandboxed iframe using the same pinned VexFlow as the carousel.
+The preview swaps in the new score when rendering succeeds.
 
 The VexTab pages share `src/playground/vextab-editor.js`. The build bundles
 the pinned `vextab` npm package locally. Tutorial examples live in

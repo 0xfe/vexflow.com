@@ -35,7 +35,7 @@ VexFlow comes from a pinned source archive of
 including the fonts used for each score. `dist/vexflow-version.json` records
 the upstream revision. See [the source build notes](docs/vexflow.md) to update it.
 
-The homepage EasyScore example has Result and JavaScript tabs, Run, and Reset.
+The homepage EasyScore example shows the live score above its editable JavaScript.
 The VexTab homepage and tutorial show live scores above their editable notation.
 Both editors use CodeJar and Prism. VexTab is bundled from its pinned npm package.
 Edit the examples in `src/examples/` and `static/vextab/`, and the editors in

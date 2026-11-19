@@ -7,26 +7,11 @@
   <title>VexFlow example</title>
   <link rel="stylesheet" href="../style.css">
 </head>
-<body class="embedded-example" data-runtime="../{{RUNTIME}}">
+<body data-runtime="../{{RUNTIME}}">
   <section class="playground" aria-label="VexFlow example">
-    <div class="playground-toolbar">
-      <div role="tablist" aria-label="Example views">
-        <button type="button" id="result-tab" role="tab" aria-selected="true" aria-controls="result-panel" data-panel="result">Result</button>
-        <button type="button" id="source-tab" role="tab" aria-selected="false" aria-controls="source-panel" data-panel="source" tabindex="-1">JavaScript</button>
-      </div>
-      <div class="playground-actions">
-        <button type="button" id="run" title="Run (Cmd/Ctrl+Enter)">Run</button>
-        <button type="button" id="reset">Reset</button>
-      </div>
-    </div>
-    <div id="result-panel" role="tabpanel" aria-labelledby="result-tab">
-      <div id="preview"></div>
-      <p id="error" role="alert" hidden></p>
-    </div>
-    <div id="source-panel" role="tabpanel" aria-labelledby="source-tab" hidden>
-      <div id="editor" role="textbox" aria-label="Editable JavaScript example" aria-multiline="true" spellcheck="false"></div>
-    </div>
-    <span id="status" class="visually-hidden" role="status">Loading…</span>
+    <div id="preview"></div>
+    <div id="editor" class="live-source" role="textbox" aria-label="Editable VexFlow JavaScript" aria-multiline="true" spellcheck="false"></div>
+    <pre id="error" class="live-error" role="status"></pre>
   </section>
   <script src="../{{EDITOR}}"></script>
 </body>

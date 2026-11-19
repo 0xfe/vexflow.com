@@ -24,6 +24,21 @@ body {
   text-align: center;
 }
 
+.home-nav {
+  align-self: stretch;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .25rem .85rem;
+  padding: .6rem clamp(.75rem, 3vw, 1.75rem);
+  font-size: .875rem;
+}
+.home-nav .version { color: #55665b; font-variant-numeric: tabular-nums; }
+.home-nav a { color: #285d39; border: 0; }
+.home-nav a:hover, .home-nav a:focus-visible { text-decoration: underline; }
+.home-title h1 { line-height: 1; }
+
 .content {
   width: 90%;
   max-width: 700px;
@@ -133,66 +148,33 @@ div.vex a { color: green; text-decoration: none; border: none; }
 div.vex a:hover { border-bottom: 5px solid #ccc; }
 code { font-family: Courier; font-size: 14px; color: green; }
 
-/* Compact playgrounds mirror the old embedded examples, with native accessible tabs. */
-.example-frame { display: block; width: 100%; height: 450px; border: 0; margin: 1rem 0; }
-.embedded-example { font-family: Arial, sans-serif; color: #333; }
-.playground { max-width: 700px; margin: auto; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; }
-.playground-toolbar { display: flex; align-items: center; justify-content: space-between; background: #f5f6f7; border-bottom: 1px solid #ddd; }
-.playground-toolbar [role="tablist"], .playground-actions { display: flex; }
-.playground button { font: inherit; font-size: 13px; cursor: pointer; }
-.playground [role="tab"] { border: 0; border-bottom: 3px solid transparent; background: transparent; padding: 13px 16px 10px; color: #666; }
-.playground [role="tab"][aria-selected="true"] { border-bottom-color: #168f48; color: #222; background: white; }
-.playground-actions { gap: 6px; padding-right: 10px; }
-.playground-actions button { border: 1px solid #ccd0d4; border-radius: 3px; padding: 5px 10px; background: white; }
-.playground-actions #run { color: #16783b; }
-.playground button:hover { background: #e9ecef; }
-.playground button:focus-visible { outline: 2px solid #168f48; outline-offset: -3px; }
-.playground [hidden] { display: none !important; }
-.playground [role="tabpanel"] { height: 360px; position: relative; }
-#preview, #preview iframe { width: 100%; height: 100%; border: 0; display: block; }
-#error { position: absolute; inset: 0; margin: 0; padding: 24px; overflow: auto; background: #fff5f4; color: #a32320; font: 13px/1.6 monospace; white-space: pre-wrap; }
-#editor { box-sizing: border-box; height: 360px; overflow: auto; padding: 12px; font: 11px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; tab-size: 2; background: #fafafa; color: #24292e; }
-#editor:focus { outline: 2px solid #168f48; outline-offset: -2px; }
-/* Keep render announcements available to screen readers without a visible status bar. */
-.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
-/* Prism token colors, scoped to the editable source. */
-#editor .token.comment { color: #6a737d; }
-#editor .token.keyword, #editor .token.boolean { color: #a626a4; }
-#editor .token.string, #editor .token.template-string { color: #237a36; }
-#editor .token.number { color: #986801; }
-#editor .token.function, #editor .token.class-name { color: #005cc5; }
-#editor .token.operator, #editor .token.punctuation { color: #555; }
-@media (max-width: 380px) {
-  .playground [role="tab"] { padding-left: 10px; padding-right: 10px; }
-  .playground-actions { padding-right: 6px; }
-}
-
-/* A live VexTab example keeps the score and its editable notation together. */
-.vextab-live {
-  box-sizing: border-box;
-  width: 100%;
-  margin: 1rem auto;
-  overflow: hidden;
-  border: 1px solid #d6ded7;
-  border-radius: 5px;
-  background: white;
-}
+/* Both live editors place an unframed score above the bordered source. */
+.example-frame { display: block; width: 100%; height: 350px; border: 0; margin: 1rem 0; }
+.playground { max-width: 700px; margin: auto; }
+#preview { position: relative; }
+#preview iframe { display: block; width: 100%; border: 0; }
+#preview .pending { position: absolute; top: 0; visibility: hidden; }
+.vextab-live { width: 100%; margin: 1rem auto; }
 .vextab-preview svg { display: block; max-width: 100%; height: auto; margin: auto; }
-.vextab-source {
+.live-source {
   box-sizing: border-box;
   max-height: 14rem;
   min-height: 2rem;
   overflow: auto;
   padding: .45rem .65rem;
-  border-top: 1px solid #e1e6e2;
+  border: 1px solid #d6ded7;
+  border-radius: 5px;
   background: #fafafa;
   color: #24292e;
   font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   tab-size: 2;
 }
-.vextab-live:focus-within { border-color: #62876a; }
-.vextab-source .token.keyword { color: #a626a4; }
-.vextab-source .token.property { color: #005cc5; }
-.vextab-source .token.number { color: #986801; }
-.vextab-error { margin: 0; padding: .4rem .65rem; color: #962f28; background: #fff6f5; white-space: pre-wrap; overflow-wrap: anywhere; font: 12px/1.4 monospace; }
-.vextab-error:empty { display: none; }
+.playground .live-source { max-height: 22rem; }
+.live-source:focus { border-color: #62876a; }
+.live-source .token.comment { color: #6a737d; }
+.live-source .token.string, .live-source .token.template-string { color: #237a36; }
+.live-source .token.keyword, .live-source .token.boolean { color: #a626a4; }
+.live-source .token.property, .live-source .token.function, .live-source .token.class-name { color: #005cc5; }
+.live-source .token.number { color: #986801; }
+.live-error { margin: 0; padding: .4rem .65rem; color: #962f28; background: #fff6f5; white-space: pre-wrap; overflow-wrap: anywhere; font: 12px/1.4 monospace; }
+.live-error:empty { display: none; }

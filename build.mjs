@@ -94,7 +94,9 @@ const options = {
         for (const file of result.outputFiles) {
           await writeFile(file.path, file.contents);
         }
-        await writeFile(join(dist, 'index.html'), template.replace('{{SCRIPT}}', asset('index')));
+        await writeFile(join(dist, 'index.html'), template
+          .replace('{{VERSION}}', vexflowPackage.version)
+          .replace('{{SCRIPT}}', asset('index')));
         const easyScorePage = join(dist, 'examples/easyscore.html');
         const easyScoreHtml = await readFile(easyScorePage, 'utf8');
         await writeFile(easyScorePage, easyScoreHtml.replace('{{RUNTIME}}', asset('vexflow-runtime'))

@@ -1,107 +1,74 @@
-// Tabbed EasyScore editor with JavaScript highlighting and a sandboxed preview.
-import { CodeJar } from 'codejar';
+// Live EasyScore JavaScript editor. Each edit runs in a separate sandbox.
 import Prism from 'prismjs/components/prism-core.js';
 import 'prismjs/components/prism-clike.js';
 import 'prismjs/components/prism-javascript.js';
 import easyScoreSource from '../examples/easyscore.js?source';
-import { runPreview } from './runner.js';
+import { liveSource } from './live-source.js';
 
-Prism.manual = true;
-const $ = (id) => document.getElementById(id);
-const editor = CodeJar($('editor'), (element) => {
-  element.innerHTML = Prism.highlight(element.textContent, Prism.languages.javascript, 'javascript');
-}, { tab: '  ', catchTab: false });
-editor.updateCode(easyScoreSource);
-let frame;
+const source = document.getElementById('editor');
+const preview = document.getElementById('preview');
+const error = document.getElementById('error');
+const library = new URL(document.body.dataset.runtime, location.href).href;
+const policy = `default-src 'none'; script-src 'unsafe-eval' ${location.origin}; style-src 'unsafe-inline'; font-src data:; img-src data:; connect-src 'none';`;
+const style = 'html,body{margin:0;background:white}body{padding-inline:1.5%}#score{max-width:100%;margin:auto}#score>svg{display:block;max-width:100%;height:auto!important;margin:auto}';
+let pending;
 let token;
-let timer;
-let renderedWidth = 0;
-let lastCode = easyScoreSource;
+let timeout;
 
-// Native tab buttons support both mouse and the standard arrow/home/end keys.
-function selectTab(name) {
-  for (const tab of document.querySelectorAll('[role="tab"]')) {
-    const selected = tab.dataset.panel === name;
-    tab.setAttribute('aria-selected', String(selected));
-    tab.tabIndex = selected ? 0 : -1;
-    $(tab.getAttribute('aria-controls')).hidden = !selected;
+function discardPending() {
+  clearTimeout(timeout);
+  pending?.remove();
+  pending = undefined;
+}
+
+function fail(message) {
+  discardPending();
+  source.setAttribute('aria-invalid', 'true');
+  error.textContent = message;
+}
+
+function render(code) {
+  discardPending();
+  if (!code.trim()) {
+    preview.replaceChildren();
+    source.removeAttribute('aria-invalid');
+    error.textContent = '';
+    return;
   }
-}
-const tabs = [...document.querySelectorAll('[role="tab"]')];
-for (const [index, tab] of tabs.entries()) {
-  tab.addEventListener('click', () => {
-    selectTab(tab.dataset.panel);
-    if (tab.dataset.panel === 'result' && Math.abs($('result-panel').clientWidth - renderedWidth) >= 2) run(lastCode);
-  });
-  tab.addEventListener('keydown', (event) => {
-    let next;
-    if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
-    if (event.key === 'ArrowLeft') next = (index + tabs.length - 1) % tabs.length;
-    if (event.key === 'Home') next = 0;
-    if (event.key === 'End') next = tabs.length - 1;
-    if (next === undefined) return;
-    event.preventDefault();
-    selectTab(tabs[next].dataset.panel);
-    tabs[next].focus();
-  });
-}
-
-// Never evaluate editor content in the host page. Each run gets its own sandbox.
-function run(code = editor.toString()) {
-  selectTab('result');
-  lastCode = code;
-  renderedWidth = $('result-panel').clientWidth;
-  clearTimeout(timer);
-  $('error').hidden = true;
-  $('status').textContent = 'Rendering…';
   token = crypto.randomUUID();
-  frame = document.createElement('iframe');
-  frame.title = 'VexFlow result';
-  frame.setAttribute('sandbox', 'allow-scripts');
-  const library = new URL(document.body.dataset.runtime, location.href).href;
-  const config = JSON.stringify({ code, token, library }).replaceAll('<', '\\u003c');
-  const runtime = `(${runPreview.toString()})(${config});`.replace(/<\/script/gi, '<\\/script');
-  // The preview may load its library and embedded fonts, but cannot contact other services.
-  const policy = `default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' ${location.origin}; style-src 'unsafe-inline'; font-src data:; img-src data:; connect-src 'none';`;
-  frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${policy}"><style>html,body{margin:0;background:white}body{padding-inline:1.5%}#score{max-width:100%;margin:auto}#score>svg{display:block;max-width:100%;height:auto!important;margin:auto}</style></head><body><div id="score"></div><script>${runtime}</script></body></html>`;
-  $('preview').replaceChildren(frame);
-  timer = setTimeout(() => showError('The example took too long. Check the code, then try Run or Reset.'), 15000);
+  const config = JSON.stringify({ code, token }).replaceAll('<', '\\u003c');
+  pending = document.createElement('iframe');
+  pending.title = 'VexFlow score';
+  pending.className = 'pending';
+  pending.setAttribute('sandbox', 'allow-scripts');
+  pending.srcdoc = `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${policy}"><style>${style}</style><div id="score"></div><script type="application/json" id="example">${config}</script><script src="${library}"></script>`;
+  preview.append(pending);
+  timeout = setTimeout(() => fail('The score took too long to render.'), 15000);
 }
-function showError(message) {
-  clearTimeout(timer);
-  $('status').textContent = 'Could not render';
-  $('error').textContent = message;
-  $('error').hidden = false;
-}
-window.addEventListener('message', (event) => {
-  if (event.source !== frame?.contentWindow || event.data?.channel !== 'notation-preview' || event.data.token !== token) return;
-  clearTimeout(timer);
-  if (event.data.type === 'error') showError(event.data.message);
-  if (event.data.type === 'rendered' && $('error').hidden) {
-    $('status').textContent = 'Rendered';
-    const height = event.data.height;
-    if (Number.isFinite(height) && height > 0) {
-      $('result-panel').style.height = `${Math.min(1200, Math.ceil(height))}px`;
-    }
+
+window.addEventListener('message', event => {
+  if (!pending || event.source !== pending.contentWindow || event.data?.channel !== 'notation-preview' || event.data.token !== token) return;
+  if (event.data.type === 'error') {
+    fail(event.data.message);
+  } else if (event.data.type === 'rendered') {
+    clearTimeout(timeout);
+    // Promote in place: reattaching an iframe would reload its document.
+    for (const old of preview.querySelectorAll('iframe:not(.pending)')) old.remove();
+    pending.style.height = Math.min(1200, Math.ceil(event.data.height)) + 'px';
+    pending.classList.remove('pending');
+    pending = undefined;
+    source.removeAttribute('aria-invalid');
+    error.textContent = '';
   }
 });
-$('run').addEventListener('click', () => run());
-$('reset').addEventListener('click', () => { editor.updateCode(easyScoreSource); run(); });
-$('editor').addEventListener('keydown', (event) => {
-  if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') { event.preventDefault(); run(); }
-});
-editor.onUpdate(() => { $('status').textContent = 'Edited · Run to update'; });
-// Re-render the last executed code when the frame changes width, preserving unrun edits.
-let resizeTimer;
+
+liveSource(source, easyScoreSource, 'javascript', Prism.languages.javascript, render);
+const playground = document.querySelector('.playground');
+let width = playground.clientWidth;
 new ResizeObserver(() => {
-  const playground = document.querySelector('.playground');
-  // The local embedding page should fit the active Result or JavaScript panel, too.
-  if (window.frameElement) window.frameElement.style.height = `${Math.ceil(playground.getBoundingClientRect().height)}px`;
-  const width = playground.clientWidth;
-  if (Math.abs(width - renderedWidth) < 2) return;
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => {
-    if (!$('result-panel').hidden) run(lastCode);
-  }, 100);
-}).observe(document.querySelector('.playground'));
-run();
+  if (window.frameElement) window.frameElement.style.height = Math.ceil(playground.getBoundingClientRect().height) + 'px';
+  if (playground.clientWidth !== width) {
+    width = playground.clientWidth;
+    render(source.textContent);
+  }
+}).observe(playground);
