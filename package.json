@@ -4,7 +4,7 @@
   "description": "Vexflow Website",
   "private": true,
   "engines": {
-    "node": ">=22"
+    "node": ">=22.18.0"
   },
   "scripts": {
     "build": "node build.mjs",
@@ -34,6 +34,6 @@
     "codejar": "5.0.0",
     "prismjs": "1.30.0",
     "vexflow": "https://codeload.github.com/vexflow/vexflow/tar.gz/39cf287f300f0ef6bd9b63cbf1d01ef0bbbd1c10",
-    "vextab": "4.0.6"
+    "vextab": "https://github.com/0xfe/vextab/releases/download/5.0.0/vextab-5.0.0.tgz"
   }
 }

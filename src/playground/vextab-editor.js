@@ -1,7 +1,7 @@
-// Live VexTab notation editors for the homepage and tutorial.
+// Live VexTab notation editors for the homepage and standalone example.
 import { liveSource } from './live-source.js';
 import { engravingBounds } from './engraving-bounds.js';
-import { Artist, Vex, VexTab } from 'vextab';
+import { Artist, Vex, VexTab } from 'vextab/browser';
 import featuredScore from '../examples/example.vextab?source';
 
 const { Renderer } = Vex.Flow;

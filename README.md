@@ -4,7 +4,7 @@
 
 ## Develop
 
-Requires Node.js 22 or newer.
+Requires Node.js 22.18 or newer.
 
 ```sh
 npm ci
@@ -36,8 +36,9 @@ including the fonts used for each score. `dist/vexflow-version.json` records
 the upstream revision. See [the source build notes](docs/vexflow.md) to update it.
 
 The homepage EasyScore example shows the live score above its editable JavaScript.
-The VexTab homepage and tutorial show live scores above their editable notation.
-Both editors use CodeJar and Prism. VexTab is bundled from its pinned npm package.
+The VexTab homepage links to the [VexTab User Guide](https://vexflow.com/vextab/guide/)
+and shows live scores above their editable notation.
+Both editors use CodeJar and Prism. VexTab is bundled from the package attached to its GitHub release.
 Edit the examples in `src/examples/` and `static/vextab/`, and the editors in
 `src/playground/`.
 

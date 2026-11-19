@@ -53,7 +53,8 @@ from `src/examples/easyscore.js` below its live score. Each edit runs after
 The preview swaps in the new score when rendering succeeds.
 
 The VexTab pages share `src/playground/vextab-editor.js`. The build bundles
-the pinned `vextab` npm package locally. Tutorial examples live in
-`.vextab-live` elements in `static/vextab/tutorial.html`, alongside the lessons.
+the `vextab/browser` entry from the pinned GitHub release package. The VexTab repository publishes the
+[user guide](https://vexflow.com/vextab/guide/) separately. The former
+`/vextab/tutorial.html` URL redirects readers to the guide.
 The featured example uses `src/examples/example.vextab`. Each preview renders
 100 ms after an edit and keeps the last valid score visible during syntax errors.

@@ -103,7 +103,7 @@ const options = {
         const easyScoreHtml = await readFile(easyScorePage, 'utf8');
         await writeFile(easyScorePage, easyScoreHtml.replace('{{RUNTIME}}', asset('vexflow-runtime'))
           .replace('{{EDITOR}}', asset('editor')));
-        for (const file of ['index.html', 'tutorial.html', 'example.html']) {
+        for (const file of ['index.html', 'example.html']) {
           const page = join(dist, 'vextab', file);
           const html = await readFile(page, 'utf8');
           await writeFile(page, html
