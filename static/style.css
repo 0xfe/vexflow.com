@@ -48,6 +48,8 @@ body {
 .home-intro { width: 100%; }
 
 .score-carousel {
+  /* Give phones a half-rem gutter and keep the wider margins on desktop. */
+  --score-gutter: clamp(.5rem, calc(36% - 13rem), 18%);
   margin: 1.5rem 0 2rem;
   background: white;
 }
@@ -64,8 +66,13 @@ body {
 }
 .score-stage { position: relative; overflow: hidden; }
 /* Reserve the opening excerpt's space while the notation fonts load. */
-.score-stage:not(:has(svg)) { aspect-ratio: 3.125; }
-.score-sheet { padding-inline: 18%; background: white; }
+.score-stage:not(:has(svg))::before {
+  content: '';
+  display: block;
+  margin-inline: var(--score-gutter);
+  aspect-ratio: 2;
+}
+.score-sheet { padding-inline: var(--score-gutter); background: white; }
 .score-sheet[aria-hidden="true"] { position: absolute; inset: 0; }
 .score-sheet svg { display: block; width: 100%; height: auto; }
 .score-title {
@@ -97,8 +104,12 @@ body {
 .playback-icon { width: 4px; height: 12px; border-inline: 3px solid currentColor; box-sizing: content-box; }
 .is-paused .playback-icon { width: 0; height: 0; margin-left: 2px; border: solid transparent; border-width: 6px 0 6px 10px; border-left-color: currentColor; }
 @media (max-width: 600px) {
+  .home-nav { align-items: center; gap: 0 .75rem; padding-block: .25rem; }
+  .home-nav a { display: inline-flex; align-items: center; min-height: 2.75rem; }
+  .home-title h1 { font-size: clamp(3.5rem, 18vw, 5.25rem); }
   .score-header-inner { flex-direction: column; align-items: stretch; gap: .75rem; }
   .score-controls { justify-content: end; }
+  .score-controls button { width: 44px; height: 44px; }
   .score-count { margin-right: auto; }
 }
 
@@ -161,6 +172,9 @@ code { font-family: Courier; font-size: 14px; color: green; }
   tab-size: 2;
 }
 .playground .live-source { max-height: 22rem; border: 0; border-radius: 0; }
+@media (max-width: 600px) {
+  .playground .live-source { font-size: 16px; }
+}
 .live-source:focus { border-color: #62876a; }
 .live-source .token.comment { color: #6a737d; }
 .live-source .token.string, .live-source .token.template-string { color: #237a36; }
