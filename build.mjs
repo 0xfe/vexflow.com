@@ -24,6 +24,7 @@ const options = {
   entryPoints: {
     index: 'src/index.js',
     editor: 'src/playground/editor.js',
+    'vextab-editor': 'src/playground/vextab-editor.js',
     'vexflow-runtime': 'src/playground/vexflow-runtime.js',
   },
   outdir: dist,
@@ -94,19 +95,14 @@ const options = {
           await writeFile(file.path, file.contents);
         }
         await writeFile(join(dist, 'index.html'), template.replace('{{SCRIPT}}', asset('index')));
-        const exampleTemplate = await readFile(join(root, 'static/example.html'), 'utf8');
-        await rm(join(dist, 'example.html'));
-        for (const [name, title, path] of [
-          ['easyscore', 'VexFlow', 'examples/easyscore.html'],
-          ['vextab', 'VexTab', 'vextab/example.html'],
-        ]) {
-          const html = exampleTemplate.replaceAll('{{TITLE}}', title)
-            .replaceAll('{{EXAMPLE}}', name)
-            .replaceAll('{{LANGUAGE}}', name === 'vextab' ? 'VexTab' : 'JavaScript')
-            .replaceAll('{{RUNTIME}}', asset('vexflow-runtime'))
-            .replaceAll('{{EDITOR}}', asset('editor'));
-          await mkdir(dirname(join(dist, path)), { recursive: true });
-          await writeFile(join(dist, path), html);
+        const easyScorePage = join(dist, 'examples/easyscore.html');
+        const easyScoreHtml = await readFile(easyScorePage, 'utf8');
+        await writeFile(easyScorePage, easyScoreHtml.replace('{{RUNTIME}}', asset('vexflow-runtime'))
+          .replace('{{EDITOR}}', asset('editor')));
+        for (const file of ['index.html', 'tutorial.html', 'example.html']) {
+          const page = join(dist, 'vextab', file);
+          const html = await readFile(page, 'utf8');
+          await writeFile(page, html.replace('{{VEXTAB_EDITOR}}', asset('vextab-editor')));
         }
         await writeFile(join(dist, 'vexflow-version.json'), JSON.stringify({
           repository: 'https://github.com/vexflow/vexflow', revision: vexflowRevision,

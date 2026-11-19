@@ -10,15 +10,7 @@
   <link href='https://fonts.googleapis.com/css?family=Barlow|Tangerine' rel='stylesheet' type='text/css'>
   <link href="../style.css" media="screen" rel="Stylesheet" type="text/css" />
 
-  <!-- Support Sources -->
-  <script src="https://unpkg.com/vextab/releases/div.prod.js"></script>
-
-  <script>
-    vextab.Artist.DEBUG = false;
-    vextab.Artist.NOLOGO = true;
-    VEXTAB_USE_SVG = true;
-  </script>
-
+  <script defer src="../{{VEXTAB_EDITOR}}"></script>
 </head>
 
 <body>
@@ -44,7 +36,7 @@
         share standard notation and guitar tablature. Unlike ASCII tab, which is
         designed for readability, VexTab is designed for <i>writeability</i>.
       </p>
-      <iframe class="example-frame" src="example.html" title="VexTab notation example and source" loading="lazy"></iframe>
+      <div class="vextab-live" data-width="780"></div>
     </div>
 
     <h2>Learn VexTab</h2>
@@ -55,15 +47,13 @@
     </div>
     <br />
     <div>
-      Take a look at the example below. The green code box below is editable - try adding another stave by typing
+      Add another stave to the example below by typing
       <code>tabstave</code> on a new line.
     </div>
 
-    <div style="display: flex; align-items: center; justify-content: center;">
-      <div class="vextab-auto" width=600 scale=0.9 editor="true" editor-width=530 editor-height=80>
-        tabstave notation=true key=A time=4/4
-        notes :q =|: (5/2.5/3.7/4) :8 7-5/3 5h6-7/5 ^3^ :q 7V/4
-      </div>
+    <div class="vextab-live" data-width="600" data-scale="0.9">
+      tabstave notation=true key=A time=4/4
+      notes :q =|: (5/2.5/3.7/4) :8 7-5/3 5h6-7/5 ^3^ :q 7V/4
     </div>
     <h2>The Code</h2>
     <div class="description">
@@ -89,11 +79,6 @@
     <a href="https://twitter.com/11111110b">@11111110b</a>,
     <a href="https://0xfe.blogspot.com">the 0xFE blog</a>, or
     <a href="https://github.com/0xfe">0xFE@github</a>.
-    <script>
-      Array.from(document.getElementsByClassName('vextab-auto')).forEach((v) => {
-        v.innerHTML = v.innerHTML.split('\n').map((x) => x.trim()).join('\n')
-      });
-    </script>
   </div>
 </body>
 

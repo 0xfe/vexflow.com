@@ -9,9 +9,7 @@
   <link href='https://fonts.googleapis.com/css?family=Barlow|Tangerine' rel='stylesheet' type='text/css'>
   <link href="../style.css" media="screen" rel="Stylesheet" type="text/css" />
 
-  <!-- Support Sources -->
-  <script src="https://unpkg.com/vextab/releases/div.prod.js"></script>
-  <script>vextab.Artist.NOLOGO = true;</script>
+  <script defer src="../{{VEXTAB_EDITOR}}"></script>
 </head>
 
 <body>
@@ -40,7 +38,7 @@
 
     <div class="description">
       The <code>tabstave</code> keyword is used to create a new tab
-      stave. The green code box below is editable - try adding another
+      stave. Edit the notation below to add another
       stave by typing <code>tabstave</code> on a new line.
       <p />
       <code>tabstave</code> takes keyword arguments. For example, the string
@@ -48,8 +46,8 @@
       above the tab stave. Try this on the tab stave below.
     </div>
 
-    <div style="width:420; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=400 scale=1.0 editor="true" editor-height=80>tabstave</div>
+    <div class="vextab-live" data-width="400">
+      tabstave
     </div>
 
     <h2>Step 2: Add some notes</h2>
@@ -65,9 +63,9 @@
       double-flat, and natural, respectively.
     </div>
 
-    <div style="width:420; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=400 scale=1.0 editor="true" editor-height=100>tabstave notation=true tablature=false
-        notes Cn-D-E/4 F#/5</div>
+    <div class="vextab-live" data-width="400">
+      tabstave notation=true tablature=false
+      notes Cn-D-E/4 F#/5
     </div>
 
     <div>
@@ -75,9 +73,9 @@
       Here's some guitar tab. Try adding more frets below.
     </div>
 
-    <div style="width:420; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=400 scale=1.0 editor="true" editor-height=100>tabstave notation=true
-        notes 4-5-6/3 10/4</div>
+    <div class="vextab-live" data-width="400">
+      tabstave notation=true
+      notes 4-5-6/3 10/4
     </div>
 
     <h2>Step 3: Stave keywords</h2>
@@ -131,10 +129,9 @@
       Try these on the tab stave below.
     </div>
 
-    <div style="width:420; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=400 scale=1.0 editor="true" editor-height=80>tabstave notation=true clef=bass key=Ab
-        time=C|
-        notes 4-5/6</div>
+    <div class="vextab-live" data-width="400">
+      tabstave notation=true clef=bass key=Ab time=C|
+      notes 4-5/6
     </div>
 
     <h2>Step 4: Add rests and bar-lines</h2>
@@ -147,12 +144,12 @@
       can add as many bars as you want to a stave.
     </div>
 
-    <div style="width:520; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=500 scale=1.0 editor="true" editor-height=110>tabstave notation=true
-        notes 4-5-6/3 ## | 5-4-2/3 2/2
+    <div class="vextab-live" data-width="500">
+      tabstave notation=true
+      notes 4-5-6/3 ## | 5-4-2/3 2/2
 
-        tabstave notation=true tablature=false
-        notes C-D-E/4 #0# | C-D-E-F/4</div>
+      tabstave notation=true tablature=false
+      notes C-D-E/4 #0# | C-D-E-F/4
     </div>
 
     <div class="description">
@@ -165,12 +162,12 @@
       <code>=|=</code> &nbsp;End Bar <br />
     </div>
 
-    <div style="width:520; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=500 scale=1.0 editor="true" editor-height=110>tabstave notation=true tablature=false
-        notes 4-5-6/3 ## =|: 5-4-2/3 2/2 =:|
+    <div class="vextab-live" data-width="500">
+      tabstave notation=true tablature=false
+      notes 4-5-6/3 ## =|: 5-4-2/3 2/2 =:|
 
-        tabstave notation=true tablature=false
-        notes C-D-E/4 #0# =:: C-D-E-F/4 =|=</div>
+      tabstave notation=true tablature=false
+      notes C-D-E/4 #0# =:: C-D-E-F/4 =|=
     </div>
 
     <h2>Step 5: Bend a few notes</h2>
@@ -184,12 +181,12 @@
       E.g., <code>10b12b10</code>.
     </div>
 
-    <div style="width:520; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=500 scale=1.0 editor="true" editor-height=110>tabstave
-        notes 4-5-6b7/3 10/4 | 5-4-2/3 2/2
+    <div class="vextab-live" data-width="500">
+      tabstave
+      notes 4-5-6b7/3 10/4 | 5-4-2/3 2/2
 
-        tabstave
-        notes 6-7b9b7/3 7/4 | 9-8-7-6/2</div>
+      tabstave
+      notes 6-7b9b7/3 7/4 | 9-8-7-6/2
     </div>
 
     <h2>Step 6: Mute notes, show strokes, and add vibrato</h2>
@@ -203,9 +200,9 @@
       You can also add a <code>u</code> or a <code>d</code> to designate upstrokes or downstrokes respectively.
     </div>
 
-    <div style="width:520; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=500 scale=1.0 editor="true" editor-height=110>tabstave notation=true
-        notes 4-5-6b7v/3 10/1 | 5d-4u-Xd/3 2v/2</div>
+    <div class="vextab-live" data-width="500">
+      tabstave notation=true
+      notes 4-5-6b7v/3 10/1 | 5d-4u-Xd/3 2v/2
     </div>
 
     <h2>Step 7: Add some chords</h2>
@@ -217,13 +214,13 @@
       For tablature, you can bend, slide, etc. individual notes in a chord just like you would for single notes.
     </div>
 
-    <div style="width:520; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=500 scale=1.0 editor="true" editor-height=130>tabstave notation=true tablature=false
-        notes (C/4.E/4.G/4) C-E-G/4
+    <div class="vextab-live" data-width="500">
+      tabstave notation=true tablature=false
+      notes (C/4.E/4.G/4) C-E-G/4
 
-        tabstave notation=true
-        notes (8/2.7b9b7/3) (5b6/2.5b6/3) 7/4 |
-        notes (5/2.6/3.7/4)</div>
+      tabstave notation=true
+      notes (8/2.7b9b7/3) (5b6/2.5b6/3) 7/4 |
+      notes (5/2.6/3.7/4)
     </div>
 
     <h2>Step 8: Add some hammer-ons, pull-offs, taps, and slides</h2>
@@ -236,18 +233,18 @@
       You can also hammer-on, pull-off, tap, and slide between chords.
     </div>
 
-    <div style="width:520; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=500 scale=1.0 editor="true" editor-height=230>tabstave
-        notes (5/2.5/3.7/4) 5h6/3 7/4 |
-        notes t12p7p5h7/4 7/5 5s3/5
+    <div class="vextab-live" data-width="500">
+      tabstave
+      notes (5/2.5/3.7/4) 5h6/3 7/4 |
+      notes t12p7p5h7/4 7/5 5s3/5
 
-        tabstave
-        notes (8/2.7b9b7/3) (5b6/2.5b6/3)v 7s0/4 |
-        notes (5/2.6/3.7/4)v
+      tabstave
+      notes (8/2.7b9b7/3) (5b6/2.5b6/3)v 7s0/4 |
+      notes (5/2.6/3.7/4)v
 
-        tabstave
-        notes (5/4.5/5)s(7/4.7/5)s(5/4.5/5) (5/4.5/5)h(7/5) |
-        notes t(12/5.12/4)s(5/5.5/4) 3b4/5 5V/6</div>
+      tabstave
+      notes (5/4.5/5)s(7/4.7/5)s(5/4.5/5) (5/4.5/5)h(7/5) |
+      notes t(12/5.12/4)s(5/5.5/4) 3b4/5 5V/6
     </div>
 
     <h2>Step 9: Add durations and tuplets.</h2>
@@ -266,10 +263,9 @@
       a triplet out of three notes.
     </div>
 
-    <div style="width:520; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=500 scale=1.0 editor="true" editor-height=80>tabstave notation=true time=4/4 key=Ab
-        tuning=eb
-        notes :8 5s7s8/5 ^3^ :q (5/2.6/3)h(7/3) :8d 5/4 :16 5/5</div>
+    <div class="vextab-live" data-width="500">
+      tabstave notation=true time=4/4 key=Ab tuning=eb
+      notes :8 5s7s8/5 ^3^ :q (5/2.6/3)h(7/3) :8d 5/4 :16 5/5
     </div>
 
     <div class="description">
@@ -280,11 +276,11 @@
       <p />
     </div>
 
-    <div style="width:640; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=520 scale=1.0 editor="true" editor-height=100>tabstave notation=true
+    <div class="vextab-live" data-width="520">
+      tabstave notation=true
 
-        notes :q (8/2.7b9b7/3) (5b6/2.5b6/3)v :8 7s12/4
-        notes t:16:9s:8:3s:16:0/4</div>
+      notes :q (8/2.7b9b7/3) (5b6/2.5b6/3)v :8 7s12/4
+      notes t:16:9s:8:3s:16:0/4
     </div>
 
     <h2>Step 10: Add lyrics, annotations, or other text.</h2>
@@ -298,10 +294,9 @@
       Here's an example:
     </div>
 
-    <div style="width:570; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=550 scale=1.0 editor="true" editor-height=100>tabstave notation=true time=4/4 key=Ab
-        tuning=eb
-        notes :q 5/5 5/4 5/3 ^3^ $Fi,Ga,Ro!$ :h 4/4 $.top.$ $Blah!$</div>
+    <div class="vextab-live" data-width="550">
+      tabstave notation=true time=4/4 key=Ab tuning=eb
+      notes :q 5/5 5/4 5/3 ^3^ $Fi,Ga,Ro!$ :h 4/4 $.top.$ $Blah!$
     </div>
 
     <div class="description">
@@ -321,10 +316,10 @@
       Here are some examples of preset and custom styles.
     </div>
 
-    <div style="width:640; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=620 scale=1.0 editor="true" editor-height=100>tabstave notation=true key=A
-        notes :q (5/2.5/3.7/4) $.big.A7#9$ 5h6/3 7/4 |
-        notes :8 7/4 $.italic.sweep$ 6/3 5/2 3v/1 :q 7v/5 $.Arial-10-bold.P.H$ :8 3s5/5</div>
+    <div class="vextab-live" data-width="620">
+      tabstave notation=true key=A
+      notes :q (5/2.5/3.7/4) $.big.A7#9$ 5h6/3 7/4 |
+      notes :8 7/4 $.italic.sweep$ 6/3 5/2 3v/1 :q 7v/5 $.Arial-10-bold.P.H$ :8 3s5/5
     </div>
 
     <h2>Step Eleven: Staccatos, Fermatas, and more!</h2>
@@ -336,41 +331,38 @@
       <p />
       Below is a list of all the available articulations.
     </div>
-    <div style="width:670; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=650 scale=1.0 editor="true" editor-height=100>options space=20 font-style=italic
-        font-face=times font-size=10
+    <div class="vextab-live" data-width="650">
+      options space=20 font-style=italic font-face=times font-size=10
 
-        tabstave notation=true tablature=false
-        notes :q
-        notes C/4 $.a./bottom.$
-        notes E/4 $.av/bottom.$
-        notes G/4 $.a>/bottom.$
-        notes B/4 $.a-/bottom.$
-        notes C/5 $.a^/top.$
-        notes E/5 $.a+/top.$
-        notes G/5 $.ao/top.$
+      tabstave notation=true tablature=false
+      notes :q
+      notes C/4 $.a./bottom.$
+      notes E/4 $.av/bottom.$
+      notes G/4 $.a>/bottom.$
+      notes B/4 $.a-/bottom.$
+      notes C/5 $.a^/top.$
+      notes E/5 $.a+/top.$
+      notes G/5 $.ao/top.$
 
-        text :q,.-1,.strict,Stacatto,Staccatissimo
-        text Accent,Tenuto,Marcato,LH pizzicato,Snap pizzicato
-        text ++,.12,.font=courier-12-,:q,a.,av,a>,a-,a^,a+,ao
+      text :q,.-1,.strict,Stacatto,Staccatissimo
+      text Accent,Tenuto,Marcato,LH pizzicato,Snap pizzicato
+      text ++,.12,.font=courier-12-,:q,a.,av,a>,a-,a^,a+,ao
 
-        options space=120 font-style=italic
-        font-face=times font-size=10
+      options space=120 font-style=italic font-face=times font-size=10
 
-        tabstave notation=true tablature=false
-        notes :q
-        notes C/4 $.ah/bottom.$
-        notes E/4 $.a@a/top.$
-        notes G/4 $.a@u/bottom.$
-        notes B/4 $.a|/bottom.$
-        notes C/5 $.am/top.$
+      tabstave notation=true tablature=false
+      notes :q
+      notes C/4 $.ah/bottom.$
+      notes E/4 $.a@a/top.$
+      notes G/4 $.a@u/bottom.$
+      notes B/4 $.a|/bottom.$
+      notes C/5 $.am/top.$
 
-        text :q,.-1,.strict,Open Note,Up Fermata
-        text Down Fermata,Bow Up,Bow Down
-        text ++,.12,.font=courier-12-,:q,ah,a@a,a@u,a|,am
+      text :q,.-1,.strict,Open Note,Up Fermata
+      text Down Fermata,Bow Up,Bow Down
+      text ++,.12,.font=courier-12-,:q,ah,a@a,a@u,a|,am
 
-        options space=40
-      </div>
+      options space=40
     </div>
 
     <h2>Step 12: Even more text!</h2>
@@ -384,12 +376,12 @@
       default font size in the <code>options</code> line.
     </div>
 
-    <div style="width:570; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=550 scale=1.0 editor="true" editor-height=100>options space=12 font-size=14
+    <div class="vextab-live" data-width="550">
+      options space=12 font-size=14
 
-        tabstave notation=true time=4/4 key=Ab tuning=eb
-        notes :q 5/5 5/4 5/3 ^3^ :h 4/4
-        text :h,G Minor,A Major</div>
+      tabstave notation=true time=4/4 key=Ab tuning=eb
+      notes :q 5/5 5/4 5/3 ^3^ :h 4/4
+      text :h,G Minor,A Major
     </div>
 
     <div class="description">
@@ -400,14 +392,14 @@
       Here's an example:
     </div>
 
-    <div style="width:570; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=550 scale=1.0 editor="true" editor-height=120>options space=10
+    <div class="vextab-live" data-width="550">
+      options space=10
 
-        tabstave notation=true tablature=false time=4/4 key=Ab tuning=eb
-        notes :8 C-D-E-F-G-A-B/4 C/5
-        text :8,.1,Do,Re,Me,.10,Fa,So,La,Ti,.1,Do
+      tabstave notation=true tablature=false time=4/4 key=Ab tuning=eb
+      notes :8 C-D-E-F-G-A-B/4 C/5
+      text :8,.1,Do,Re,Me,.10,Fa,So,La,Ti,.1,Do
 
-        options space=10</div>
+      options space=10
     </div>
 
     <div class="description">
@@ -419,17 +411,16 @@
       example of these features:
     </div>
 
-    <div style="width:570; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=550 scale=1.0 editor="true" editor-height=120>options space=10 font-size=12
+    <div class="vextab-live" data-width="550">
+      options space=10 font-size=12
 
-        tabstave notation=true tablature=false
-        time=4/4 key=Ab tuning=eb
-        notes :q C-D-E-F/4 | G-A-B/4 C/5
-        text :h,.1,C,Em,|
-        text :h,G7,C
-        text ++, .11, :w, This is a new text line.
+      tabstave notation=true tablature=false time=4/4 key=Ab tuning=eb
+      notes :q C-D-E-F/4 | G-A-B/4 C/5
+      text :h,.1,C,Em,|
+      text :h,G7,C
+      text ++, .11, :w, This is a new text line.
 
-        options space=15</div>
+      options space=15
     </div>
 
     <div class="description">
@@ -437,17 +428,16 @@
       a <code>#</code> to render a symbol instead of text, e.g., <code>text #coda</code>.
     </div>
 
-    <div style="width:570; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=550 scale=1.0 editor="true" editor-height=120>options space=20 font-size=12
+    <div class="vextab-live" data-width="550">
+      options space=20 font-size=12
 
-        tabstave notation=true tablature=false
-        time=4/4 key=Ab tuning=eb
-        notes :q =|: C-D-E-F/4 =:| G-A-B/4 C/5
-        text |#coda, :hd, , :q, #tr, |#segno
-        text ++, .11, |, #f
-        text ++, .0, .font=Times-12-italic, |, :w, ,|, :q, ,D.S. al coda
+      tabstave notation=true tablature=false time=4/4 key=Ab tuning=eb
+      notes :q =|: C-D-E-F/4 =:| G-A-B/4 C/5
+      text |#coda, :hd, , :q, #tr, |#segno
+      text ++, .11, |, #f
+      text ++, .0, .font=Times-12-italic, |, :w, ,|, :q, ,D.S. al coda
 
-        options space=25</div>
+      options space=25
     </div>
 
     <h2>Step 13: Notate rhythms with slash notation.</h2>
@@ -459,16 +449,14 @@
       respectively.
     </div>
 
-    <div style="width:570; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=550 scale=1.0 editor="true" editor-height=120>options font-size=14 space=15
+    <div class="vextab-live" data-width="550">
+      options font-size=14 space=15
 
-        tabstave notation=true tablature=false
-        time=4/4 clef=percussion
-        notes :2S Bd/4 :qS Bd/4 :q ## | :8S Bd/4 Bu/4 :qS Bd-Bu-Bd/4 ^3^
-        text :w, G Maj7, |, Am
+      tabstave notation=true tablature=false time=4/4 clef=percussion
+      notes :2S Bd/4 :qS Bd/4 :q ## | :8S Bd/4 Bu/4 :qS Bd-Bu-Bd/4 ^3^
+      text :w, G Maj7, |, Am
 
-        options space=10
-      </div>
+      options space=10
     </div>
 
 
@@ -517,63 +505,54 @@
     <div class="description">
       You can make it big.
     </div>
-    <div style="width:640; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=420 scale=1.0 editor="true" editor-height=100>options width=100 scale=2.0
-        tabstave notation=true tablature=false
-        notes :q 5/5</div>
+    <div class="vextab-live" data-width="420">
+      options width=100 scale=2.0
+      tabstave notation=true tablature=false
+      notes :q 5/5
     </div>
 
     <div class="description">
       You can add room above a stave for the high notes.
     </div>
-    <div style="width:640; margin-left: auto; margin-right: auto;">
-      <div class="vextab-auto" width=420 scale=1.0 editor="true" editor-height=100>options space=40 font-size=14
-        tabstave notation=true key=A
-        notes :q (5/2.5/3.7/4) $A7#9$ 15h16/1 20/1
-      </div>
+    <div class="vextab-live" data-width="420">
+      options space=40 font-size=14
+      tabstave notation=true key=A
+      notes :q (5/2.5/3.7/4) $A7#9$ 15h16/1 20/1
+    </div>
+    <div class="description">
+      Make more room between note and tab staves.
+    </div>
+    <div class="vextab-live" data-width="420" data-scale="0.8">
+      options stave-distance=50 scale=0.8
+      tabstave notation=true key=A
+      notes :q (5/2.5/3.7/4) ## 0h1/6 0/1
+    </div>
+    <h2>Step 15: Tablature can have stems too.</h2>
+    <div class="description">
+      Use the <code>tab-stems</code> option to show stems in tablature. For
+      single-voice tab, you can set the stem direction with the <code>tab-stem-direction</code> option.
+      <p />
+      Note that you might need to add some spacing using the <code>space</code> and <code>stave-distance</code>
+      options to prevent overlap.
+    </div>
 
-      <div class="description">
-        Make more room between note and tab staves.
-      </div>
-      <div style="width:640; margin-left: auto; margin-right: auto;">
-        <div class="vextab-auto" width=420 scale=0.8 editor="true" editor-width=335 editor-height=100>options stave-distance=50 scale=0.8
-          tabstave notation=true key=A
-          notes :q (5/2.5/3.7/4) ## 0h1/6 0/1
-        </div>
+    <div class="vextab-live" data-width="550">
+      options space=12 font-size=14 tab-stems=true tab-stem-direction=up
 
-        <h2>Step 15: Tablature can have stems too.</h2>
-        <div class="description">
-          Use the <code>tab-stems</code> option to show stems in tablature. For
-          single-voice tab, you can set the stem direction with the <code>tab-stem-direction</code> option.
-          <p />
-          Note that you might need to add some spacing using the <code>space</code> and <code>stave-distance</code>
-          options to prevent overlap.
-        </div>
-
-        <div style="width:570; margin-left: auto; margin-right: auto;">
-          <div class="vextab-auto" width=550 scale=1.0 editor="true" editor-height=100>options space=12 font-size=14
-            tab-stems=true tab-stem-direction=up
-
-            tabstave time=4/4 key=A
-            notes :8 5/5 5/4 5/3 ^3^ :16 5-6-7-8/1 :8 9s10/1 :h s9v/1</div>
-        </div>
+      tabstave time=4/4 key=A
+      notes :8 5/5 5/4 5/3 ^3^ :16 5-6-7-8/1 :8 9s10/1 :h s9v/1
+    </div>
 
 
-        <center>
-          <h2>Step N + 1: Coming soon</h2>
-          <p />
-          Meanwhile, you can stay in touch by following me at <a href="https://twitter.com/11111110b">@11111110b</a>.
-          <p />
-          <a href="https://0xfe.blogspot.com">The Blog</a>
-          <p />
-        </center>
+    <center>
+      <h2>Step N + 1: Coming soon</h2>
+      <p />
+      Meanwhile, you can stay in touch by following me at <a href="https://twitter.com/11111110b">@11111110b</a>.
+      <p />
+      <a href="https://0xfe.blogspot.com">The Blog</a>
+      <p />
+    </center>
 
-        <script>
-          Array.from(document.getElementsByClassName('vextab-auto')).forEach((v) => {
-            v.innerHTML = v.innerHTML.split('\n').map((x) => x.trim()).join('\n')
-          });
-        </script>
-      </div>
+  </div>
 </body>
-
 </html>

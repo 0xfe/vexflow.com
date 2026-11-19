@@ -28,25 +28,13 @@ revision until the dependency is updated again.
 
 # Local examples
 
-`static/example.html` supplies both local playground pages. The build includes
-`src/examples/easyscore.js` and `src/examples/example.vextab` as text in the editor
-bundle. Run executes the EasyScore JavaScript or parses the VexTab notation shown in the source tab.
+The EasyScore playground in `static/examples/easyscore.html` shows the source
+from `src/examples/easyscore.js`. Run executes it in a fresh sandboxed iframe
+using the same pinned VexFlow as the carousel. Cmd/Ctrl+Enter runs edits, and
+Reset restores the original snippet. Resizing preserves unrun edits.
 
-CodeJar provides editing and undo/redo. Prism highlights JavaScript and VexTab notation. Both packages
-are pinned in the lockfile. Tab moves keyboard focus out of the editor;
-Cmd/Ctrl+Enter runs the edited example. Reset restores the original snippet.
-
-Each run creates a fresh iframe with `sandbox="allow-scripts"`. Edited code cannot
-access the host page or its storage. The preview loads its library, waits for
-fonts, and executes the snippet. Errors appear in the Result tab. The preview's
-content policy blocks network connections from example code. Resizing re-runs
-the last executed code and preserves edits that have not yet been run.
-
-The examples position the notation with VexFlow's `System` and VexTab's
-`Artist` options. The preview stylesheet scales their SVGs down to fit narrow
-screens and keeps their aspect ratios. The embedding frame fits the result.
-
-The EasyScore preview uses the same pinned upstream VexFlow as the large score.
-VexTab uses its pinned 4.0.5 compatibility bundle from unpkg, which includes its
-own VexFlow runtime. The existing VexTab tutorial retains its renderer. No
-JSFiddle scripts or frames are loaded.
+The VexTab pages share `src/playground/vextab-editor.js`. The build bundles
+the pinned `vextab` npm package locally. Tutorial examples live in
+`.vextab-live` elements in `static/vextab/tutorial.html`, alongside the lessons.
+The featured example uses `src/examples/example.vextab`. Each preview renders
+100 ms after an edit and keeps the last valid score visible during syntax errors.

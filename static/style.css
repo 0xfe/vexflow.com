@@ -166,3 +166,33 @@ code { font-family: Courier; font-size: 14px; color: green; }
   .playground [role="tab"] { padding-left: 10px; padding-right: 10px; }
   .playground-actions { padding-right: 6px; }
 }
+
+/* A live VexTab example keeps the score and its editable notation together. */
+.vextab-live {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 1rem auto;
+  overflow: hidden;
+  border: 1px solid #d6ded7;
+  border-radius: 5px;
+  background: white;
+}
+.vextab-preview svg { display: block; max-width: 100%; height: auto; margin: auto; }
+.vextab-source {
+  box-sizing: border-box;
+  max-height: 14rem;
+  min-height: 2rem;
+  overflow: auto;
+  padding: .45rem .65rem;
+  border-top: 1px solid #e1e6e2;
+  background: #fafafa;
+  color: #24292e;
+  font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  tab-size: 2;
+}
+.vextab-live:focus-within { border-color: #62876a; }
+.vextab-source .token.keyword { color: #a626a4; }
+.vextab-source .token.property { color: #005cc5; }
+.vextab-source .token.number { color: #986801; }
+.vextab-error { margin: 0; padding: .4rem .65rem; color: #962f28; background: #fff6f5; white-space: pre-wrap; overflow-wrap: anywhere; font: 12px/1.4 monospace; }
+.vextab-error:empty { display: none; }

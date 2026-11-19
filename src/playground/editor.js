@@ -1,31 +1,22 @@
-// Shared tabbed editor: CodeJar handles editing, Prism highlights the example language.
+// Tabbed EasyScore editor with JavaScript highlighting and a sandboxed preview.
 import { CodeJar } from 'codejar';
 import Prism from 'prismjs/components/prism-core.js';
 import 'prismjs/components/prism-clike.js';
 import 'prismjs/components/prism-javascript.js';
 import easyScoreSource from '../examples/easyscore.js?source';
-import vexTabSource from '../examples/example.vextab?source';
 import { runPreview } from './runner.js';
 
 Prism.manual = true;
 const $ = (id) => document.getElementById(id);
-const isVexTab = document.body.dataset.example === 'vextab';
-const initialCode = isVexTab ? vexTabSource : easyScoreSource;
-const language = isVexTab ? 'vextab' : 'javascript';
-Prism.languages.vextab = {
-  keyword: /^\s*(?:tabstave|stave|notes|text|options)\b/m,
-  property: /[\w-]+(?==)/,
-  number: /\b\d+\b/,
-};
 const editor = CodeJar($('editor'), (element) => {
-  element.innerHTML = Prism.highlight(element.textContent, Prism.languages[language], language);
+  element.innerHTML = Prism.highlight(element.textContent, Prism.languages.javascript, 'javascript');
 }, { tab: '  ', catchTab: false });
-editor.updateCode(initialCode);
+editor.updateCode(easyScoreSource);
 let frame;
 let token;
 let timer;
 let renderedWidth = 0;
-let lastCode = initialCode;
+let lastCode = easyScoreSource;
 
 // Native tab buttons support both mouse and the standard arrow/home/end keys.
 function selectTab(name) {
@@ -65,15 +56,13 @@ function run(code = editor.toString()) {
   $('status').textContent = 'Rendering…';
   token = crypto.randomUUID();
   frame = document.createElement('iframe');
-  frame.title = isVexTab ? 'VexTab result' : 'VexFlow result';
+  frame.title = 'VexFlow result';
   frame.setAttribute('sandbox', 'allow-scripts');
-  const library = isVexTab
-    ? 'https://unpkg.com/vextab@4.0.5/dist/main.prod.js'
-    : new URL(document.body.dataset.runtime, location.href).href;
-  const config = JSON.stringify({ code, token, library, isVexTab }).replaceAll('<', '\\u003c');
+  const library = new URL(document.body.dataset.runtime, location.href).href;
+  const config = JSON.stringify({ code, token, library }).replaceAll('<', '\\u003c');
   const runtime = `(${runPreview.toString()})(${config});`.replace(/<\/script/gi, '<\\/script');
   // The preview may load its library and embedded fonts, but cannot contact other services.
-  const policy = `default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' ${location.origin} https://unpkg.com; style-src 'unsafe-inline'; font-src data:; img-src data:; connect-src 'none';`;
+  const policy = `default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' ${location.origin}; style-src 'unsafe-inline'; font-src data:; img-src data:; connect-src 'none';`;
   frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${policy}"><style>html,body{margin:0;background:white}body{padding-inline:1.5%}#score{max-width:100%;margin:auto}#score>svg{display:block;max-width:100%;height:auto!important;margin:auto}</style></head><body><div id="score"></div><script>${runtime}</script></body></html>`;
   $('preview').replaceChildren(frame);
   timer = setTimeout(() => showError('The example took too long. Check the code, then try Run or Reset.'), 15000);
@@ -97,7 +86,7 @@ window.addEventListener('message', (event) => {
   }
 });
 $('run').addEventListener('click', () => run());
-$('reset').addEventListener('click', () => { editor.updateCode(initialCode); run(); });
+$('reset').addEventListener('click', () => { editor.updateCode(easyScoreSource); run(); });
 $('editor').addEventListener('keydown', (event) => {
   if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') { event.preventDefault(); run(); }
 });
