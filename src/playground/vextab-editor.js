@@ -13,7 +13,7 @@ const grammar = {
 
 /** Compile the same grammar used by the guide before replacing the last valid drawing. */
 function draw(preview, notation, width, scale) {
-  const score = parseScore(notation, { language: 2 });
+  const score = parseScore(notation);
 
   // Measure the new SVG in the document. Keep the last score if engraving fails.
   const draft = document.createElement('div');
