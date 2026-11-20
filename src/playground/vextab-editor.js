@@ -1,25 +1,29 @@
 // Live VexTab notation editors for the homepage and standalone example.
 import { liveSource } from './live-source.js';
 import { engravingBounds } from './engraving-bounds.js';
-import { parseScore, renderScore } from 'vextab/browser';
+import { parseScore, Player, renderScore } from 'vextab/browser';
 import featuredScore from '../examples/example.vextab?source';
 
 const grammar = {
-  keyword: /\b(?:meter|guitar|staff|piano|fragment|tuplet|bar|sign|text|repeatStart)\b/,
+  keyword: /\b(?:play|instrument|meter|guitar|staff|piano|fragment|tuplet|bar|sign|text|repeatStart)\b/,
   string: /"(?:\\.|[^"\\])*"/,
   duration: /:(?:[qhw]|\d+)\.*/,
   number: /\b\d+\b/,
 };
 
 /** Compile the same grammar used by the guide before replacing the last valid drawing. */
-function draw(preview, notation, width, scale) {
+function draw(preview, notation, width, scale, playback) {
+  if (!notation.trim()) {
+    preview.replaceChildren();
+    return;
+  }
   const score = parseScore(notation);
 
   // Measure the new SVG in the document. Keep the last score if engraving fails.
   const draft = document.createElement('div');
   preview.append(draft);
   try {
-    renderScore(draft, score, { width });
+    const layout = renderScore(draft, score, { width });
     const svg = draft.querySelector('svg');
     const bounds = engravingBounds(svg);
     const zoom = scale * svg.width.baseVal.value / svg.viewBox.baseVal.width;
@@ -30,7 +34,11 @@ function draw(preview, notation, width, scale) {
     svg.setAttribute('width', w * zoom);
     svg.setAttribute('height', h * zoom);
     svg.removeAttribute('style');
-    preview.replaceChildren(svg);
+    draft.replaceChildren(svg);
+    const player = playback ? new Player(layout.score, { playback }) : undefined;
+    player?.render(svg);
+    preview.replaceChildren(...draft.children);
+    return player;
   } finally {
     draft.remove();
   }
@@ -54,10 +62,13 @@ function mount(container, index) {
   error.setAttribute('role', 'status');
   container.replaceChildren(preview, source, error);
 
+  const playback = container.hasAttribute('data-player') ? window.VexTabAudio.scoreOptions(container).playback : undefined;
+  let player;
   liveSource(source, notation, 'vextab', grammar, input => {
     try {
-      if (input.trim()) draw(preview, input, width, scale);
-      else preview.replaceChildren();
+      const nextPlayer = draw(preview, input, width, scale, playback);
+      player?.dispose();
+      player = nextPlayer;
       error.textContent = '';
       source.removeAttribute('aria-invalid');
     } catch (cause) {

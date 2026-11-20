@@ -12,6 +12,7 @@ const watch = process.argv.includes('--watch') || serve;
 const packageInfo = JSON.parse(await readFile(join(root, 'package.json'), 'utf8'));
 const vexflowRevision = packageInfo.dependencies.vexflow.split('/').at(-1);
 const vextabPackage = JSON.parse(await readFile(join(root, 'node_modules/vextab/package.json'), 'utf8'));
+const vextabDist = join(root, 'node_modules/vextab/dist');
 const vexflowRoot = join(root, 'node_modules/vexflow');
 const vexflowPackage = JSON.parse(await readFile(join(vexflowRoot, 'package.json'), 'utf8'));
 
@@ -93,6 +94,14 @@ const options = {
         await rm(dist, { recursive: true, force: true });
         await mkdir(dist, { recursive: true });
         await cp(join(root, 'static'), dist, { recursive: true });
+        // The npm example player loads its SpessaSynth worklet and SoundFont chunks by filename.
+        const audioDir = join(dist, 'vextab/audio', vextabPackage.version);
+        await mkdir(audioDir, { recursive: true });
+        for (const file of ['example-audio.prod.js', 'guide-instrument.prod.js', '651.prod.js',
+          '651.prod.js.LICENSE.txt', 'guide/licenses/florestan.txt', 'guide/licenses/spessasynth_lib.txt',
+          'guide/licenses/spessasynth_core.txt']) {
+          await cp(join(vextabDist, file), join(audioDir, basename(file)));
+        }
         for (const file of result.outputFiles) {
           await writeFile(file.path, file.contents);
         }
@@ -107,7 +116,7 @@ const options = {
           const page = join(dist, 'vextab', file);
           const html = await readFile(page, 'utf8');
           await writeFile(page, html
-            .replace('{{VEXTAB_VERSION}}', vextabPackage.version)
+            .replaceAll('{{VEXTAB_VERSION}}', vextabPackage.version)
             .replace('{{VEXTAB_EDITOR}}', asset('vextab-editor')));
         }
         await writeFile(join(dist, 'vexflow-version.json'), JSON.stringify({
