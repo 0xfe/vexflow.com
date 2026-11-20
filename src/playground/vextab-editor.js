@@ -1,29 +1,28 @@
 // Live VexTab notation editors for the homepage and standalone example.
 import { liveSource } from './live-source.js';
 import { engravingBounds } from './engraving-bounds.js';
-import { Artist, Vex, VexTab } from 'vextab/browser';
+import { parseScore, renderScore } from 'vextab/browser';
 import featuredScore from '../examples/example.vextab?source';
 
-const { Renderer } = Vex.Flow;
-Artist.NOLOGO = true;
 const grammar = {
-  keyword: /^\s*(?:tabstave|stave|notes|text|options)\b/m,
-  property: /[\w-]+(?==)/,
+  keyword: /\b(?:meter|guitar|staff|piano|fragment|tuplet|bar|sign|text|repeatStart)\b/,
+  string: /"(?:\\.|[^"\\])*"/,
+  duration: /:(?:[qhw]|\d+)\.*/,
   number: /\b\d+\b/,
 };
 
+/** Compile the same grammar used by the guide before replacing the last valid drawing. */
 function draw(preview, notation, width, scale) {
-  const artist = new Artist(10, 0, width, { scale });
-  new VexTab(artist).parse(notation);
+  const score = parseScore(notation, { language: 2 });
 
   // Measure the new SVG in the document. Keep the last score if engraving fails.
   const draft = document.createElement('div');
   preview.append(draft);
   try {
-    artist.render(new Renderer(draft, Renderer.Backends.SVG));
+    renderScore(draft, score, { width });
     const svg = draft.querySelector('svg');
     const bounds = engravingBounds(svg);
-    const zoom = svg.width.baseVal.value / svg.viewBox.baseVal.width;
+    const zoom = scale * svg.width.baseVal.value / svg.viewBox.baseVal.width;
     const padding = 7;
     const w = bounds.width + 2 * padding;
     const h = bounds.height + 2 * padding;

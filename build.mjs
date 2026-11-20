@@ -1,6 +1,7 @@
 // Build the JavaScript demo and copy the static site. Esbuild also serves local previews.
 import * as esbuild from 'esbuild';
-import { cp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
+import { access, cp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
+import { execFileSync } from 'node:child_process';
 import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -14,6 +15,15 @@ const vexflowRevision = packageInfo.dependencies.vexflow.split('/').at(-1);
 const vextabPackage = JSON.parse(await readFile(join(root, 'node_modules/vextab/package.json'), 'utf8'));
 const vexflowRoot = join(root, 'node_modules/vexflow');
 const vexflowPackage = JSON.parse(await readFile(join(vexflowRoot, 'package.json'), 'utf8'));
+
+// Preview builds consume a pinned VexTab source archive until the grammar has a release.
+const vextabRoot = join(root, 'node_modules/vextab');
+try {
+  await access(join(vextabRoot, 'dist/browser.cjs'));
+} catch {
+  execFileSync('npm', ['ci', '--include=dev'], { cwd: vextabRoot, stdio: 'inherit' });
+  execFileSync('npm', ['run', 'build'], { cwd: vextabRoot, stdio: 'inherit' });
+}
 
 // The GitHub source archive has no compiled build/. Compile its TypeScript entry directly.
 if (!/^[a-f0-9]{40}$/.test(vexflowRevision)) {
