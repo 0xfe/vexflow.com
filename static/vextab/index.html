@@ -43,17 +43,25 @@
     <h2>Learn VexTab</h2>
     <div class="description">
       Work through the <a href="https://vexflow.com/vextab/guide/">VexTab User Guide</a>
-      to write your first score, try the interactive examples, and explore the language reference.
+      to write your first score with grammar v2, the default language in VexTab 6.
+      VexTab 5 was an experimental release. To open an older score, select grammar v1 with
+      <code>data-language="1"</code> in HTML or <code>{ language: 1 }</code> in JavaScript.
+      See the <a href="https://github.com/0xfe/vextab/blob/6.0.0/docs/migrate-scores.md">migration guide</a>,
+      <a href="https://github.com/0xfe/vextab/releases/tag/6.0.0">release downloads</a> and
+      <a href="https://vexflow.com/vextab/reports/ai2026/">illustrated change report</a>.
     </div>
     <br />
     <div>
-      Add another stave to the example below by typing
-      <code>tabstave</code> on a new line.
+      Add a second bar before the closing brace by typing
+      <code>:q 5/2 7/2 8/2 7/2 |</code>.
     </div>
 
     <div class="vextab-live" data-width="600" data-scale="0.9">
-      tabstave notation=true key=A time=4/4
-      notes :q =|: (5/2.5/3.7/4) :8 7-5/3 5h6-7/5 ^3^ :q 7V/4
+      meter 4/4
+      guitar { key A
+        repeatStart :q (5/2 5/3 7/4) :8 7/3 5/3
+        tuplet 3:2 { 5/5 6/5[hammer] 7/5 } :q 7/4[vibrato wide] |
+      }
     </div>
     <h2>The Code</h2>
     <div class="description">
