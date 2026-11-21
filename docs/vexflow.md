@@ -5,6 +5,8 @@ at a full commit SHA. npm installs the archive and its runtime dependencies;
 it does not install the published VexFlow build or run upstream's development
 toolchain. The lockfile records the archive's integrity hash.
 
+The homepage and EasyScore playground use [VexFlow 5.7.0](https://github.com/vexflow/vexflow/releases/tag/5.7.0). The deployed [version manifest](https://vexflow.com/vexflow-version.json) identifies the exact source revision.
+
 `build.mjs` resolves `vexflow/bravura` directly to
 `node_modules/vexflow/entry/vexflow-bravura.ts`. Esbuild compiles the upstream
 TypeScript and embedded fonts, and fills in VexFlow's version and commit metadata.
