@@ -28,12 +28,13 @@
   },
   "homepage": "https://github.com/0xfe/vexflow.com#readme",
   "devDependencies": {
+    "@vexflow-fonts/academico": "1.0.1",
     "esbuild": "^0.28.2"
   },
   "dependencies": {
     "codejar": "5.0.0",
     "prismjs": "1.30.0",
     "vexflow": "https://codeload.github.com/vexflow/vexflow/tar.gz/136e78e2ae8619bb275cc42d91fdd39b8767526f",
-    "vextab": "6.1.0"
+    "vextab": "6.2.0"
   }
 }

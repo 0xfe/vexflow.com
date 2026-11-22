@@ -25,7 +25,7 @@ The build writes the site to `dist/`: minified JavaScript with a content hash an
 source map, plus HTML and static assets. `npm run serve` builds and previews the
 production site at http://localhost:8092.
 
-Esbuild is the only build dependency. The homepage carousel is in `src/index.js`.
+The homepage carousel is in `src/index.js`.
 Edit its repertoire and credits in `src/scores.js`, the homepage markup in
 `index.html`, and CSS/VexTab pages in `static/`.
 
@@ -35,10 +35,10 @@ VexFlow comes from a pinned source archive of
 including the fonts used for each score. `dist/vexflow-version.json` records
 the upstream revision. See [the source build notes](docs/vexflow.md) to update it.
 
-The homepage EasyScore example shows the live score above its editable JavaScript.
+The homepage carousel plays each visible excerpt with SpessaSynth. Under “Where Do I Start?” the EasyScore editor shows the live score above its JavaScript source.
 The VexTab homepage links to the [VexTab User Guide](https://vexflow.com/vextab/guide/)
 and shows live scores above their editable notation.
-Both editors use CodeJar and Prism. The VexTab 6 editors use grammar v2 and the pinned npm package. VexTab 5 was an experimental release. The [migration guide](https://github.com/0xfe/vextab/blob/6.1.0/docs/migrate-scores.md) explains how to keep v1 scores working.
+Both editors use CodeJar and Prism. The VexTab 6 editors use grammar v2 and the pinned npm package. VexTab 5 was an experimental release. The [migration guide](https://github.com/0xfe/vextab/blob/6.2.0/docs/migrate-scores.md) explains how to keep v1 scores working.
 Edit the examples in `src/examples/` and `static/vextab/`, and the editors in
 `src/playground/`.
 

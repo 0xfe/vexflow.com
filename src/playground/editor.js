@@ -2,13 +2,18 @@
 import Prism from 'prismjs/components/prism-core.js';
 import 'prismjs/components/prism-clike.js';
 import 'prismjs/components/prism-javascript.js';
+import VexFlow from 'vexflow/bravura';
+import drawStarter from '../examples/easyscore.js';
+import { fitPreview } from './engraving-bounds.js';
 import easyScoreSource from '../examples/easyscore.js?source';
 import { liveSource } from './live-source.js';
 
 const source = document.getElementById('editor');
+const starter = document.getElementById('score');
 const preview = document.getElementById('preview');
 const error = document.getElementById('error');
-const library = new URL(document.body.dataset.runtime, location.href).href;
+const playground = document.querySelector('.playground');
+const library = new URL(playground.dataset.runtime, location.href).href;
 const policy = `default-src 'none'; script-src 'unsafe-eval' ${location.origin}; style-src 'unsafe-inline'; font-src data:; img-src data:; connect-src 'none';`;
 const style = 'html,body{margin:0;background:white}body{padding-inline:1.5%}#score{max-width:100%;margin:auto}#score>svg{display:block;max-width:100%;height:auto!important;margin:auto}';
 let pending;
@@ -27,10 +32,19 @@ function fail(message) {
   error.textContent = message;
 }
 
+async function showStarter() {
+  await document.fonts.ready;
+  if (starter.hidden || starter.firstElementChild) return;
+  drawStarter(VexFlow);
+  fitPreview(starter);
+}
+
 function render(code) {
   discardPending();
-  if (!code.trim()) {
-    preview.replaceChildren();
+  if (code === easyScoreSource || !code.trim()) {
+    for (const frame of preview.querySelectorAll('iframe')) frame.remove();
+    starter.hidden = !code.trim();
+    if (!starter.hidden) showStarter().catch(error => fail(error.message));
     source.removeAttribute('aria-invalid');
     error.textContent = '';
     return;
@@ -55,6 +69,7 @@ window.addEventListener('message', event => {
     // Promote in place: reattaching an iframe would reload its document.
     for (const old of preview.querySelectorAll('iframe:not(.pending)')) old.remove();
     pending.style.height = Math.min(1200, Math.ceil(event.data.height)) + 'px';
+    starter.hidden = true;
     pending.classList.remove('pending');
     pending = undefined;
     source.removeAttribute('aria-invalid');
@@ -63,10 +78,11 @@ window.addEventListener('message', event => {
 });
 
 liveSource(source, easyScoreSource, 'javascript', Prism.languages.javascript, render);
-const playground = document.querySelector('.playground');
 let width = playground.clientWidth;
 new ResizeObserver(() => {
-  if (window.frameElement) window.frameElement.style.height = Math.ceil(playground.getBoundingClientRect().height) + 'px';
+  if (playground.parentElement === document.body && window.frameElement) {
+    window.frameElement.style.height = Math.ceil(playground.getBoundingClientRect().height) + 'px';
+  }
   if (playground.clientWidth !== width) {
     width = playground.clientWidth;
     render(source.textContent);

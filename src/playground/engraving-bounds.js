@@ -33,3 +33,18 @@ export function engravingBounds(svg) {
   }
   return bounds;
 }
+
+export function fitPreview(score) {
+  const svg = score.querySelector('svg');
+  if (!svg) throw new Error('The example did not produce a score.');
+
+  // Keep the author's horizontal layout and trim the empty space above and below.
+  const view = svg.viewBox.baseVal;
+  if (view.width > 0 && svg.width.baseVal.value > 0) {
+    const box = engravingBounds(svg);
+    const scale = svg.width.baseVal.value / view.width;
+    const height = box.height + 14;
+    svg.setAttribute('viewBox', [view.x, box.y - 7, view.width, height].join(' '));
+    svg.setAttribute('height', height * scale);
+  }
+}

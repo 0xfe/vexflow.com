@@ -1,0 +1,30 @@
+// Pocket Change · an original sixteen-bar bebop head for solo piano.
+// Four-bar phrases in F. The left hand answers the head with shells, ninths and altered dominants.
+play { performer parker swing eighths tempo 176 }
+layout { font Petaluma scale 0.69 spacing optical rowGap 18 heading { title "Pocket Change" } }
+edition { paper Letter staffSize 5.4 }
+meter 4/4
+piano keys { key F program 0 beamRests off
+  upper {
+    :8 rest[harmony F "6/9"] A4[dynamic mf] C5 D5 Eb5[harmony D "7b9"] E5 F5 F#5 |
+    :8 G5[harmony G "m7"] F5 D5 Bb4 :q E5[harmony C "7b9"] :8 Db5 C5 |
+    :8 Bn4[harmony A "m7"] C5 E5 G5 F#5[harmony D "7"] A5 :q C6[accent] |
+    :8 Bb5[harmony G "m7"] A5 G5 E5 :q Db5[harmony C "7b9"] :8 C5 rest |
+    break system
+    :8 rest[harmony F "6/9"] A4 C5 D5 :q F5[harmony D "7b9"] :8 A5 F#5 |
+    :8 G5[harmony G "m7"] Bb5 A5 G5 E5[harmony C "13"] Db5 :q C5 |
+    :8 Eb5[harmony C "m9"] G5 Bb5 A5 Ab5[harmony F "13"] G5 F5 Eb5 |
+    :q D5[harmony Bb "maj7"] :8 F5 A5 :q Ab5[harmony B "dim7"] :8 F5 D5 |
+  }
+  lower {
+    // F6/9 to D7b9. Leave beat one open so the head can make its entrance.
+    :q rest :8 (F3 A3 D4)[dynamic mp] rest :q rest (F#3 C4 Eb4)[staccato] |
+    :q (G2 Bb2 F3) :q rest :8 rest (E3 Bb3 D4) :q rest |
+    :q. rest :8 (G3 C4 E4) :q (F#3 C4 E4)[staccato] rest |
+    :8 rest (F3 A3 Bb3 D4) :q rest :h (E3 Bb3 Db4) |
+    :h (F3 A3 D4) :q. rest :8 (F#3 C4 Eb4) |
+    :q rest (F3 Bb3 D4) :q. (E3 A3 Bb3) :8 rest |
+    :8 rest (Eb3 Bb3 D4) :q rest :q rest (Eb3 A3 D4)[staccato] |
+    :h (Bb2 F3 A3) :8 rest (Bn2 F3 Ab3) :q rest |
+  }
+}

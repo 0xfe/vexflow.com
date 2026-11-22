@@ -21,6 +21,21 @@ if (!/^[a-f0-9]{40}$/.test(vexflowRevision)) {
   throw new Error('VexFlow must be pinned to a full GitHub commit SHA in package.json');
 }
 
+// Use the guide's theme from the pinned VexFlow release, with locally served fonts.
+async function buildStyles() {
+  const toolsDir = join(vexflowRoot, 'tools');
+  const fontsDir = join(dist, 'fonts');
+  await mkdir(fontsDir, { recursive: true });
+  await cp(join(toolsDir, 'fonts/tangerine'), join(fontsDir, 'tangerine'), { recursive: true });
+  const academico = join(root, 'node_modules/@vexflow-fonts/academico');
+  for (const file of ['academico.woff2', 'academico-bold.woff2', 'LICENSE.txt']) {
+    await cp(join(academico, file), join(fontsDir, file));
+  }
+  const theme = await readFile(join(toolsDir, 'site-theme.css'), 'utf8');
+  const styles = await readFile(join(root, 'static/style.css'), 'utf8');
+  await writeFile(join(dist, 'style.css'), theme.replaceAll('../node_modules/@vexflow-fonts/academico/', 'fonts/') + styles);
+}
+
 const options = {
   absWorkingDir: root,
   entryPoints: {
@@ -35,8 +50,8 @@ const options = {
   alias: {
     'vexflow/bravura': join(vexflowRoot, 'entry/vexflow-bravura.ts'),
     'vexflow-gallery': join(vexflowRoot, 'entry/vexflow.ts'),
-    'vexflow-scores': join(vexflowRoot, 'tests/scores'),
     'vexflow-demos': join(vexflowRoot, 'tests/demos'),
+    'vexflow-scores': join(vexflowRoot, 'tests/scores'),
   },
   target: 'es2020',
   minify: !dev,
@@ -46,12 +61,15 @@ const options = {
   plugins: [{
     name: 'static-site',
     setup(build) {
-      // The repertoire uses just makeFactory from the upstream QUnit harness.
+      // The upstream cello duet uses only makeFactory from the QUnit harness.
       build.onResolve({ filter: /^\.\.\/vexflow_test_helpers$/ }, ({ resolveDir }) => {
-        if (resolveDir === join(vexflowRoot, 'tests/demos')) {
-          return { path: join(root, 'src/demo-factory.js') };
-        }
+        if (resolveDir === join(vexflowRoot, 'tests/demos')) return { path: join(root, 'src/demo-factory.js') };
       });
+      // Compile the trusted opening example so first paint needs no sandbox round trip.
+      build.onLoad({ filter: /[/\\]examples[/\\]easyscore\.js$/, namespace: 'file' }, async ({ path }) => ({
+        contents: `export default function drawStarter(VexFlow) {\n${await readFile(path, 'utf8')}\n}`,
+        loader: 'js', watchFiles: [path],
+      }));
       // Load the exact example source into the editor without executing it in the host.
       build.onResolve({ filter: /\?source$/ }, ({ path, resolveDir }) => ({
         path: join(resolveDir, path.slice(0, -7)), namespace: 'example-source',
@@ -94,6 +112,7 @@ const options = {
         await rm(dist, { recursive: true, force: true });
         await mkdir(dist, { recursive: true });
         await cp(join(root, 'static'), dist, { recursive: true });
+        await buildStyles();
         // The npm example player loads its SpessaSynth worklet and SoundFont chunks by filename.
         const audioDir = join(dist, 'vextab/audio', vextabPackage.version);
         await mkdir(audioDir, { recursive: true });
@@ -107,6 +126,8 @@ const options = {
         }
         await writeFile(join(dist, 'index.html'), template
           .replace('{{VERSION}}', vexflowPackage.version)
+          .replace('{{VEXTAB_VERSION}}', vextabPackage.version)
+          .replace('{{RUNTIME}}', asset('vexflow-runtime'))
           .replace('{{SCRIPT}}', asset('index')));
         const easyScorePage = join(dist, 'examples/easyscore.html');
         const easyScoreHtml = await readFile(easyScorePage, 'utf8');

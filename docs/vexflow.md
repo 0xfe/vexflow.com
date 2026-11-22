@@ -5,17 +5,15 @@ at a full commit SHA. npm installs the archive and its runtime dependencies;
 it does not install the published VexFlow build or run upstream's development
 toolchain. The lockfile records the archive's integrity hash.
 
-The homepage and EasyScore playground use [VexFlow 5.7.0](https://github.com/vexflow/vexflow/releases/tag/5.7.0). The deployed [version manifest](https://vexflow.com/vexflow-version.json) identifies the exact source revision.
+The homepage and EasyScore playground use the pinned VexFlow source. The deployed [version manifest](https://vexflow.com/vexflow-version.json) identifies the exact source revision.
 
 `build.mjs` resolves `vexflow/bravura` directly to
 `node_modules/vexflow/entry/vexflow-bravura.ts`. Esbuild compiles the upstream
 TypeScript and embedded fonts, and fills in VexFlow's version and commit metadata.
 The build date is left empty to keep the output deterministic.
 
-The homepage carousel uses the upstream font bundle so the jazz lead sheet can
-use Petaluma. The arrangements come from the visual fixtures in `tests/demos` and the
-gallery editions in `tests/scores` in that same archive.
-The original homepage Minuet lives in `src/minuet.js`.
+The homepage carousel uses the VexFlow gallery font bundle for Saints and Ode to Joy.
+The other three scores use the VexTab npm renderer.
 
 To update to the current upstream `main` revision:
 
@@ -30,27 +28,32 @@ revision until the dependency is updated again.
 
 ## Updating the carousel demos
 
-Use the gallery in `node_modules/vexflow/tests/flow.html` from the pinned
-release as the reference for slide order and excerpt length. Follow each
-figure's preview image to see which passage to show and count its systems.
-A system is one horizontal row of music and includes all staves played
-together, such as both piano staves or a guitar staff and its tablature.
+The carousel is manual. Keep its five entries in the order set in `src/scores.js`.
+When updating VexTab, compare the excerpts in `src/examples/carousel/` with the
+matching files in `node_modules/vextab/dist/guide/scores/`. Take the opening
+bars from every voice and text lane, retaining the original system breaks,
+fingerings, diagrams and headings.
 
-In `src/scores.js`, set `previewSystems` on a gallery edition that needs a
-shorter excerpt. It counts from the beginning unless `fromEnd: true` is set.
-In 5.5, the Prelude in C major and *Sumer is icumen in* show their first two
-systems, *Patio al alba* shows its first, and *High Wire* shows its last.
-The Chopin fixture frames its opening two systems in `ballade()`, and the
-Kesh Jig uses the opening ensemble system from its print edition.
+| VexTab score | Opening bars | Systems |
+| --- | --- | --- |
+| Chopin, Ballade No. 3 | 1–12 | 2 |
+| Pocket Change | 1–8 | 2 |
+| Soleá (flamenco-tab) | 1–4 | 1 |
 
-Run `npm start` and step through every slide at desktop and phone widths.
-Compare the first and last visible staves with the gallery image, including
-lyrics, dynamics, and other markings near the edges.
+Keep Saints and Ode to Joy aligned with their VexFlow gallery previews. Ode to Joy uses the
+complete eight-bar cello duet from the upstream repertoire tests. Check the full demo
+links against the published VexTab guide and VexFlow tests gallery, and link
+any published PDF for the same piece.
+
+Run `npm start` and step through the five slides at desktop and phone widths.
+Check the final visible bar in each VexTab voice, including the ossia in the
+Ballade and the bass and chord diagrams in Soleá. Play each excerpt and switch
+slides during playback to check that audio and highlighting stop together.
 
 # Local examples
 
-The EasyScore playground in `static/examples/easyscore.html` shows the source
-from `src/examples/easyscore.js` below its live score. Each edit runs after
+The homepage and `static/examples/easyscore.html` share the EasyScore editor.
+Both draw the bundled `src/examples/easyscore.js` directly on the page and display its source below the score. Each edit runs after
 100 ms in a fresh sandboxed iframe using the same pinned VexFlow as the carousel.
 The preview swaps in the new score when rendering succeeds.
 

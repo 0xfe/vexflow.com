@@ -1,88 +1,83 @@
-// Engrave the visual fixtures and score editions from the pinned VexFlow gallery.
+// The VexTab excerpts retain the authored system breaks in every voice.
+import { parseScore, Player, renderScore as engraveVexTab } from 'vextab/browser';
 import VexFlow from 'vexflow-gallery';
-import 'vexflow-scores/ballade';
-import { fugue } from 'vexflow-demos/fugue';
-import { greensleeves } from 'vexflow-demos/greensleeves';
+import ballade from './examples/carousel/chopin-ballade-no3.vextab?source';
+import pocketChange from './examples/carousel/pocket-change.vextab?source';
+import solea from './examples/carousel/flamenco-tab.vextab?source';
 import { joy } from 'vexflow-demos/joy';
 import { editions } from './editions.js';
-import { minuet } from './minuet.js';
+import { mountEditionPlayer } from './edition-player.js';
 
-function ballade({ elementId }) {
-  const { width, height, draw } = globalThis.ChopinBallade;
-  draw(VexFlow, new VexFlow.Factory({ renderer: { elementId, width, height } }));
-  // Frame the first two complete systems, as in the upstream gallery cover.
-  return { top: width * 0.132, bottom: width * 0.572 };
-}
-
-function renderEdition(edition, host) {
-  const choice = edition.choices?.[0];
-  if (edition.publication) {
-    const { spec, options } = edition.publication(choice, VexFlow);
-    const { pages } = new VexFlow.Publication(spec).render(host, options);
-    // Show the opening ensemble system at reading size.
-    const firstPage = pages[0].svg;
-    host.replaceChildren(firstPage);
-    firstPage.replaceChildren(firstPage.querySelector('[data-system]'));
-    return;
-  }
-  const width = 1000;
-  const score = VexFlow.EasyScore.create({ renderer: { elementId: host.id, width, height: 300 } });
-  const { spec, decorate } = edition.create(VexFlow, score, choice);
-  spec.sheet = { width, x: 16, y: 42, rowGap: 26, measurePadding: 18 };
-  const composition = score.compose(spec);
-  decorate?.(composition);
-  composition.sheet.format();
-  score.draw();
-  if (edition.previewSystems) {
-    const rows = composition.sheet.getRows();
-    if (rows.length > edition.previewSystems) {
-      // Cut in the gap between systems so paired staves and tablature stay together.
-      const split = edition.fromEnd ? rows.length - edition.previewSystems : edition.previewSystems;
-      const boundary = rows[split].y - spec.sheet.rowGap / 2;
-      return edition.fromEnd ? { top: boundary } : { bottom: boundary };
-    }
-  }
-}
+const guide = 'https://vexflow.com/vextab/guide/#lesson/';
+const viewer = 'https://vexflow.com/tests/assets/4b68b4275f38f4533486a0e5ff79c65d4a5730698700ae8c8be5c45e5164a2ad/scores/index.html?piece=';
 
 export const scores = [
-  { title: 'Ballade No. 3 in A-flat major', credit: 'Frédéric Chopin · Solo piano, Op. 47', render: ballade },
-  { title: 'Minuet in G major', credit: 'Christian Petzold · Keyboard', render: minuet },
-  editions.saints,
-  { title: 'Greensleeves', credit: 'Traditional English air · Guitar tablature', render: greensleeves },
-  { ...editions.prelude, previewSystems: 2 },
-  { title: 'Fugue No. 6 in D minor', credit: 'Johann Sebastian Bach · BWV 851', render: fugue },
-  editions.kesh,
-  { title: 'Ode to Joy', credit: 'Ludwig van Beethoven · Cello duet', render: joy },
-  { ...editions.electric, previewSystems: 1, fromEnd: true },
-  editions.drums,
-  editions.quartertones,
-  { ...editions.falseta, previewSystems: 1 },
-  { ...editions.sumer, previewSystems: 2 },
+  {
+    title: 'Ballade No. 3 in A-flat major', credit: 'Frédéric Chopin · Op. 47 · VexTab',
+    notation: ballade, width: 1460, demo: guide + 'chopin-ballade-no3', pdf: 'https://vexflow.com/pdfs/ballade.pdf',
+  },
+  {
+    title: 'Pocket Change', credit: 'Bebop piano · VexTab',
+    notation: pocketChange, width: 1100, demo: guide + 'pocket-change',
+  },
+  {
+    title: 'Soleá', credit: 'Traditional flamenco · Arr. Eugen Sedko · VexTab',
+    notation: solea, width: 1100, demo: guide + 'flamenco-tab',
+  },
+  { ...editions.saints, tempo: 120, engrave: engraveSaints, demo: viewer + 'saints' },
+  {
+    title: 'Ode to Joy', credit: 'Ludwig van Beethoven · Cello duet', tempo: 96, engrave: engraveJoy,
+    demo: 'https://vexflow.com/tests/all.html?module=Demo%20-%20Ode%20to%20Joy',
+  },
 ];
 
-const assert = {
-  ok(condition, message) {
-    if (!condition) throw new Error(message);
-  },
-  equal(actual, expected, message) {
-    if (actual !== expected) throw new Error(message);
-  },
-};
+function engraveSaints(host) {
+  const edition = editions.saints;
+  VexFlow.setFonts(...(edition.fonts ?? ['Bravura', 'Academico']));
+  const width = 1000;
+  const score = VexFlow.EasyScore.create({ renderer: { elementId: host.id, width, height: 300 } });
+  const { spec, decorate } = edition.create(VexFlow, score, edition.choices[0]);
+  spec.sheet = { width, x: 16, y: 42, rowGap: 26, measurePadding: 18 };
+  const composition = score.compose(spec);
+  decorate(composition);
+  composition.sheet.format();
+  score.draw();
+  return { parts: [composition.notes.flatMap(staves => staves[0][0])], spans: spec.continuous.spans };
+}
 
-export function renderScore(score, host) {
-  VexFlow.setFonts(...(score.fonts ?? ['Bravura', 'Academico']));
-  const excerpt = score.render ? score.render({ elementId: host.id, assert }) : renderEdition(score, host);
+function engraveJoy(host) {
+  VexFlow.setFonts('Bravura', 'Academico');
+  const options = { elementId: host.id, assert: { ok(value, message) { if (!value) throw new Error(message); } } };
+  joy(options);
+  // Each bar has two pitched voices plus occasional dynamics in a separate voice.
+  const parts = [[], []];
+  const pitched = options.voices.map(voice => voice.getTickables()).filter(notes => notes[0] instanceof VexFlow.StaveNote);
+  pitched.forEach((notes, index) => parts[index % 2].push(...notes));
+  return { parts, keySignature: 'D', program: 42 };
+}
+
+export function renderScore(score, host, playback, controls) {
+  const layout = score.notation
+    ? engraveVexTab(host, parseScore(score.notation), { width: score.width })
+    : score.engrave(host);
+
+  // Measure engraved ink, including headings, ossias and lyrics.
   const svg = host.querySelector('svg');
-  // Trim the printed side margins and allow room for annotations at the edges.
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', score.title);
+  host.replaceChildren(svg);
   const { x, y, width, height } = svg.getBBox();
-  const padding = width * 0.006;
-  const top = excerpt?.top ?? y - padding;
-  const bottom = excerpt?.bottom ?? y + height + padding;
-  svg.setAttribute('viewBox', [x - padding, top, width + 2 * padding, bottom - top].join(' '));
-  // Let the sheet width and viewBox determine the displayed size.
-  host.style.removeProperty('width');
-  svg.style.removeProperty('width');
-  svg.style.removeProperty('height');
+  const pad = 8;
+  const top = y - pad;
+  const end = y + height + pad;
+  svg.setAttribute('viewBox', [x - pad, top, width + 2 * pad, end - top].join(' '));
+  svg.removeAttribute('style');
   svg.removeAttribute('width');
   svg.removeAttribute('height');
+  host.style.removeProperty('width');
+
+  if (!score.notation) return mountEditionPlayer(layout, score.tempo, playback, controls);
+  const player = new Player(layout.score, { playback });
+  player.render(svg);
+  return player;
 }

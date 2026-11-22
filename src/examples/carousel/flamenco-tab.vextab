@@ -1,0 +1,44 @@
+# Soleá · traditional flamenco, arranged by Eugen Sedko. Opening system, bars 1–4.
+# https://www.sheetmusicplus.com/en/product/traditional-solea-soleares-flamenco-guitar-notes-tabs-21752865.html
+# Standard tuning. The two voices share a guitar: keep the bass ringing under the treble.
+# Each rasgueado repeats the open first string with index, ring, middle and index (i a m i).
+# The chord key shows the three strings to fret or leave open for the E and F grips.
+layout {
+  scale 0.69 spacing optical rowGap 10 staffDistance 5
+  heading { align center title "Soleá" composer "Traditional · Arr. Eugen Sedko" tempo "♩ = 100" }
+}
+meter 3/4
+measureNumbers on
+play { tempo 100 }
+edition { paper Letter margins 10 8 10 8 staffSize 5.2 }
+alias sweep="brush down"
+alias rasgueo="grace before (0/1[finger i above] 0/1[finger a above] 0/1[finger m above] 0/1[finger i above])"
+
+# Fourth-string ligados and treble arpeggios recur across the four-bar compás.
+pattern longligado {
+  slur { :8 2/4 tuplet 3:2 { :16 3/4 2/4 0/4 } :16 2/4 3/4 2/4 0/4 :q 2/4 }
+}
+pattern shortligado {
+  slur { :8 2/4 tuplet 3:2 { :16 3/4 2/4 0/4 } :q 2/4 }
+}
+guitar guitarra {
+  program 24
+  voice treble stem up {
+    # The bass moves beneath the sustained G-sharp, B and open E.
+    :h. (1/3 0/2 0/1)[rasgueo, sweep, symbol "E", frame (x x x 1 0 0)] |
+    :h. (1/3 0/2 0/1)[rasgueo, sweep] |
+    :q (1/3 0/2 0/1)[rasgueo, sweep]
+    tuplet 3:2 { :q rest :8 0/1[finger i below] } tuplet 3:2 { :q 0/1 :8 0/1[finger i below] } |
+    :h. (1/3 0/2 0/1)[sweep, symbol "E"] |
+  }
+  voice bass stem down {
+    use longligado |
+    use longligado |
+    use shortligado :q (3/4[finger p below] 2/3 1/2)[sweep, symbol "F", frame (x x 3 2 1 x), label "*" above] |
+    :h. 2/4[accent, label "*" above] |
+  }
+  # The second tap in bar 4 occurs while the chord still rings.
+  text taps line -2 align center {
+    :h. skip | skip | skip | :h skip :q "*" |
+  }
+}
