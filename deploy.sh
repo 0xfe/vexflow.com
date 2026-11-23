@@ -40,4 +40,5 @@ gcloud storage cp --recursive --cache-control="public,max-age=86400" --predefine
 gcloud storage cp --cache-control="public,max-age=300" --predefined-acl=publicRead --gzip-local=css,json "$DIST/style.css" "$DIST/vexflow-version.json" "${URL}" || exit $?
 gcloud storage cp --cache-control="public,max-age=300" --predefined-acl=publicRead --gzip-local=html "$DIST"/examples/*.html "${URL}/examples/" || exit $?
 gcloud storage cp --cache-control="public,max-age=300" --predefined-acl=publicRead --gzip-local=html,css,js "$DIST"/vextab/*.html "${URL}/vextab/" || exit $?
+gcloud storage cp --cache-control="public,max-age=300" --predefined-acl=publicRead --gzip-local=html "$DIST/whatsnew/index.html" "${URL}/whatsnew/" || exit $?
 gcloud storage cp --cache-control="public,max-age=300" --predefined-acl=publicRead --gzip-local=html "$DIST/index.html" "${URL}" || exit $?

@@ -26,6 +26,12 @@ a:hover { color: var(--accent); }
 .content { width: min(90%, 760px); margin-inline: auto; }
 .content h2 { margin: 1.5rem 0 .45rem; font: 600 clamp(1.65rem, 3.4vw, 2.15rem)/1.2 var(--book); }
 .intro-lead { margin-block: clamp(1.5rem, 3vw, 2.5rem); font: clamp(20px, 2vw, 26px)/1.55 var(--book); }
+.release-note {
+  padding: .65rem 1rem;
+  border-inline-start: 3px solid var(--green);
+  background: var(--soft);
+}
+.release-note a { white-space: nowrap; }
 body { padding-bottom: 1rem; }
 body:has(> .playground) { padding: 0; }
 code { color: var(--green); font-family: ui-monospace, monospace; }

@@ -35,6 +35,6 @@
     "codejar": "5.0.0",
     "prismjs": "1.30.0",
     "vexflow": "https://codeload.github.com/vexflow/vexflow/tar.gz/136e78e2ae8619bb275cc42d91fdd39b8767526f",
-    "vextab": "6.2.0"
+    "vextab": "https://github.com/0xfe/vextab/releases/download/6.2.1/vextab-6.2.1.tgz"
   }
 }
