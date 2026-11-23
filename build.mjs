@@ -50,7 +50,6 @@ const options = {
   alias: {
     'vexflow/bravura': join(vexflowRoot, 'entry/vexflow-bravura.ts'),
     'vexflow-gallery': join(vexflowRoot, 'entry/vexflow.ts'),
-    'vexflow-demos': join(vexflowRoot, 'tests/demos'),
     'vexflow-scores': join(vexflowRoot, 'tests/scores'),
   },
   target: 'es2020',
@@ -61,10 +60,6 @@ const options = {
   plugins: [{
     name: 'static-site',
     setup(build) {
-      // The upstream cello duet uses only makeFactory from the QUnit harness.
-      build.onResolve({ filter: /^\.\.\/vexflow_test_helpers$/ }, ({ resolveDir }) => {
-        if (resolveDir === join(vexflowRoot, 'tests/demos')) return { path: join(root, 'src/demo-factory.js') };
-      });
       // Compile the trusted opening example so first paint needs no sandbox round trip.
       build.onLoad({ filter: /[/\\]examples[/\\]easyscore\.js$/, namespace: 'file' }, async ({ path }) => ({
         contents: `export default function drawStarter(VexFlow) {\n${await readFile(path, 'utf8')}\n}`,

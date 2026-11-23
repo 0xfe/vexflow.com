@@ -9,7 +9,6 @@ const credit = caption.querySelector('.score-credit');
 const count = carousel.querySelector('.score-count');
 const demo = caption.querySelector('.score-demo');
 const pdf = caption.querySelector('.score-pdf');
-const playerHost = caption.querySelector('.score-player');
 const playback = window.VexTabAudio.scoreOptions(carousel).playback;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const slides = scores.map((score, index) => {
@@ -20,7 +19,7 @@ const slides = scores.map((score, index) => {
   slide.setAttribute('aria-label', score.title + ' · ' + score.credit);
   slide.hidden = true;
   stage.append(slide);
-  return { sheet: slide, controls: score.notation ? undefined : document.createElement('span') };
+  return { sheet: slide };
 });
 
 let current = 0;
@@ -39,21 +38,21 @@ function showScore(index, direction = 0) {
   }
   if (!slide.hasChildNodes()) {
     try {
-      entry.player = renderScore(score, slide, playback, entry.controls);
+      entry.player = renderScore(score, slide, playback);
     } catch (error) {
       console.error('Unable to render ' + score.title, error);
       slide.textContent = 'This score could not be loaded.';
     }
   }
-  playerHost.hidden = !entry.controls;
-  if (entry.controls) playerHost.replaceChildren(entry.controls);
   current = index;
   title.textContent = score.title;
   credit.textContent = score.credit;
   demo.href = score.demo;
   pdf.hidden = !score.pdf;
-  if (score.pdf) pdf.href = score.pdf;
-  else pdf.removeAttribute('href');
+  if (score.pdf) {
+    pdf.href = score.pdf;
+    pdf.textContent = score.pdfLabel ?? 'Score (PDF)';
+  } else pdf.removeAttribute('href');
   count.textContent = (index + 1) + ' / ' + scores.length;
 
   if (!direction || reducedMotion.matches) return;

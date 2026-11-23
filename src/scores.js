@@ -4,7 +4,7 @@ import VexFlow from 'vexflow-gallery';
 import ballade from './examples/carousel/chopin-ballade-no3.vextab?source';
 import pocketChange from './examples/carousel/pocket-change.vextab?source';
 import solea from './examples/carousel/flamenco-tab.vextab?source';
-import { joy } from 'vexflow-demos/joy';
+import { minuet } from './minuet.js';
 import { editions } from './editions.js';
 import { mountEditionPlayer } from './edition-player.js';
 
@@ -14,7 +14,7 @@ const viewer = 'https://vexflow.com/tests/assets/4b68b4275f38f4533486a0e5ff79c65
 export const scores = [
   {
     title: 'Ballade No. 3 in A-flat major', credit: 'Frédéric Chopin · Op. 47 · VexTab',
-    notation: ballade, width: 1460, demo: guide + 'chopin-ballade-no3', pdf: 'https://vexflow.com/pdfs/ballade.pdf',
+    notation: ballade, width: 1460, demo: guide + 'chopin-ballade-no3', pdf: 'https://vexflow.com/pdfs/ballade.pdf', pdfLabel: 'Opening page (PDF)',
   },
   {
     title: 'Pocket Change', credit: 'Bebop piano · VexTab',
@@ -26,8 +26,8 @@ export const scores = [
   },
   { ...editions.saints, tempo: 120, engrave: engraveSaints, demo: viewer + 'saints' },
   {
-    title: 'Ode to Joy', credit: 'Ludwig van Beethoven · Cello duet', tempo: 96, engrave: engraveJoy,
-    demo: 'https://vexflow.com/tests/all.html?module=Demo%20-%20Ode%20to%20Joy',
+    title: 'Minuet in G major', credit: 'Christian Petzold · Notebook for Anna Magdalena Bach', tempo: 132, engrave: minuet,
+    demo: 'https://vexflow.com/tests/all.html?module=Demo%20-%20Petzold', pdf: 'https://vexflow.com/pdfs/minuet.pdf',
   },
 ];
 
@@ -42,21 +42,10 @@ function engraveSaints(host) {
   decorate(composition);
   composition.sheet.format();
   score.draw();
-  return { parts: [composition.notes.flatMap(staves => staves[0][0])], spans: spec.continuous.spans };
+  return { bars: composition.notes.map(staves => staves[0]), meter: spec.staves[0].time, spans: spec.continuous.spans };
 }
 
-function engraveJoy(host) {
-  VexFlow.setFonts('Bravura', 'Academico');
-  const options = { elementId: host.id, assert: { ok(value, message) { if (!value) throw new Error(message); } } };
-  joy(options);
-  // Each bar has two pitched voices plus occasional dynamics in a separate voice.
-  const parts = [[], []];
-  const pitched = options.voices.map(voice => voice.getTickables()).filter(notes => notes[0] instanceof VexFlow.StaveNote);
-  pitched.forEach((notes, index) => parts[index % 2].push(...notes));
-  return { parts, keySignature: 'D', program: 42 };
-}
-
-export function renderScore(score, host, playback, controls) {
+export function renderScore(score, host, playback) {
   const layout = score.notation
     ? engraveVexTab(host, parseScore(score.notation), { width: score.width })
     : score.engrave(host);
@@ -76,7 +65,7 @@ export function renderScore(score, host, playback, controls) {
   svg.removeAttribute('height');
   host.style.removeProperty('width');
 
-  if (!score.notation) return mountEditionPlayer(layout, score.tempo, playback, controls);
+  if (!score.notation) return mountEditionPlayer(layout, score.tempo, playback, svg);
   const player = new Player(layout.score, { playback });
   player.render(svg);
   return player;

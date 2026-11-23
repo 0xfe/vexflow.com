@@ -8,11 +8,12 @@ import VF from 'vexflow-gallery';
 
 function concat(a, b) { return a.concat(b); }
 
-export function minuet({ elementId }) {
+export function minuet(host) {
+  VF.setFonts('Bravura', 'Academico');
   const registry = new VF.Registry();
   VF.Registry.enableDefaultRegistry(registry);
   const vf = new VF.Factory({
-    renderer: { elementId, width: 1100, height: 900 },
+    renderer: { elementId: host.id, width: 1100, height: 900 },
   });
 
   const score = vf.EasyScore({ throwOnError: true });
@@ -23,10 +24,12 @@ export function minuet({ elementId }) {
 
   let x = 120;
   let y = 80;
+  const systems = [];
   function makeSystem(swidth) {
     const system = vf.System({
       x, y, width: swidth, spaceBetweenStaves: 10,
     });
+    systems.push(system);
     x += swidth;
     return system;
   }
@@ -423,6 +426,11 @@ export function minuet({ elementId }) {
   vf.StaveHairpin({ from: id('m13a'), to: id('m14end'), type: VF.StaveHairpin.type.DECRESC });
   vf.PedalMarking({ notes: [id('m16b'), id('lift16')] });
 
+  // Each measure contributes one pitched voice per hand. Dynamics use separate voices.
+  const bars = systems.map(system => system.getVoices()
+    .map(voice => voice.getTickables())
+    .filter(notes => notes[0] instanceof VF.StaveNote));
   vf.draw();
   VF.Registry.disableDefaultRegistry();
+  return { bars, keySignature: 'G', meter: '3/4' };
 }

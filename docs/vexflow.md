@@ -12,7 +12,7 @@ The homepage and EasyScore playground use the pinned VexFlow source. The deploye
 TypeScript and embedded fonts, and fills in VexFlow's version and commit metadata.
 The build date is left empty to keep the output deterministic.
 
-The homepage carousel uses the VexFlow gallery font bundle for Saints and Ode to Joy.
+The homepage carousel uses the VexFlow gallery font bundle for Saints and Petzold’s Minuet in G major.
 The other three scores use the VexTab npm renderer.
 
 To update to the current upstream `main` revision:
@@ -40,8 +40,14 @@ fingerings, diagrams and headings.
 | Pocket Change | 1–8 | 2 |
 | Soleá (flamenco-tab) | 1–4 | 1 |
 
-Keep Saints and Ode to Joy aligned with their VexFlow gallery previews. Ode to Joy uses the
-complete eight-bar cello duet from the upstream repertoire tests. Check the full demo
+Keep Saints and Petzold’s Minuet in G major aligned with their VexFlow gallery previews. The Minuet uses
+the original homepage arrangement in `src/minuet.js`, with three grand-staff systems
+and both piano hands. For these VexFlow demos, `src/edition-player.js` builds the
+VexTab playback model from the engraved voices and maps playback events back to their
+engraved notehead positions and system bounds. VexTab uses these for its moving
+playhead, note glows and score following. When upgrading from 6.2, check the
+internal geometry reader in `mountEditionPlayer` against the new Player API
+and play across a system break with the large controls. Check the full demo
 links against the published VexTab guide and VexFlow tests gallery, and link
 any published PDF for the same piece.
 

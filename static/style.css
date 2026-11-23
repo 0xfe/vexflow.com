@@ -37,12 +37,6 @@ code { color: var(--green); font-family: ui-monospace, monospace; }
 .score-title { margin: 0; font: 600 clamp(1.2rem, 3vw, 1.5rem)/1.25 var(--book); }
 .score-credit { margin: .12rem 0; color: var(--muted); font-size: .88rem; }
 .score-links { display: flex; flex-wrap: wrap; align-items: center; gap: .85rem; font-size: .85rem; }
-.score-player button {
-  font: inherit; padding: .25rem .65rem; color: var(--green); background: white;
-  border: 1px solid var(--control-border); border-radius: 4px; cursor: pointer;
-}
-.score-player button:hover { background: var(--paper); }
-.score-sheet .playing-note { fill: var(--accent); stroke: var(--accent); }
 .score-controls { display: flex; align-items: center; gap: .35rem; }
 .score-count { color: var(--muted); font-size: .85rem; font-variant-numeric: tabular-nums; white-space: nowrap; margin-right: .3rem; }
 .score-controls button {
