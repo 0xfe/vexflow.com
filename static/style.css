@@ -19,19 +19,15 @@ a:hover { color: var(--accent); }
 }
 .masthead h1 { margin: 0; font: var(--brand); letter-spacing: -1.4px; }
 .masthead p { margin: 2px 0 0; font-size: .86rem; color: var(--muted); }
+.home-brand { display: flex; align-items: center; gap: .8rem; }
+.home-brand a { font-size: 13px; white-space: nowrap; }
 .home-nav { display: flex; align-items: center; flex-wrap: wrap; gap: .25rem 1.1rem; font-size: 13px; }
 .home-nav .version { color: var(--green); font-weight: 600; }
 .home-nav a { text-decoration: none; }
 .home-nav a:hover, .home-nav a:focus-visible { text-decoration: underline; }
 .content { width: min(90%, 760px); margin-inline: auto; }
 .content h2 { margin: 1.5rem 0 .45rem; font: 600 clamp(1.65rem, 3.4vw, 2.15rem)/1.2 var(--book); }
-.intro-lead { margin-block: clamp(1.5rem, 3vw, 2.5rem); font: clamp(20px, 2vw, 26px)/1.55 var(--book); }
-.release-note {
-  padding: .65rem 1rem;
-  border-inline-start: 3px solid var(--green);
-  background: var(--soft);
-}
-.release-note a { white-space: nowrap; }
+.intro-lead { margin-block: 1rem; font: clamp(16px, 1.5vw, 18px)/1.45 var(--book); }
 body { padding-bottom: 1rem; }
 body:has(> .playground) { padding: 0; }
 code { color: var(--green); font-family: ui-monospace, monospace; }
@@ -58,6 +54,10 @@ code { color: var(--green); font-family: ui-monospace, monospace; }
 .score-sheet svg, .score-preview img { display: block; width: 100%; height: auto; }
 .score-preview .compact-preview { display: none; }
 .score-sheet .vextab-sheet { width: 100%; }
+@media (min-width: 601px) and (max-width: 760px) {
+  .home-header { flex-wrap: nowrap; gap: .75rem; padding-inline: 1rem; }
+  .home-header .home-nav { gap: 0 .5rem; }
+}
 @media (max-width: 600px) {
   .site-header { gap: .2rem; padding-block: .65rem .25rem; flex-direction: column; align-items: start; }
   .masthead h1 { font-size: 44px; }
