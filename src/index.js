@@ -3,6 +3,7 @@ import { renderScore, scores } from './scores.js';
 
 const carousel = document.querySelector('.score-carousel');
 const stage = carousel.querySelector('.score-stage');
+const poster = stage.querySelector('.score-poster');
 const caption = carousel.querySelector('.score-caption');
 const title = caption.querySelector('.score-title');
 const credit = caption.querySelector('.score-credit');
@@ -10,6 +11,7 @@ const count = carousel.querySelector('.score-count');
 const demo = caption.querySelector('.score-demo');
 const pdf = caption.querySelector('.score-pdf');
 const loading = carousel.querySelector('.score-loading');
+const compact = matchMedia('(max-width: 600px)');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const slides = scores.map((score, index) => {
   const slide = document.createElement('div');
@@ -31,10 +33,11 @@ function prepare(index) {
   sheet.hidden = false;
   sheet.style.visibility = 'hidden';
   try {
-    entry.player = renderScore(scores[index], sheet);
+    entry.player = renderScore(scores[index], sheet, compact.matches);
   } catch (error) {
     console.error('Unable to render ' + scores[index].title, error);
-    sheet.textContent = 'This score could not be loaded.';
+    if (index === 0) sheet.replaceChildren(poster.firstElementChild.cloneNode(true));
+    else sheet.textContent = 'This score could not be loaded.';
   } finally {
     sheet.hidden = true;
     sheet.style.removeProperty('visibility');
@@ -57,6 +60,7 @@ function showScore(index, direction = 0) {
     sheet.setAttribute('aria-hidden', String(sheet !== slide));
   }
   current = index;
+  poster.hidden = true;
   title.textContent = score.title;
   credit.textContent = score.credit;
   demo.href = score.demo;
@@ -84,6 +88,14 @@ function step(delta) {
 }
 
 // Prepare one score per idle turn. A navigation request goes to the front of the queue.
+let preloading = false;
+function startPreload() {
+  if (preloading) return;
+  preloading = true;
+  loading.hidden = false;
+  requestAnimationFrame(() => setTimeout(preload, 0));
+}
+
 function preload() {
   // Give an active transition the main thread unless the reader asks for a new sheet.
   if (requested !== current || !slides[current].sheet.getAnimations().length) {
@@ -92,6 +104,7 @@ function preload() {
     if (requested === index) showScore(index, direction);
     if (slides.every(slide => slide.ready)) {
       loading.hidden = true;
+      preloading = false;
       return;
     }
   }
@@ -100,8 +113,16 @@ function preload() {
 }
 
 document.fonts.ready.then(() => {
-  // Let the header paint before the first engraving starts.
-  requestAnimationFrame(() => setTimeout(preload, 0));
+  compact.addEventListener('change', () => {
+    for (const slide of slides) {
+      slide.player?.dispose();
+      slide.player = undefined;
+      slide.ready = false;
+    }
+    direction = 0;
+    startPreload();
+  });
+  startPreload();
   carousel.querySelector('.score-controls').hidden = false;
   carousel.querySelector('#score-previous').addEventListener('click', () => step(-1));
   carousel.querySelector('#score-next').addEventListener('click', () => step(1));

@@ -15,6 +15,7 @@ const vextabPackage = JSON.parse(await readFile(join(root, 'node_modules/vextab/
 const audioPath = '/vextab/audio/' + vextabPackage.version;
 const vexflowRoot = join(root, 'node_modules/vexflow');
 const vexflowPackage = JSON.parse(await readFile(join(vexflowRoot, 'package.json'), 'utf8'));
+const previewFile = (layout) => join(root, 'src/examples/previews', 'ballade-' + layout + '.svg');
 
 // The GitHub source archive has no compiled build/. Compile its TypeScript entry directly.
 if (!/^[a-f0-9]{40}$/.test(vexflowRevision)) {
@@ -33,7 +34,14 @@ async function buildStyles() {
   }
   const theme = await readFile(join(toolsDir, 'site-theme.css'), 'utf8');
   const styles = await readFile(join(root, 'static/style.css'), 'utf8');
-  await writeFile(join(dist, 'style.css'), theme.replaceAll('../node_modules/@vexflow-fonts/academico/', 'fonts/') + styles);
+  const css = theme.replaceAll('../node_modules/@vexflow-fonts/academico/', 'fonts/') + styles;
+  await writeFile(join(dist, 'style.css'), css);
+  return css;
+}
+
+async function scorePreview(layout) {
+  const svg = await readFile(previewFile(layout), 'utf8');
+  return 'data:image/svg+xml,' + encodeURIComponent(svg);
 }
 
 const options = {
@@ -87,7 +95,7 @@ const options = {
           contents: await readFile(path, 'utf8'),
           loader: 'js',
           resolveDir: dirname(path),
-          watchFiles: [path, join(root, 'index.html'), ...entries
+          watchFiles: [path, join(root, 'index.html'), previewFile('wide'), previewFile('compact'), ...entries
             .filter((entry) => entry.isFile())
             .map((entry) => join(entry.parentPath, entry.name))],
           watchDirs: [staticDir, ...entries
@@ -107,7 +115,7 @@ const options = {
         await rm(dist, { recursive: true, force: true });
         await mkdir(dist, { recursive: true });
         await cp(join(root, 'static'), dist, { recursive: true });
-        await buildStyles();
+        const [styles, wide, compact] = await Promise.all([buildStyles(), scorePreview('wide'), scorePreview('compact')]);
         const audioDir = join(dist, audioPath);
         await mkdir(audioDir, { recursive: true });
         await cp(join(root, 'src/audio'), audioDir, { recursive: true });
@@ -119,6 +127,9 @@ const options = {
           await writeFile(file.path, file.contents);
         }
         await writeFile(join(dist, 'index.html'), template
+          .replace('{{STYLES}}', () => styles)
+          .replace('{{BALLADE_WIDE}}', wide)
+          .replace('{{BALLADE_COMPACT}}', compact)
           .replaceAll('{{VERSION}}', vexflowPackage.version)
           .replace('{{RUNTIME}}', asset('vexflow-runtime'))
           .replace('{{SCRIPT}}', asset('index')));

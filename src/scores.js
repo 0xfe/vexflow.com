@@ -14,7 +14,9 @@ const guide = 'https://vexflow.com/vextab/guide/#lesson/';
 export const scores = [
   {
     title: 'Ballade No. 3 in A-flat major', credit: 'Frédéric Chopin · Op. 47 · VexTab',
-    notation: ballade, width: 1460, demo: guide + 'chopin-ballade-no3', pdf: 'https://vexflow.com/pdfs/ballade.pdf', pdfLabel: 'Opening page (PDF)',
+    notation: ballade, width: 1460,
+    compactHeading: { align: 'center', title: 'Ballade No. 3', dedication: 'À Mlle Pauline de Noailles.' },
+    demo: guide + 'chopin-ballade-no3', pdf: 'https://vexflow.com/pdfs/ballade.pdf', pdfLabel: 'Opening page (PDF)',
   },
   {
     title: 'Pocket Change', credit: 'Bebop piano · VexTab',
@@ -42,8 +44,14 @@ export const scores = [
   },
 ];
 
-export function renderScore(score, host) {
-  const layout = engraveVexTab(host, parseScore(score.notation), { width: score.width });
+export function renderScore(score, host, compact) {
+  const notation = parseScore(score.notation);
+  // A narrower engraving width wraps complete measures in every voice together.
+  if (compact) {
+    notation.layout.firstSystemIndent = 0;
+    if (score.compactHeading) Object.assign(notation.layout.heading, score.compactHeading);
+  }
+  const layout = engraveVexTab(host, notation, { width: compact ? 500 : score.width });
 
   // Measure engraved ink, including headings, ossias and lyrics.
   const svg = host.querySelector('svg');

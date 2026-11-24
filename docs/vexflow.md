@@ -52,6 +52,13 @@ For All of Me, keep `heading { align center }` without title text. This centers
 the diagram row. The fingering, string and expression markings in the homepage
 excerpt are editorial additions to the guide score.
 
+At 600 CSS pixels and below, the renderer wraps the same measures into shorter
+systems. The homepage embeds wide and compact previews of the opening Ballade
+so readers can see it while the interactive player loads. After changing the
+opening excerpt or updating the renderer, start the site with `npm start` and
+run `uv run tools/refresh-score-previews.py` in a second terminal with Chrome
+installed. Commit both refreshed SVGs with the change.
+
 Link each slide to its full guide demo and include a score PDF when available.
 Run `npm start` and step through the carousel at desktop and phone widths.
 Check the final visible bar, play across a system break, and switch slides

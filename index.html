@@ -8,7 +8,8 @@
         content="Vexflow is a JavaScript library for rendering standard music notation and guitar tablature on the web.">
     <meta charset="UTF-8" />
 
-    <link href="style.css" media="screen" rel="Stylesheet" type="text/css" />
+    <style>{{STYLES}}</style>
+    <noscript><style>.score-loading { display: none }</style></noscript>
     <script>
         if (
             window.location.protocol == 'http:' &&
@@ -26,7 +27,6 @@
         <header class="site-header">
             <div class="masthead">
                 <h1>VexFlow</h1>
-                <p>Music Notation and Guitar Tablature Library</p>
             </div>
             <nav class="home-nav" aria-label="VexFlow resources">
                 <span class="version">v{{VERSION}}</span>
@@ -57,7 +57,7 @@
                             <div class="score-links">
                                 <a class="score-demo" href="https://vexflow.com/vextab/guide/#lesson/chopin-ballade-no3">Full demo</a>
                                 <a class="score-pdf" href="https://vexflow.com/pdfs/ballade.pdf">Opening page (PDF)</a>
-                                <span class="score-loading" role="status">Loading scores…</span>
+                                <span class="score-loading" role="status">Loading scores</span>
                             </div>
                         </div>
                         <div class="score-controls" hidden>
@@ -71,7 +71,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="score-stage" id="score-stage"></div>
+                <div class="score-stage" id="score-stage">
+                    <div class="score-poster">
+                        <div class="score-preview" role="img" aria-label="Opening twelve bars of Chopin’s Ballade No. 3 in A-flat major">
+                            <img class="compact-preview" src="{{BALLADE_COMPACT}}" alt="">
+                            <img class="wide-preview" src="{{BALLADE_WIDE}}" alt="">
+                        </div>
+                    </div>
+                </div>
             </section>
         </section>
 
@@ -135,7 +142,7 @@
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
     </script>
-    <script src="{{SCRIPT}}"></script>
+    <script defer fetchpriority="low" src="{{SCRIPT}}"></script>
 </body>
 
 </html>

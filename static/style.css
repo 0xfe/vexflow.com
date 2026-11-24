@@ -53,16 +53,19 @@ code { color: var(--green); font-family: ui-monospace, monospace; }
 .score-arrow { width: 8px; height: 8px; border: solid currentColor; border-width: 2px 2px 0 0; transform: translateX(-2px) rotate(45deg); }
 .score-arrow.previous { transform: translateX(2px) rotate(-135deg); }
 .score-stage { position: relative; overflow: hidden; }
-.score-sheet { padding: 1rem 0; background: white; width: min(92%, 980px); margin: auto; overflow-x: auto; }
+.score-sheet, .score-poster { padding: 1rem 0; background: white; width: min(92%, 980px); margin: auto; overflow-x: auto; }
 .score-sheet[aria-hidden="true"] { position: absolute; inset: 0; }
-.score-sheet svg { display: block; width: 100%; height: auto; }
+.score-sheet svg, .score-preview img { display: block; width: 100%; height: auto; }
+.score-preview .compact-preview { display: none; }
 .score-sheet .vextab-sheet { width: 100%; }
 @media (max-width: 600px) {
   .site-header { gap: .2rem; padding-block: .65rem .25rem; flex-direction: column; align-items: start; }
   .masthead h1 { font-size: 44px; }
   .home-nav { gap: 0 .8rem; }
   .home-nav a { display: inline-flex; align-items: center; min-height: 40px; }
-  .score-sheet { width: calc(100% - 1rem); }
+  .score-sheet, .score-poster { width: calc(100% - 1rem); }
+  .score-preview .compact-preview { display: block; }
+  .score-preview .wide-preview { display: none; }
   .score-controls button { width: 44px; height: 44px; }
 }
 /* The editor encloses both the score and its shaded source. */
@@ -111,11 +114,29 @@ code { color: var(--green); font-family: ui-monospace, monospace; }
 .live-error:empty { display: none; }
 
 .score-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: .4em;
   color: var(--muted);
   font-size: .8rem;
   animation: score-loading-in 120ms ease-out 300ms backwards;
 }
+.score-loading::before {
+  content: "";
+  width: .85em;
+  height: .85em;
+  box-sizing: border-box;
+  border: 1.5px solid var(--control-border);
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: score-loading-spin 800ms linear infinite;
+}
 @keyframes score-loading-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes score-loading-spin { to { transform: rotate(1turn); } }
+@media (prefers-reduced-motion: reduce) {
+  .score-loading { animation-timing-function: step-end; }
+  .score-loading::before { animation: none; }
+}
 
 .numbered-editor {
   --gutter: 3.3em;
