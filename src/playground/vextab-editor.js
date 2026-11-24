@@ -2,6 +2,7 @@
 import { liveSource } from './live-source.js';
 import { engravingBounds } from './engraving-bounds.js';
 import { parseScore, Player, renderScore } from 'vextab/browser';
+import { playback } from '../playback.js';
 import featuredScore from '../examples/example.vextab?source';
 
 const grammar = {
@@ -12,7 +13,7 @@ const grammar = {
 };
 
 /** Compile the same grammar used by the guide before replacing the last valid drawing. */
-function draw(preview, notation, width, scale, playback) {
+function draw(preview, notation, width, scale, enablePlayer) {
   if (!notation.trim()) {
     preview.replaceChildren();
     return;
@@ -35,7 +36,7 @@ function draw(preview, notation, width, scale, playback) {
     svg.setAttribute('height', h * zoom);
     svg.removeAttribute('style');
     draft.replaceChildren(svg);
-    const player = playback ? new Player(layout.score, { playback }) : undefined;
+    const player = enablePlayer ? new Player(layout.score, { playback }) : undefined;
     player?.render(svg);
     preview.replaceChildren(...draft.children);
     return player;
@@ -62,11 +63,11 @@ function mount(container, index) {
   error.setAttribute('role', 'status');
   container.replaceChildren(preview, source, error);
 
-  const playback = container.hasAttribute('data-player') ? window.VexTabAudio.scoreOptions(container).playback : undefined;
+  const enablePlayer = container.hasAttribute('data-player');
   let player;
   liveSource(source, notation, 'vextab', grammar, input => {
     try {
-      const nextPlayer = draw(preview, input, width, scale, playback);
+      const nextPlayer = draw(preview, input, width, scale, enablePlayer);
       player?.dispose();
       player = nextPlayer;
       error.textContent = '';

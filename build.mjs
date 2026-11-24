@@ -12,7 +12,7 @@ const watch = process.argv.includes('--watch') || serve;
 const packageInfo = JSON.parse(await readFile(join(root, 'package.json'), 'utf8'));
 const vexflowRevision = packageInfo.dependencies.vexflow.split('/').at(-1);
 const vextabPackage = JSON.parse(await readFile(join(root, 'node_modules/vextab/package.json'), 'utf8'));
-const vextabDist = join(root, 'node_modules/vextab/dist');
+const audioPath = '/vextab/audio/' + vextabPackage.version;
 const vexflowRoot = join(root, 'node_modules/vexflow');
 const vexflowPackage = JSON.parse(await readFile(join(vexflowRoot, 'package.json'), 'utf8'));
 
@@ -49,9 +49,9 @@ const options = {
   bundle: true,
   alias: {
     'vexflow/bravura': join(vexflowRoot, 'entry/vexflow-bravura.ts'),
-    'vexflow-gallery': join(vexflowRoot, 'entry/vexflow.ts'),
-    'vexflow-scores': join(vexflowRoot, 'tests/scores'),
+    vexflow: join(vexflowRoot, 'entry/vexflow.ts'),
   },
+  define: { AUDIO_PATH: JSON.stringify(audioPath) },
   target: 'es2020',
   minify: !dev,
   sourcemap: 'external',
@@ -108,20 +108,18 @@ const options = {
         await mkdir(dist, { recursive: true });
         await cp(join(root, 'static'), dist, { recursive: true });
         await buildStyles();
-        // The npm example player loads its SpessaSynth worklet and SoundFont chunks by filename.
-        const audioDir = join(dist, 'vextab/audio', vextabPackage.version);
+        const audioDir = join(dist, audioPath);
         await mkdir(audioDir, { recursive: true });
-        for (const file of ['example-audio.prod.js', 'guide-instrument.prod.js', '651.prod.js',
-          '651.prod.js.LICENSE.txt', 'guide/licenses/florestan.txt', 'guide/licenses/spessasynth_lib.txt',
-          'guide/licenses/spessasynth_core.txt']) {
-          await cp(join(vextabDist, file), join(audioDir, basename(file)));
+        await cp(join(root, 'src/audio'), audioDir, { recursive: true });
+        await cp(join(root, 'node_modules/spessasynth_lib/dist/spessasynth_processor.min.js'), join(audioDir, 'spessasynth_processor.min.js'));
+        for (const library of ['spessasynth_lib', 'spessasynth_core']) {
+          await cp(join(root, 'node_modules', library, 'LICENSE'), join(audioDir, library + '.txt'));
         }
         for (const file of result.outputFiles) {
           await writeFile(file.path, file.contents);
         }
         await writeFile(join(dist, 'index.html'), template
-          .replace('{{VERSION}}', vexflowPackage.version)
-          .replace('{{VEXTAB_VERSION}}', vextabPackage.version)
+          .replaceAll('{{VERSION}}', vexflowPackage.version)
           .replace('{{RUNTIME}}', asset('vexflow-runtime'))
           .replace('{{SCRIPT}}', asset('index')));
         const easyScorePage = join(dist, 'examples/easyscore.html');

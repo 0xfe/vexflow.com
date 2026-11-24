@@ -1,0 +1,32 @@
+// All of Me · Solo guitar chord melody in standard tuning.
+// After Django Reinhardt's solo as transcribed by Miguel Mateu, with a new accompaniment.
+// https://cdn.ustatik.com/musescore/scoredata/g/a137b36c3a51e331b58d6906a476a34d8b8941c0/score_0.svg?no-cache=1715710756
+// Pinch each diagrammed chord together. Release its lower notes when the melody moves.
+layout {
+  scale 0.75 spacing optical rowGap 16 staffDistance 7
+  heading { align center }
+}
+meter 4/4
+measureNumbers on
+play { performer human swing eighths tempo 126 }
+edition { paper Letter margins 12 10 12 10 staffSize 5 }
+guitar guitar {
+  key C tuning standard program 25 view both tabStems off beamRests off groupBeats (2 2)
+  voice melody stem up {
+    // First strain. The opening G13 and C6 fit under the same lead line.
+    :8 rest beam { 9/3[dynamic mf, stringNumber 3 above] 10/3 9/2[write Ab5] }
+      beam { (10/5 9/4[finger 1 left] 10/3 12/1[finger 4 left])[harmony G "13", frame (x 10 9 10 x 12)] 7/1 10/1 8/1 } bar double
+    :8 beam { (8/6[finger 2 left] 10/5 7/4[finger 1 left] 9/3)[harmony C "6", frame (8 10 7 9 x x)] 8/2 7/1 10/2 }
+      beam { 8/2 9/3 } :q 10/4 |
+    :q 7/4[stringNumber 4 above] :8 rest 7/4 :q 7/4[tie] tuplet 3:2 { beam { :8 7/4 9/4[hammer] 7/4[pull] } } |
+    :8 (0/6 5/5 6/4[write G#4])[harmony E "7"] 9/4 crescendo { 7/3 9/3 10/3 9/2[write G#5] 12/2 10/1[accent above] } |
+  }
+
+  voice bass stem down {
+    // Dm7 in tenth position. Leave beat three to the four-note G13 in the melody.
+    :q (10/6[finger 2 left] 8/5[finger 1 left] 10/4[finger 3 left])[harmony D "m7", frame (10 8 10 x x x), dynamic mp] skip skip 10/5 bar double
+    :h skip :q 7/5 (8/6 7/5) |
+    :h (8/6 7/5) :q 10/5 7/5 |
+    :q skip (7/5 6/4) skip (0/6 11/5 12/4) |
+  }
+}

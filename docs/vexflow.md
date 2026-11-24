@@ -12,13 +12,16 @@ The homepage and EasyScore playground use the pinned VexFlow source. The deploye
 TypeScript and embedded fonts, and fills in VexFlow's version and commit metadata.
 The build date is left empty to keep the output deterministic.
 
-The homepage carousel uses the VexFlow gallery font bundle for Saints and Petzold’s Minuet in G major.
-The other three scores use the VexTab npm renderer.
+The carousel and VexTab pages use the VexTab npm renderer with the full VexFlow
+source entry, including the Petaluma fonts used by Pocket Change. The native
+VexTab player uses SpessaSynth and the guide’s Florestan SoundFont.
 
-To update to the current upstream `main` revision:
+To update to the latest published VexFlow release, resolve its tag to a source commit.
 
 ```sh
-revision=$(git ls-remote https://github.com/vexflow/vexflow.git refs/heads/main | cut -f1)
+version=$(npm view vexflow version)
+revision=$(git ls-remote https://github.com/vexflow/vexflow.git "refs/tags/${version}^{}" | cut -f1)
+test -n "$revision" || exit 1
 npm install --save-exact "https://codeload.github.com/vexflow/vexflow/tar.gz/$revision"
 npm run build
 ```
@@ -28,33 +31,31 @@ revision until the dependency is updated again.
 
 ## Updating the carousel demos
 
-The carousel is manual. Keep its five entries in the order set in `src/scores.js`.
-When updating VexTab, compare the excerpts in `src/examples/carousel/` with the
-matching files in `node_modules/vextab/dist/guide/scores/`. Take the opening
-bars from every voice and text lane, retaining the original system breaks,
-fingerings, diagrams and headings.
+The manual carousel follows the order in `src/scores.js`. Its notation is in
+`src/examples/carousel/`. When updating the demos, use `guide/scores/` in the
+[VexTab repository](https://github.com/0xfe/vextab/tree/7.0.0/guide/scores)
+at the tag matching the site's VexTab dependency. Count the authored system
+breaks in the lead voice, then trim every other voice and text lane to the
+same ending bar. Shorten repeated skips and tempo changes to match.
 
-| VexTab score | Opening bars | Systems |
+| VexTab score | Passage | Systems |
 | --- | --- | --- |
-| Chopin, Ballade No. 3 | 1–12 | 2 |
-| Pocket Change | 1–8 | 2 |
-| Soleá (flamenco-tab) | 1–4 | 1 |
+| Chopin, Ballade No. 3 | Bars 1–12, including the ossia | 2 |
+| Pocket Change | Bars 1–8 | 2 |
+| Soleá | Bars 1–4 | 1 |
+| Chopin, Étude in thirds | Bars 1–8 | 3 |
+| Liszt, Hungarian Rhapsody No. 2 | Complete 19-bar Friska demo | 3 |
+| Liszt, Consolation No. 5 | Upbeat and bars 1–10 | 2 |
+| All of Me | Bars 1–4 with three centered chord diagrams, fingerings and circled string numbers | 1 |
 
-Keep Saints and Petzold’s Minuet in G major aligned with their VexFlow gallery previews. The Minuet uses
-the original homepage arrangement in `src/minuet.js`, with three grand-staff systems
-and both piano hands. For these VexFlow demos, `src/edition-player.js` builds the
-VexTab playback model from the engraved voices and maps playback events back to their
-engraved notehead positions and system bounds. VexTab uses these for its moving
-playhead, note glows and score following. When upgrading from 6.2, check the
-internal geometry reader in `mountEditionPlayer` against the new Player API
-and play across a system break with the large controls. Check the full demo
-links against the published VexTab guide and VexFlow tests gallery, and link
-any published PDF for the same piece.
+For All of Me, keep `heading { align center }` without title text. This centers
+the diagram row. The fingering, string and expression markings in the homepage
+excerpt are editorial additions to the guide score.
 
-Run `npm start` and step through the five slides at desktop and phone widths.
-Check the final visible bar in each VexTab voice, including the ossia in the
-Ballade and the bass and chord diagrams in Soleá. Play each excerpt and switch
-slides during playback to check that audio and highlighting stop together.
+Link each slide to its full guide demo and include a score PDF when available.
+Run `npm start` and step through the carousel at desktop and phone widths.
+Check the final visible bar, play across a system break, and switch slides
+during playback to verify that sound and highlighting stop together.
 
 # Local examples
 

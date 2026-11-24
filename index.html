@@ -45,7 +45,7 @@
                 in mobile apps, and can even generate <a href="/pdfs">PDF scores</a>.
             </p>
             <p class="content release-note">
-                <strong>Version 5.9.0 released with lots of new features!</strong>
+                <strong>Version {{VERSION}} released with lots of new features!</strong>
                 <a href="/whatsnew">See what's new.</a>
             </p>
             <section class="score-carousel" aria-label="Featured scores" aria-roledescription="carousel">
@@ -57,6 +57,7 @@
                             <div class="score-links">
                                 <a class="score-demo" href="https://vexflow.com/vextab/guide/#lesson/chopin-ballade-no3">Full demo</a>
                                 <a class="score-pdf" href="https://vexflow.com/pdfs/ballade.pdf">Opening page (PDF)</a>
+                                <span class="score-loading" role="status">Loading scores…</span>
                             </div>
                         </div>
                         <div class="score-controls" hidden>
@@ -80,7 +81,10 @@
                 <p>Edit the JavaScript to change the score, or follow the <a href="https://vexflow.com/guide/">VexFlow User Guide</a>.</p>
                 <div class="playground" data-runtime="{{RUNTIME}}">
                     <div id="preview"><div id="score" aria-label="VexFlow score"></div></div>
-                    <div id="editor" class="live-source" role="textbox" aria-label="Editable VexFlow JavaScript" aria-multiline="true" spellcheck="false"></div>
+                    <div class="numbered-editor">
+                        <div class="line-numbers" aria-hidden="true"></div>
+                        <div id="editor" class="live-source" role="textbox" aria-label="Editable VexFlow JavaScript" aria-multiline="true" spellcheck="false"></div>
+                    </div>
                     <pre id="error" class="live-error" role="status"></pre>
                 </div>
             </section>
@@ -131,7 +135,6 @@
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
     </script>
-    <script src="vextab/audio/{{VEXTAB_VERSION}}/example-audio.prod.js"></script>
     <script src="{{SCRIPT}}"></script>
 </body>
 

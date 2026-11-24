@@ -109,3 +109,44 @@ code { color: var(--green); font-family: ui-monospace, monospace; }
 .live-source .token.number { color: #986801; }
 .live-error { margin: 0; padding: .4rem .65rem; color: #962f28; background: #fff6f5; white-space: pre-wrap; overflow-wrap: anywhere; font: 12px/1.4 monospace; }
 .live-error:empty { display: none; }
+
+.score-loading {
+  color: var(--muted);
+  font-size: .8rem;
+  animation: score-loading-in 120ms ease-out 300ms backwards;
+}
+@keyframes score-loading-in { from { opacity: 0; } to { opacity: 1; } }
+
+.numbered-editor {
+  --gutter: 3.3em;
+  display: grid;
+  max-height: 22rem;
+  overflow: auto;
+  background: var(--code-paper);
+  font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.numbered-editor .live-source, .line-numbers {
+  grid-area: 1 / 1;
+  min-width: 0;
+  max-height: none;
+  padding: .45rem .65rem .45rem var(--gutter);
+  font: inherit;
+  tab-size: 2;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+.numbered-editor .live-source { background: transparent; }
+.line-numbers { visibility: hidden; pointer-events: none; user-select: none; }
+.line-numbers > div { position: relative; }
+.line-numbers > div::before {
+  content: attr(data-line);
+  position: absolute;
+  right: calc(100% + .9em);
+  visibility: visible;
+  color: var(--muted);
+  opacity: .7;
+}
+.line-numbers .error-line::before { color: #962f28; opacity: 1; font-weight: bold; }
+@media (max-width: 600px) {
+  .numbered-editor { font-size: 16px; }
+}

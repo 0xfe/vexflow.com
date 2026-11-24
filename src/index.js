@@ -9,7 +9,7 @@ const credit = caption.querySelector('.score-credit');
 const count = carousel.querySelector('.score-count');
 const demo = caption.querySelector('.score-demo');
 const pdf = caption.querySelector('.score-pdf');
-const playback = window.VexTabAudio.scoreOptions(carousel).playback;
+const loading = carousel.querySelector('.score-loading');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const slides = scores.map((score, index) => {
   const slide = document.createElement('div');
@@ -18,16 +18,36 @@ const slides = scores.map((score, index) => {
   slide.setAttribute('role', 'group');
   slide.setAttribute('aria-label', score.title + ' · ' + score.credit);
   slide.hidden = true;
+  slide.inert = true;
+  slide.setAttribute('aria-hidden', 'true');
   stage.append(slide);
-  return { sheet: slide };
+  return { sheet: slide, ready: false };
 });
 
-let current = 0;
-function showScore(index, direction = 0) {
-  slides[current].player?.stop();
-  const previous = slides[current].sheet;
+// SVG text metrics need a laid-out sheet even when it is being prepared off screen.
+function prepare(index) {
   const entry = slides[index];
-  const slide = entry.sheet;
+  const sheet = entry.sheet;
+  sheet.hidden = false;
+  sheet.style.visibility = 'hidden';
+  try {
+    entry.player = renderScore(scores[index], sheet);
+  } catch (error) {
+    console.error('Unable to render ' + scores[index].title, error);
+    sheet.textContent = 'This score could not be loaded.';
+  } finally {
+    sheet.hidden = true;
+    sheet.style.removeProperty('visibility');
+    entry.ready = true;
+  }
+}
+
+let current;
+let requested = 0;
+let direction = 0;
+function showScore(index, direction = 0) {
+  const previous = slides[current]?.sheet;
+  const slide = slides[index].sheet;
   const score = scores[index];
   // Finish any partial transition before handling another quick key press.
   for (const { sheet } of slides) {
@@ -35,14 +55,6 @@ function showScore(index, direction = 0) {
     sheet.hidden = sheet !== slide;
     sheet.inert = sheet !== slide;
     sheet.setAttribute('aria-hidden', String(sheet !== slide));
-  }
-  if (!slide.hasChildNodes()) {
-    try {
-      entry.player = renderScore(score, slide, playback);
-    } catch (error) {
-      console.error('Unable to render ' + score.title, error);
-      slide.textContent = 'This score could not be loaded.';
-    }
   }
   current = index;
   title.textContent = score.title;
@@ -55,7 +67,7 @@ function showScore(index, direction = 0) {
   } else pdf.removeAttribute('href');
   count.textContent = (index + 1) + ' / ' + scores.length;
 
-  if (!direction || reducedMotion.matches) return;
+  if (!previous || previous === slide || !direction || reducedMotion.matches) return;
   const options = { duration: 380, easing: 'cubic-bezier(.25,.75,.25,1)' };
   const offset = (step) => ({ transform: 'translateX(' + step * 100 + '%)' });
   previous.hidden = false;
@@ -64,12 +76,32 @@ function showScore(index, direction = 0) {
   slide.animate([offset(direction), offset(0)], options);
 }
 
-function step(direction) {
-  showScore((current + direction + scores.length) % scores.length, direction);
+function step(delta) {
+  slides[current]?.player?.stop();
+  requested = (requested + delta + scores.length) % scores.length;
+  direction = delta;
+  if (slides[requested].ready) showScore(requested, delta);
+}
+
+// Prepare one score per idle turn. A navigation request goes to the front of the queue.
+function preload() {
+  // Give an active transition the main thread unless the reader asks for a new sheet.
+  if (requested !== current || !slides[current].sheet.getAnimations().length) {
+    const index = slides[requested].ready ? slides.findIndex(slide => !slide.ready) : requested;
+    prepare(index);
+    if (requested === index) showScore(index, direction);
+    if (slides.every(slide => slide.ready)) {
+      loading.hidden = true;
+      return;
+    }
+  }
+  if (window.requestIdleCallback) window.requestIdleCallback(preload, { timeout: 180 });
+  else setTimeout(preload, 32);
 }
 
 document.fonts.ready.then(() => {
-  showScore(0);
+  // Let the header paint before the first engraving starts.
+  requestAnimationFrame(() => setTimeout(preload, 0));
   carousel.querySelector('.score-controls').hidden = false;
   carousel.querySelector('#score-previous').addEventListener('click', () => step(-1));
   carousel.querySelector('#score-next').addEventListener('click', () => step(1));

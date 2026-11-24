@@ -9,12 +9,13 @@ import easyScoreSource from '../examples/easyscore.js?source';
 import { liveSource } from './live-source.js';
 
 const source = document.getElementById('editor');
+const numbers = document.querySelector('.line-numbers');
 const starter = document.getElementById('score');
 const preview = document.getElementById('preview');
 const error = document.getElementById('error');
 const playground = document.querySelector('.playground');
 const library = new URL(playground.dataset.runtime, location.href).href;
-const policy = `default-src 'none'; script-src 'unsafe-eval' ${location.origin}; style-src 'unsafe-inline'; font-src data:; img-src data:; connect-src 'none';`;
+const policy = `default-src 'none'; script-src blob: 'unsafe-eval' ${location.origin}; style-src 'unsafe-inline'; font-src data:; img-src data:; connect-src 'none';`;
 const style = 'html,body{margin:0;background:white}body{padding-inline:1.5%}#score{max-width:100%;margin:auto}#score>svg{display:block;max-width:100%;height:auto!important;margin:auto}';
 let pending;
 let token;
@@ -26,10 +27,11 @@ function discardPending() {
   pending = undefined;
 }
 
-function fail(message) {
+function fail(message, line) {
   discardPending();
   source.setAttribute('aria-invalid', 'true');
-  error.textContent = message;
+  error.textContent = line ? `Line ${line} — ${message}` : message;
+  numbers.children[line - 1]?.classList.add('error-line');
 }
 
 async function showStarter() {
@@ -40,6 +42,13 @@ async function showStarter() {
 }
 
 function render(code) {
+  // Mirror each logical line so its gutter number stays aligned when the code wraps.
+  numbers.replaceChildren(...code.split('\n').map((line, i) => {
+    const row = document.createElement('div');
+    row.dataset.line = String(i + 1);
+    row.textContent = line || '\u200b';
+    return row;
+  }));
   discardPending();
   if (code === easyScoreSource || !code.trim()) {
     for (const frame of preview.querySelectorAll('iframe')) frame.remove();
@@ -61,10 +70,12 @@ function render(code) {
 }
 
 window.addEventListener('message', event => {
-  if (!pending || event.source !== pending.contentWindow || event.data?.channel !== 'notation-preview' || event.data.token !== token) return;
+  if (event.data?.channel !== 'notation-preview' || event.data.token !== token) return;
+  const frame = pending ?? preview.querySelector('iframe');
+  if (!frame || event.source !== frame.contentWindow) return;
   if (event.data.type === 'error') {
-    fail(event.data.message);
-  } else if (event.data.type === 'rendered') {
+    fail(event.data.message, event.data.line);
+  } else if (pending && event.data.type === 'rendered') {
     clearTimeout(timeout);
     // Promote in place: reattaching an iframe would reload its document.
     for (const old of preview.querySelectorAll('iframe:not(.pending)')) old.remove();

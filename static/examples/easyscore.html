@@ -10,7 +10,10 @@
 <body>
   <section class="playground" data-runtime="../{{RUNTIME}}" aria-label="VexFlow example">
     <div id="preview"><div id="score" aria-label="VexFlow score"></div></div>
-    <div id="editor" class="live-source" role="textbox" aria-label="Editable VexFlow JavaScript" aria-multiline="true" spellcheck="false"></div>
+    <div class="numbered-editor">
+        <div class="line-numbers" aria-hidden="true"></div>
+        <div id="editor" class="live-source" role="textbox" aria-label="Editable VexFlow JavaScript" aria-multiline="true" spellcheck="false"></div>
+    </div>
     <pre id="error" class="live-error" role="status"></pre>
   </section>
   <script src="../{{EDITOR}}"></script>
