@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <title>VexFlow</title>
+  <rect width="64" height="64" rx="13" fill="#355f49"/>
+  <path fill="#faf9f5" d="M7 22c3-6 8-9 12-8 5 1 7 5 8 12l3 16 15-34h4c-1 7 1 10 6 14 6 6 3 14-4 19l-2-2c5-6 6-10 1-13-3-2-5-4-6-6L29 53h-6l-5-26c-1-7-3-9-9-3z"/>
+</svg>
